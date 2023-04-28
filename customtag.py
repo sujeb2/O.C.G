@@ -68,7 +68,7 @@ class Main(QWidget):
             self.mainLabel1.move(15, 20)
             self.mainLabel2.move(15, 50)
             self.mainVersion.move(325, 50)
-            self.moduleListLabel.move(15, 125)
+            self.moduleListLabel.move(15, 127)
 
             self.saveBtn.move(15, 90)
             self.loadBtn.move(95, 90)
@@ -92,7 +92,7 @@ class Main(QWidget):
 
             moduleListLabelFont = self.moduleListLabel.font()
             moduleListLabelFont.setFamily('Pretendard JP')
-            moduleListLabelFont.setPointSize(15)
+            moduleListLabelFont.setPointSize(17)
             moduleListLabelFont.setBold(True)
 
             versionLabelFont = self.mainVersion.font()
