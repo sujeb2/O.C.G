@@ -50,6 +50,8 @@ class Main(QWidget):
             self.mainLabel2 = QLabel("CustomTag Generator", self)
             self.mainVersion = QLabel("v0.1.2", self)
             self.moduleListLabel = QLabel("모듈 목록", self)
+            #self.scoreModuleStrictLevel = QLabel("판정", self)
+            self.previewImage = QLabel("미리보기", self)
 
             # button
             self.saveBtn = QPushButton("저장하기", self)
@@ -63,12 +65,19 @@ class Main(QWidget):
             self.module_crb = QCheckBox("체감 BPM", self)
             self.module_tilebpm = QCheckBox("타일 BPM", self)
             self.module_reckps = QCheckBox("체감 KPS", self)
+            self.module_score = QCheckBox("점수", self)
             
+            # radio
+            #self.scoreL = QRadioButton("느슨한 판정", self)
+            #self.scoreM = QRadioButton("보통 판정", self)
+            #self.scoreS = QRadioButton("엄격한 판정", self)
+
             # reset btn/label position
             self.mainLabel1.move(15, 20)
             self.mainLabel2.move(15, 50)
             self.mainVersion.move(325, 50)
             self.moduleListLabel.move(15, 127)
+            self.previewImage.move(510, 45)
 
             self.saveBtn.move(15, 90)
             self.loadBtn.move(95, 90)
@@ -80,6 +89,9 @@ class Main(QWidget):
             self.module_reckps.move(15, 240)
             self.module_startprgs.move(15, 260)
             self.module_tilebpm.move(15, 280)
+            self.module_score.move(15, 300)
+
+            #self.scoreL.move(35, 50)
             
             # font reset
             mainLabelFont1 = self.mainLabel1.font()
@@ -99,6 +111,10 @@ class Main(QWidget):
             versionLabelFont.setFamily('Pretendard JP')
             versionLabelFont.setPointSize(10)
             versionLabelFont.setBold(True)
+
+            previewImageLabelFont = self.previewImage.font()
+            previewImageLabelFont.setFamily('Pretendard Variable')
+            previewImageLabelFont.setPointSize(15)
 
             # default font size = 13
             moduleToggleFont1 = self.module_acc.font()
@@ -129,6 +145,10 @@ class Main(QWidget):
             moduleToggleFont7.setFamily('Pretendard JP')
             moduleToggleFont7.setPointSize(13)
 
+            moduleToggleFont8 = self.module_score.font()
+            moduleToggleFont8.setFamily('Pretendard JP')
+            moduleToggleFont8.setPointSize(13)
+
             # set font
             self.mainLabel1.setFont(mainLabelFont1)
             self.mainLabel2.setFont(mainLabelFont2)
@@ -141,13 +161,19 @@ class Main(QWidget):
             self.module_xacc.setFont(moduleToggleFont5)
             self.module_startprgs.setFont(moduleToggleFont6)
             self.module_tilebpm.setFont(moduleToggleFont7)
+            self.module_score.setFont(moduleToggleFont8)
+            self.previewImage.setFont(previewImageLabelFont)
 
             # set clicked event
             self.saveBtn.clicked.connect(self.saveFile)
             self.loadBtn.clicked.connect(self.loadFile)
         except:
             self.close()
-            print("ERROR Occurred!\nidk why it happend. sry about that :(")
+            print("[ERROR] An Error occurred while trying to load widgets.")
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print("[ERROR] Error type: ", exc_type, "Error File: " ,fname, "Error Line: " ,exc_tb.tb_lineno)
+
             errLoadWidget = QMessageBox.critical(self, '오류가 발생하였습니다.', '위젯을 설정 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.', QMessageBox.Yes)
             self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
 
