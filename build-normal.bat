@@ -11,7 +11,6 @@ set "psCommand="(new-object -COM 'Shell.Application')^
 for /f "usebackq delims=" %%I in (`powershell %psCommand%`) do set "folder=%%I"
 
 setlocal enabledelayedexpansion
-echo Choosed !folder
 cd !folder
 pyinstaller -w customtag.py
 pause
