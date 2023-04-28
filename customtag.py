@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QRadioButton, QCheckBox, QMessageBox, QFileDialog
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtCore import Qt
 import os, sys;
 
 # accuracy
@@ -53,6 +54,9 @@ class Main(QWidget):
             #self.scoreModuleStrictLevel = QLabel("판정", self)
             self.previewImage = QLabel("미리보기", self)
 
+            # img label
+            self.imglabelpreview = QLabel(self)
+
             # button
             self.saveBtn = QPushButton("저장하기", self)
             self.loadBtn = QPushButton("불러오기", self)
@@ -66,6 +70,14 @@ class Main(QWidget):
             self.module_tilebpm = QCheckBox("타일 BPM", self)
             self.module_reckps = QCheckBox("체감 KPS", self)
             self.module_score = QCheckBox("점수", self)
+
+            # image
+            self.previewImagePixmapOnlyText = QPixmap('./src/img/preview/preview-onlytext')
+            self.previewImagePixmapOnlyAcc = QPixmap('./src/img/preview/preview-onlyacc.png')
+            self.previewImagePixmapOnlyXAcc = QPixmap('./src/img/preview/preview-onlyxacc.png')
+
+            # def img
+            self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyText))
             
             # radio
             #self.scoreL = QRadioButton("느슨한 판정", self)
@@ -78,6 +90,7 @@ class Main(QWidget):
             self.mainVersion.move(325, 50)
             self.moduleListLabel.move(15, 127)
             self.previewImage.move(510, 45)
+            self.imglabelpreview.move(510, 75)
 
             self.saveBtn.move(15, 90)
             self.loadBtn.move(95, 90)
@@ -167,6 +180,7 @@ class Main(QWidget):
             # set clicked event
             self.saveBtn.clicked.connect(self.saveFile)
             self.loadBtn.clicked.connect(self.loadFile)
+            self.module_acc.stateChanged.connect(self.changePreviewImg)
         except:
             self.close()
             print("[ERROR] An Error occurred while trying to load widgets.")
@@ -227,6 +241,20 @@ class Main(QWidget):
         self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
         if errLoadFile == QMessageBox.Yes:
             self.close()
+
+    def changePreviewImg(self, state):
+        if state == Qt.Checked:
+            self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyAcc))
+        else:
+            self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyText))
+
+    def changePreviewImgOnlyXAcc(self, state):
+        if state == Qt.Checked:
+            self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyXAcc))
+        else:
+            self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyText))
+
+    
 
 # run
 if __name__ == '__main__':
