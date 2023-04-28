@@ -73,35 +73,74 @@ class Main(QWidget):
             self.saveBtn.move(15, 90)
             self.loadBtn.move(95, 90)
 
-            module_acc.move(15, 155)
-            module_xacc.move(15, 175)
-            module_crb.move(15, 195)
-            module_progress.move(15, 215)
-            module_reckps.move(15, 235)
-            module_startprgs.move(15, 255)
-            module_tilebpm.move(15, 275)
+            module_acc.move(15, 160)
+            module_xacc.move(15, 180)
+            module_crb.move(15, 200)
+            module_progress.move(15, 220)
+            module_reckps.move(15, 240)
+            module_startprgs.move(15, 260)
+            module_tilebpm.move(15, 280)
             
             # font reset
             mainLabelFont1 = self.mainLabel1.font()
             mainLabelFont1.setPointSize(20)
             mainLabelFont1.setFamily('Pretendard Variable')
+
             mainLabelFont2 = self.mainLabel2.font()
             mainLabelFont2.setPointSize(23)
             mainLabelFont2.setFamily('Pretendard Variable')
+
             moduleListLabelFont = self.moduleListLabel.font()
             moduleListLabelFont.setFamily('Pretendard JP')
             moduleListLabelFont.setPointSize(15)
             moduleListLabelFont.setBold(True)
+
             versionLabelFont = self.mainVersion.font()
             versionLabelFont.setFamily('Pretendard JP')
             versionLabelFont.setPointSize(10)
             versionLabelFont.setBold(True)
+
+            # default font size = 13
+            moduleToggleFont1 = module_acc.font()
+            moduleToggleFont1.setFamily('Pretendard JP')
+            moduleToggleFont1.setPointSize(13)
+
+            moduleToggleFont2 = module_crb.font()
+            moduleToggleFont2.setFamily('Pretendard JP')
+            moduleToggleFont2.setPointSize(13)
+            
+            moduleToggleFont3 = module_progress.font()
+            moduleToggleFont3.setFamily('Pretendard JP')
+            moduleToggleFont3.setPointSize(13)
+
+            moduleToggleFont4 = module_reckps.font()
+            moduleToggleFont4.setFamily('Pretendard JP')
+            moduleToggleFont4.setPointSize(13)
+
+            moduleToggleFont5 = module_xacc.font()
+            moduleToggleFont5.setFamily('Pretendard JP')
+            moduleToggleFont5.setPointSize(13)
+
+            moduleToggleFont6 = module_startprgs.font()
+            moduleToggleFont6.setFamily('Pretendard JP')
+            moduleToggleFont6.setPointSize(13)
+
+            moduleToggleFont7 = module_tilebpm.font()
+            moduleToggleFont7.setFamily('Pretendard JP')
+            moduleToggleFont7.setPointSize(13)
 
             # set font
             self.mainLabel1.setFont(mainLabelFont1)
             self.mainLabel2.setFont(mainLabelFont2)
             self.mainVersion.setFont(versionLabelFont)
             self.moduleListLabel.setFont(moduleListLabelFont)
+            module_crb.setFont(moduleToggleFont2)
+            module_acc.setFont(moduleToggleFont1)
+            module_progress.setFont(moduleToggleFont3)
+            module_reckps.setFont(moduleToggleFont4)
+            module_xacc.setFont(moduleToggleFont5)
+            module_startprgs.setFont(moduleToggleFont6)
+            module_tilebpm.setFont(moduleToggleFont7)
 
             # set clicked event
             self.saveBtn.clicked.connect(self.saveFile)
