@@ -1,7 +1,7 @@
-from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QRadioButton, QCheckBox, QMessageBox, QFileDialog
+from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QRadioButton, QCheckBox, QMessageBox, QFileDialog, QInputDialog
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt
-import os, sys;
+import os, sys, json;
 
 # accuracy
 TOGGLED_ACC = False
@@ -16,8 +16,10 @@ TOGGLED_RKPS = False
 TOGGLED_PRGS = False
 TOGGLED_STARTPRGS = False
 
-# template loc
+# asdf
 temp_loc = './src/template/default.js'
+lowver = '2.0.0'
+overlayer_loc = ''
 
 class Main(QWidget):
     def __init__(self):
@@ -181,8 +183,9 @@ class Main(QWidget):
             # set clicked event
             self.saveBtn.clicked.connect(self.saveFile)
             self.loadBtn.clicked.connect(self.loadFile)
-            self.module_acc.stateChanged.connect(self.changePreviewImg)
+            self.module_acc.stateChanged.connect(self.changePreviewImgOnlyAcc)
             self.module_xacc.stateChanged.connect(self.changePreviewImgOnlyXAcc)
+
         except:
             self.close()
             print("[ERROR] An Error occurred while trying to load widgets.")
@@ -199,36 +202,28 @@ class Main(QWidget):
     def saveFile(self):
         print("saving...")
         try:
-            if self.module_acc.isChecked == True:
-                TOGGLED_ACC = True
-            else:
-                TOGGLED_ACC = False
-            if self.module_xacc.isChecked == True:
-                TOGGLED_XACC = True
-            else:
-                TOGGLED_XACC = False
-            if self.module_crb.isChecked == True:
-                TOGGLED_CRB = True
-            else:
-                TOGGLED_CRB = False
-            if self.module_progress.isChecked == True:
-                TOGGLED_PRGS = True
-            else:
-                TOGGLED_PRGS = False
-            if self.module_reckps.checkState == True:
-                TOGGLED_RKPS = True
-            else:
-                TOGGLED_RKPS = False
-            if self.module_startprgs.isChecked == True:
-                TOGGLED_STARTPRGS = True
-            else:
-                TOGGLED_STARTPRGS = False
-            if self.module_tilebpm.isChecked == True:
-                TOGGLED_TB = True
-            else:
-                TOGGLED_TB = False
-            
             print(TOGGLED_ACC, TOGGLED_CRB, TOGGLED_PRGS, TOGGLED_RKPS, TOGGLED_STARTPRGS, TOGGLED_TB, TOGGLED_XACC)
+            print("Checking Overlayer Version...")
+            overCheckVer = QFileDialog.getOpenFileName(self, '오버레이어 파일 선택', './')
+            overlayer_ver = ''
+
+            if overCheckVer[0]:
+                f = open(overCheckVer[0], 'r')
+
+                with f:
+                    overlayer_loc = f.read()
+                    print(overlayer_loc)
+            
+            with open(overlayer_loc, 'r') as f:
+                json_data = json.load(f)
+
+            overlayer_ver = json_data['Version']
+            print(overlayer_ver)
+
+            if(overlayer_ver < '2.0.0'):
+                warnOverlayerVersion = QMessageBox.warning(self, '버전 확인', '현재 오버레이어 버전이 2.0.0 버전보다 더 낮은 버전을 사용하고 있습니다.\n이 프로그램은 오직 v2.0.0 버전 이상만 사용가능하며, 그 미만은 사용이 불가능 합니다', QMessageBox.Yes)
+            else:
+                saveFile = QFileDialog.getSaveFileName(self, '저장될 위치 선택', './')
         except:
             print("ERROR Occurred!\nidk why it happend. sry about that :(")
             errSaveFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 저장하는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.', QMessageBox.y)
@@ -238,29 +233,43 @@ class Main(QWidget):
 
     def loadFile(self):
         print("loading...")
-        print("ERROR Occurred!\nidk why it happend. sry about that :(")
-        errLoadFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 불러오는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.', QMessageBox.y)
-        self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
-        if errLoadFile == QMessageBox.Yes:
-            self.close()
+        try:
+            warnLoadJSFormatVersion = QMessageBox.warning(self, '포맷 확인', '불려올려는 파일의 포맷이 2.0.0 이상의 버전보다 더 낮은 포맷을 사용하고 있습니다.\n이러한 포맷은 현재 불러올수가 없습니다.', QMessageBox.Yes)
+        except:
+            print("ERROR Occurred!\nidk why it happend. sry about that :(")
+            errLoadFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 불러오는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.', QMessageBox.y)
+            self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
+            if errLoadFile == QMessageBox.Yes:
+                self.close()
 
-    def changePreviewImg(self, state):
+    def changePreviewImgOnlyAcc(self, state):
         if state == Qt.Checked:
             self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyAcc))
+            TOGGLED_ACC = True
         else:
             self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyText))
+            TOGGLED_ACC = False
 
     def changePreviewImgOnlyXAcc(self, state):
         if state == Qt.Checked:
             self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyXAcc))
+            TOGGLED_XACC = True
         else:
             self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyText))
+            TOGGLED_XACC = False
 
     def changePreviewImgAccWXAcc(self, state):
         if state == Qt.Checked:
             self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapXAccWAcc))
+            TOGGLED_ACC = True
+            TOGGLED_XACC = True
         else:
             self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyText))
+            TOGGLED_ACC = False
+            TOGGLED_XACC = False
+
+    def checkOverlayerVersion(self):
+        print("Checking...")
 
     
 
