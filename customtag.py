@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QRadioButton, QCheckBox, QMessageBox, QFileDialog, QInputDialog
+from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QRadioButton, QCheckBox, QMessageBox, QFileDialog, QLineEdit
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt
 import os, sys, json;
@@ -55,6 +55,9 @@ class Main(QWidget):
             self.moduleListLabel = QLabel("모듈 목록", self)
             #self.scoreModuleStrictLevel = QLabel("판정", self)
             self.previewImage = QLabel("미리보기", self)
+            self.deftextlabel = QLabel("텍스트 변경", self)
+
+            self.previewText = QLabel("기본 텍스트", self)
 
             # img label
             self.imglabelpreview = QLabel(self)
@@ -74,18 +77,13 @@ class Main(QWidget):
             self.module_score = QCheckBox("점수", self)
 
             # image
-            self.previewImagePixmapOnlyText = QPixmap('./src/img/preview/preview-onlytext')
-            self.previewImagePixmapOnlyAcc = QPixmap('./src/img/preview/preview-onlyacc.png')
-            self.previewImagePixmapOnlyXAcc = QPixmap('./src/img/preview/preview-onlyxacc.png')
-            self.previewImagePixmapXAccWAcc = QPixmap('./src/img/preview/preview-acc-w-xacc.png')
+            self.previewImagePixmapTemplate = QPixmap('./src/img/preview/preview-text-template')
 
             # def img
-            self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyText))
+            self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapTemplate))
             
-            # radio
-            #self.scoreL = QRadioButton("느슨한 판정", self)
-            #self.scoreM = QRadioButton("보통 판정", self)
-            #self.scoreS = QRadioButton("엄격한 판정", self)
+            # text edit
+            self.deftext = QLineEdit(self)
 
             # reset btn/label position
             self.mainLabel1.move(15, 20)
@@ -94,6 +92,8 @@ class Main(QWidget):
             self.moduleListLabel.move(15, 127)
             self.previewImage.move(510, 45)
             self.imglabelpreview.move(510, 75)
+            self.deftextlabel.move(510, 305)
+            self.previewText.move(520, 100)
 
             self.saveBtn.move(15, 90)
             self.loadBtn.move(95, 90)
@@ -107,7 +107,7 @@ class Main(QWidget):
             self.module_tilebpm.move(15, 280)
             self.module_score.move(15, 300)
 
-            #self.scoreL.move(35, 50)
+            self.deftext.move(510, 325)
             
             # font reset
             mainLabelFont1 = self.mainLabel1.font()
@@ -129,8 +129,22 @@ class Main(QWidget):
             versionLabelFont.setBold(True)
 
             previewImageLabelFont = self.previewImage.font()
-            previewImageLabelFont.setFamily('Pretendard Variable')
+            previewImageLabelFont.setFamily('Pretendard JP')
             previewImageLabelFont.setPointSize(15)
+
+            deftextlabelFont = self.deftextlabel.font()
+            deftextlabelFont.setFamily('Pretendard JP')
+            deftextlabelFont.setPointSize(12)
+
+            previewTextFont = self.previewText.font()
+            previewTextFont.setFamily('godoMaum')
+            previewTextFont.setPointSize(20)
+
+            savebtnFont = self.saveBtn.font()
+            savebtnFont.setFamily('Pretendard JP')
+
+            loadbtnFont = self.loadBtn.font()
+            loadbtnFont.setFamily('Pretendard JP')
 
             # default font size = 13
             moduleToggleFont1 = self.module_acc.font()
@@ -179,6 +193,10 @@ class Main(QWidget):
             self.module_tilebpm.setFont(moduleToggleFont7)
             self.module_score.setFont(moduleToggleFont8)
             self.previewImage.setFont(previewImageLabelFont)
+            self.deftextlabel.setFont(deftextlabelFont)
+            self.previewText.setFont(previewTextFont)
+            self.loadBtn.setFont(loadbtnFont)
+            self.saveBtn.setFont(savebtnFont)
 
             # set clicked event
             self.saveBtn.clicked.connect(self.saveFile)
@@ -213,6 +231,8 @@ class Main(QWidget):
                     overlayer_loc = f.read()
                     print(overlayer_loc)
             
+            # uhhhhhhhhhhh
+
             with open(overlayer_loc, 'r') as f:
                 json_data = json.load(f)
 
@@ -246,26 +266,13 @@ class Main(QWidget):
             self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyAcc))
             TOGGLED_ACC = True
         else:
-            self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyText))
-            TOGGLED_ACC = False
+            print("toggled")
 
     def changePreviewImgOnlyXAcc(self, state):
-        if state == Qt.Checked:
-            self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyXAcc))
-            TOGGLED_XACC = True
-        else:
-            self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyText))
-            TOGGLED_XACC = False
+        print("toggled")
 
     def changePreviewImgAccWXAcc(self, state):
-        if state == Qt.Checked:
-            self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapXAccWAcc))
-            TOGGLED_ACC = True
-            TOGGLED_XACC = True
-        else:
-            self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyText))
-            TOGGLED_ACC = False
-            TOGGLED_XACC = False
+        print("toggled")
 
     def checkOverlayerVersion(self):
         print("Checking...")
