@@ -56,8 +56,8 @@ class Main(QWidget):
             #self.scoreModuleStrictLevel = QLabel("판정", self)
             self.previewImage = QLabel("미리보기", self)
             self.deftextlabel = QLabel("텍스트 변경", self)
-
             self.previewText = QLabel("기본 텍스트", self)
+            self.featureListLabel = QLabel("기능", self)
 
             # img label
             self.imglabelpreview = QLabel(self)
@@ -75,6 +75,7 @@ class Main(QWidget):
             self.module_tilebpm = QCheckBox("타일 BPM", self)
             self.module_reckps = QCheckBox("체감 KPS", self)
             self.module_score = QCheckBox("점수", self)
+            self.randomPercentText = QCheckBox("랜덤한 확률로 텍스트 변경하기", self)
 
             # image
             self.previewImagePixmapTemplate = QPixmap('./src/img/preview/preview-text-template')
@@ -94,6 +95,7 @@ class Main(QWidget):
             self.imglabelpreview.move(510, 75)
             self.deftextlabel.move(510, 305)
             self.previewText.move(520, 100)
+            self.featureListLabel.move(15, 330)
 
             self.saveBtn.move(15, 90)
             self.loadBtn.move(95, 90)
@@ -106,6 +108,8 @@ class Main(QWidget):
             self.module_startprgs.move(15, 260)
             self.module_tilebpm.move(15, 280)
             self.module_score.move(15, 300)
+
+            self.randomPercentText.move(15, 360)
 
             self.deftext.move(510, 325)
             
@@ -122,6 +126,11 @@ class Main(QWidget):
             moduleListLabelFont.setFamily('Pretendard JP')
             moduleListLabelFont.setPointSize(17)
             moduleListLabelFont.setBold(True)
+
+            featureListLabelFont = self.featureListLabel.font()
+            featureListLabelFont.setFamily('Pretendard JP')
+            featureListLabelFont.setPointSize(17)
+            featureListLabelFont.setBold(True)
 
             versionLabelFont = self.mainVersion.font()
             versionLabelFont.setFamily('Pretendard JP')
@@ -179,11 +188,16 @@ class Main(QWidget):
             moduleToggleFont8.setFamily('Pretendard JP')
             moduleToggleFont8.setPointSize(13)
 
+            feature_randomPerText = self.randomPercentText.font()
+            feature_randomPerText.setFamily('Pretendard JP')
+            feature_randomPerText.setPointSize(12)
+
             # set font
             self.mainLabel1.setFont(mainLabelFont1)
             self.mainLabel2.setFont(mainLabelFont2)
             self.mainVersion.setFont(versionLabelFont)
             self.moduleListLabel.setFont(moduleListLabelFont)
+            self.featureListLabel.setFont(featureListLabelFont)
             self.module_crb.setFont(moduleToggleFont2)
             self.module_acc.setFont(moduleToggleFont1)
             self.module_progress.setFont(moduleToggleFont3)
@@ -197,6 +211,7 @@ class Main(QWidget):
             self.previewText.setFont(previewTextFont)
             self.loadBtn.setFont(loadbtnFont)
             self.saveBtn.setFont(savebtnFont)
+            self.randomPercentText.setFont(feature_randomPerText)
 
             # set clicked event
             self.saveBtn.clicked.connect(self.saveFile)
