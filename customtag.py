@@ -75,6 +75,7 @@ class Main(QWidget):
             self.previewImagePixmapOnlyText = QPixmap('./src/img/preview/preview-onlytext')
             self.previewImagePixmapOnlyAcc = QPixmap('./src/img/preview/preview-onlyacc.png')
             self.previewImagePixmapOnlyXAcc = QPixmap('./src/img/preview/preview-onlyxacc.png')
+            self.previewImagePixmapXAccWAcc = QPixmap('./src/img/preview/preview-acc-w-xacc.png')
 
             # def img
             self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyText))
@@ -181,6 +182,7 @@ class Main(QWidget):
             self.saveBtn.clicked.connect(self.saveFile)
             self.loadBtn.clicked.connect(self.loadFile)
             self.module_acc.stateChanged.connect(self.changePreviewImg)
+            self.module_xacc.stateChanged.connect(self.changePreviewImgOnlyXAcc)
         except:
             self.close()
             print("[ERROR] An Error occurred while trying to load widgets.")
@@ -251,6 +253,12 @@ class Main(QWidget):
     def changePreviewImgOnlyXAcc(self, state):
         if state == Qt.Checked:
             self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyXAcc))
+        else:
+            self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyText))
+
+    def changePreviewImgAccWXAcc(self, state):
+        if state == Qt.Checked:
+            self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapXAccWAcc))
         else:
             self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyText))
 
