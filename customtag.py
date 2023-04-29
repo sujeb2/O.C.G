@@ -49,7 +49,7 @@ class Main(QWidget):
             # label
             self.mainLabel1 = QLabel("OverLayer", self)
             self.mainLabel2 = QLabel("CustomTag Generator", self)
-            self.mainVersion = QLabel("v0.1.2", self)
+            self.mainVersion = QLabel("v0.1.3", self)
             self.moduleListLabel = QLabel("모듈 목록", self)
             #self.scoreModuleStrictLevel = QLabel("판정", self)
             self.previewImage = QLabel("미리보기", self)
