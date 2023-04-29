@@ -205,7 +205,6 @@ class Main(QWidget):
             print(TOGGLED_ACC, TOGGLED_CRB, TOGGLED_PRGS, TOGGLED_RKPS, TOGGLED_STARTPRGS, TOGGLED_TB, TOGGLED_XACC)
             print("Checking Overlayer Version...")
             overCheckVer = QFileDialog.getOpenFileName(self, '오버레이어 파일 선택', './')
-            overlayer_ver = ''
 
             if overCheckVer[0]:
                 f = open(overCheckVer[0], 'r')
