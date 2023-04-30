@@ -37,7 +37,7 @@ class Main(QWidget):
             self.setWindowIcon(QIcon('./src/icon_normal.png'))
             self.setGeometry(self.left, self.top, self.width, self.height)
             self.resetWindow()
-            self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint)
+            self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint | QtCore.Qt.WindowType.WindowMinimizeButtonHint)
         except:
             print("ERROR Occurred!\nidk why it happend. sry about that :(")
             errInit = QMessageBox.critical(self, '오류가 발생하였습니다.', '재설정을 하는 중에 오류가 발생했습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.', QMessageBox.y)
@@ -96,7 +96,7 @@ class Main(QWidget):
             self.previewImage.move(510, 45)
             self.imglabelpreview.move(510, 75)
             self.deftextlabel.move(510, 305)
-            self.previewText.move(520, 100)
+            self.previewText.move(520, 350)
             self.featureListLabel.move(15, 330)
 
             self.saveBtn.move(15, 90)
@@ -149,7 +149,8 @@ class Main(QWidget):
 
             previewTextFont = self.previewText.font()
             previewTextFont.setFamily('godoMaum')
-            previewTextFont.setPointSize(20)
+            previewTextFont.setPointSize(30)
+            previewTextFont.setStyle("Color : white")
 
             savebtnFont = self.saveBtn.font()
             savebtnFont.setFamily('Pretendard JP')
@@ -220,7 +221,7 @@ class Main(QWidget):
             self.loadBtn.clicked.connect(self.loadFile)
             self.module_acc.stateChanged.connect(self.changePreviewImgOnlyAcc)
             self.module_xacc.stateChanged.connect(self.changePreviewImgOnlyXAcc)
-
+            self.deftext.textChanged.connect(self.textChange)
         except:
             self.close()
             print("[ERROR] An Error occurred while trying to load widgets.")
@@ -294,7 +295,8 @@ class Main(QWidget):
     def checkOverlayerVersion(self):
         print("Checking...")
 
-    
+    def textChange(self):
+        self.deftextlabel.setText(self.deftext)
 
 # run
 if __name__ == '__main__':
