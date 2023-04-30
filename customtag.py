@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QRadioButton, QCheckBox, QMessageBox, QFileDialog, QLineEdit
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt
+from PyQt5 import QtCore
 import os, sys, json;
 
 # accuracy
@@ -36,6 +37,7 @@ class Main(QWidget):
             self.setWindowIcon(QIcon('./src/icon_normal.png'))
             self.setGeometry(self.left, self.top, self.width, self.height)
             self.resetWindow()
+            self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint)
         except:
             print("ERROR Occurred!\nidk why it happend. sry about that :(")
             errInit = QMessageBox.critical(self, '오류가 발생하였습니다.', '재설정을 하는 중에 오류가 발생했습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.', QMessageBox.y)
