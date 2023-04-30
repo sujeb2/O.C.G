@@ -150,7 +150,6 @@ class Main(QWidget):
             previewTextFont = self.previewText.font()
             previewTextFont.setFamily('godoMaum')
             previewTextFont.setPointSize(30)
-            previewTextFont.setStyle("Color : white")
 
             savebtnFont = self.saveBtn.font()
             savebtnFont.setFamily('Pretendard JP')
@@ -296,7 +295,7 @@ class Main(QWidget):
         print("Checking...")
 
     def textChange(self):
-        self.deftextlabel.setText(self.deftext)
+        self.previewText.setText(str(self.deftext.text))
 
 # run
 if __name__ == '__main__':
