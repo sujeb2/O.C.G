@@ -67,7 +67,7 @@ class Main(QWidget):
             self.loadBtn = QPushButton("불러오기", self)
 
             # toggle
-            self.module_acc = QCheckBox("정학도", self)
+            self.module_acc = QCheckBox("정확도", self)
             self.module_xacc = QCheckBox("절대 정확도", self)
             self.module_progress = QCheckBox("진행도", self)
             self.module_startprgs = QCheckBox("시작 진행도", self)
