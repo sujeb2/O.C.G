@@ -236,36 +236,36 @@ class Main(QWidget):
 
     def saveFile(self):
         print("saving...")
-        try:
-            print(TOGGLED_ACC, TOGGLED_CRB, TOGGLED_PRGS, TOGGLED_RKPS, TOGGLED_STARTPRGS, TOGGLED_TB, TOGGLED_XACC)
-            print("Checking Overlayer Version...")
-            overCheckVer = QFileDialog.getOpenFileName(self, '오버레이어 파일 선택', './')
+        #try:
+        print(TOGGLED_ACC, TOGGLED_CRB, TOGGLED_PRGS, TOGGLED_RKPS, TOGGLED_STARTPRGS, TOGGLED_TB, TOGGLED_XACC)
+        print("Checking Overlayer Version...")
+        overCheckVer = QFileDialog.getOpenFileName(self, '오버레이어 파일 선택', './')
 
-            if overCheckVer[0]:
-                f = open(overCheckVer[0], 'r')
+        if overCheckVer[0]:
+            f = open(overCheckVer[0])
 
-                with f:
-                    overlayer_loc = f.read()
-                    print(overlayer_loc)
+            with f:
+                overlayer_loc = f.read()
+                print(overlayer_loc)
             
             # uhhhhhhhhhhh
 
-            with open(overlayer_loc, 'r') as f:
-                json_data = json.load(f)
+        with open(overlayer_loc) as overlayer_version:
+            json_data = overlayer_version.read()
 
-            overlayer_ver = json_data['Version']
-            print(overlayer_ver)
+        overlayer_ver = json_data['Version']
+        print(overlayer_ver)
 
-            if(overlayer_ver < '2.0.0'):
-                warnOverlayerVersion = QMessageBox.warning(self, '버전 확인', '현재 오버레이어 버전이 2.0.0 버전보다 더 낮은 버전을 사용하고 있습니다.\n이 프로그램은 오직 v2.0.0 버전 이상만 사용가능하며, 그 미만은 사용이 불가능 합니다', QMessageBox.Yes)
-            else:
-                saveFile = QFileDialog.getSaveFileName(self, '저장될 위치 선택', './')
-        except:
-            print("ERROR Occurred!\nidk why it happend. sry about that :(")
-            errSaveFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 저장하는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.', QMessageBox.y)
-            self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
-            if errSaveFile == QMessageBox.Yes:
-                self.close()
+        if(overlayer_ver < '2.0.0'):
+            warnOverlayerVersion = QMessageBox.warning(self, '버전 확인', '현재 오버레이어 버전이 2.0.0 버전보다 더 낮은 버전을 사용하고 있습니다.\n이 프로그램은 오직 v2.0.0 버전 이상만 사용가능하며, 그 미만은 사용이 불가능 합니다', QMessageBox.Yes)
+        else:
+            saveFile = QFileDialog.getSaveFileName(self, '저장될 위치 선택', './')
+        #except:
+        #    print("ERROR Occurred!\nidk why it happend. sry about that :(")
+        #    errSaveFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 저장하는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.', QMessageBox.y)
+        #    self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
+        #    if errSaveFile == QMessageBox.Yes:
+        #        self.close()
 
     def loadFile(self):
         print("loading...")
