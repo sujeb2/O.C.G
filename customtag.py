@@ -16,11 +16,6 @@ toggled_Rkps = False
 toggled_Prgs = False
 toggled_StartedPrgs = False
 
-# asdf
-temp_loc = './src/template/default.js'
-lowver = '2.0.0'
-overlayer_loc = ''
-
 class Main(QWidget):
     print("[INFO] 만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.\n[WARN] 이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.")
 
@@ -43,10 +38,8 @@ class Main(QWidget):
             print("[SUCCESS] Initallized.")
         except:
             print("ERROR Occurred!\nidk why it happend. sry about that :(")
-            errInit = QMessageBox.critical(self, '오류가 발생하였습니다.', '재설정을 하는 중에 오류가 발생했습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.', QMessageBox.y)
+            errInit = QMessageBox.critical(self, '오류가 발생하였습니다.', '재설정을 하는 중에 오류가 발생했습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
-            if errInit == QMessageBox.Yes:
-                self.close()
 
     def resetWindow(self):
         self.show
@@ -57,7 +50,7 @@ class Main(QWidget):
             # label
             self.mainLabel1 = QLabel("OverLayer", self)
             self.mainLabel2 = QLabel("CustomTag Generator", self)
-            self.mainVersion = QLabel("v0.2.3", self)
+            self.mainVersion = QLabel("v0.2.5", self)
             self.moduleListLabel = QLabel("모듈 목록", self)
             #self.scoreModuleStrictLevel = QLabel("판정", self)
             self.previewImage = QLabel("미리보기", self)
