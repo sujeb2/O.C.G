@@ -1,7 +1,7 @@
-from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QCheckBox, QMessageBox, QFileDialog
-from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtCore import Qt
-from PyQt5 import QtCore
+from PyQt6.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QCheckBox, QMessageBox, QFileDialog
+from PyQt6.QtGui import QIcon, QPixmap
+from PyQt6.QtCore import Qt
+from PyQt6 import QtCore
 import os, sys, json;
 
 # accuracy
@@ -23,7 +23,10 @@ lowver = '2.0.0'
 overlayer_loc = ''
 
 class Main(QWidget):
+    print("[INFO] 만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.\n[WARN] 이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.exe' 를 받아주세요.")
+
     def __init__(self):
+        print("[INFO] Initallizing...")
         try:
             super().__init__()
 
@@ -38,6 +41,7 @@ class Main(QWidget):
             self.setGeometry(self.left, self.top, self.width, self.height)
             self.resetWindow()
             self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint | QtCore.Qt.WindowType.WindowMinimizeButtonHint)
+            print("[SUCCESS] Initallized.")
         except:
             print("ERROR Occurred!\nidk why it happend. sry about that :(")
             errInit = QMessageBox.critical(self, '오류가 발생하였습니다.', '재설정을 하는 중에 오류가 발생했습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.', QMessageBox.y)
@@ -49,6 +53,7 @@ class Main(QWidget):
         self.show
 
     def setWidgets(self):
+        print("[INFO] Loading Widgets...")
         try:
             # label
             self.mainLabel1 = QLabel("OverLayer", self)
@@ -59,6 +64,8 @@ class Main(QWidget):
             self.previewImage = QLabel("미리보기", self)
             self.previewText = QLabel("기본 텍스트", self)
             self.featureListLabel = QLabel("기능", self)
+
+            self.est = QLabel("와샌즈!", self)
 
             # img label
             self.imglabelpreview = QLabel(self)
@@ -91,11 +98,14 @@ class Main(QWidget):
             self.moduleListLabel.move(15, 127)
             self.previewImage.move(510, 45)
             self.imglabelpreview.move(510, 75)
-            self.previewText.move(520, 350)
+            self.previewText.move(520, 80)
+            self.previewText.show()
             self.featureListLabel.move(15, 330)
 
             self.saveBtn.move(15, 90)
             #self.loadBtn.move(95, 90)
+
+            self.est.move(100, 550)
 
             self.module_acc.move(15, 160)
             self.module_xacc.move(15, 180)
@@ -206,8 +216,9 @@ class Main(QWidget):
             # set clicked event
             self.saveBtn.clicked.connect(self.saveFile)
             #self.loadBtn.clicked.connect(self.loadFile)
-            self.module_acc.stateChanged.connect(self.changePreviewImgOnlyAcc)
             self.mainLabel1.mouseDoubleClickEvent = self.showCopyright
+            self.mainLabel2.mouseDoubleClickEvent = self.showCopyright
+            print("[SUCCESS] Success.")
         except:
             self.close()
             print("[ERROR] An Error occurred while trying to load widgets.")
@@ -215,11 +226,8 @@ class Main(QWidget):
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print("[ERROR] Error type: ", exc_type, "Error File: " ,fname, "Error Line: " ,exc_tb.tb_lineno)
 
-            errLoadWidget = QMessageBox.critical(self, '오류가 발생하였습니다.', '위젯을 설정 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.', QMessageBox.Yes)
+            errLoadWidget = QMessageBox.critical(self, '오류가 발생하였습니다.', '위젯을 설정 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
-
-            if errLoadWidget == QMessageBox.Yes:
-                self.close()
 
     def saveFile(self):
         print("saving...")
@@ -237,22 +245,18 @@ class Main(QWidget):
                         svcustom.write("function ctg() {\n return `기본 텍스트`;\n}\nRegisterTag('customTag', ctg, true);")
         except:
             print("ERROR Occurred!\nidk why it happend. sry about that :(")
-            errSaveFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 저장하는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.', QMessageBox.y)
+            errSaveFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 저장하는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
-            if errSaveFile == QMessageBox.Yes:
-                self.close()
 
     def loadFile(self):
         print("loading...")
         try:
             loadCustomTagfILE = QFileDialog.getOpenFileName(self, '태그 불러오기', './')
-            warnLoadJSFormatVersion = QMessageBox.warning(self, '포맷 확인', '불려올려는 파일의 포맷이 2.0.0 이상의 버전보다 더 낮은 포맷을 사용하고 있습니다.\n이러한 포맷은 현재 불러올수가 없습니다.', QMessageBox.Yes)
+            warnLoadJSFormatVersion = QMessageBox.warning(self, '포맷 확인', '불려올려는 파일의 포맷이 2.0.0 이상의 버전보다 더 낮은 포맷을 사용하고 있습니다.\n이러한 포맷은 현재 불러올수가 없습니다.')
         except:
             print("ERROR Occurred!\nidk why it happend. sry about that :(")
-            errLoadFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 불러오는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.', QMessageBox.y)
+            errLoadFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 불러오는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
-            if errLoadFile == QMessageBox.Yes:
-                self.close()
 
     def changePreviewImgOnlyAcc(self, state):
         if state == Qt.Checked:
@@ -288,4 +292,4 @@ if __name__ == '__main__':
     win = Main()
     win.setWidgets()
     win.show()
-    app.exec_()
+    app.exec()
