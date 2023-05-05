@@ -23,7 +23,7 @@ lowver = '2.0.0'
 overlayer_loc = ''
 
 class Main(QWidget):
-    print("[INFO] 만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.\n[WARN] 이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.exe' 를 받아주세요.")
+    print("[INFO] 만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.\n[WARN] 이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.")
 
     def __init__(self):
         print("[INFO] Initallizing...")
@@ -289,6 +289,7 @@ class Main(QWidget):
         showInfoWindow.show()
 
 class infoWindow(QWidget):
+    # why tf this wont work
     def __init__(self, parent=None):
         super(infoWindow, self).__init__(parent)
 
