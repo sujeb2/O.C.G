@@ -5,13 +5,13 @@ from PyQt6 import QtCore
 import os, sys, json;
 
 # accuracy
-TOGGLED_ACC = False
-TOGGLED_XACC = False
+toggled_Acc = False
+toggled_Xacc = False
 
 # bpm
-TOGGLED_CRB = False
-TOGGLED_TB = False
-TOGGLED_RKPS = False
+toggled_Crb = False
+toggled_Tb = False
+toggled_Rkps = False
 
 # progrss
 TOGGLED_PRGS = False
@@ -237,6 +237,7 @@ class Main(QWidget):
             #self.loadBtn.clicked.connect(self.loadFile)
             self.mainLabel1.mouseDoubleClickEvent = self.showCopyright
             self.mainLabel2.mouseDoubleClickEvent = self.showCopyright
+            self.module_acc.clicked.connect(self.changeAcc)
             print("[SUCCESS] Success.")
         except:
             self.close()
@@ -249,18 +250,42 @@ class Main(QWidget):
             self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
 
     def saveFile(self):
-        print("saving...")
+        print("[INFO] Saving...")
         try:
-            print(TOGGLED_ACC, TOGGLED_CRB, TOGGLED_PRGS, TOGGLED_RKPS, TOGGLED_STARTPRGS, TOGGLED_TB, TOGGLED_XACC)
+            print(toggled_Acc, toggled_Crb, TOGGLED_PRGS, toggled_Rkps, TOGGLED_STARTPRGS, toggled_Tb, toggled_Xacc)
             saveFile = QFileDialog.getSaveFileName(self, '저장될 위치 선택', './customtag.js', 'JavaScript (*.js)')
 
             if saveFile[0] != "":
-                with open(saveFile[0], 'w') as svcustom:
+                with open(saveFile[0], 'w', encoding="UTF-8") as svcustom:
                     # i know that this code is pretty weird :(
-                    if TOGGLED_ACC == True:
-                        svcustom.write("function ctg() {\nlet acc = Accurrcy()\nreturn `정확도: ${acc()}`\n}\nRegisterTag('customTag', ctg, true);")
+                    # def = svcustom.write("function ctg() {\n return `지정된 태그가 없습니다, 프로그램에서 지정후 저장해주세요.`;\n}\nRegisterTag('customTag', ctg, true);")
+
+                    # acc
+                    if toggled_Acc == True and toggled_Crb == False and TOGGLED_PRGS == False and toggled_Rkps == False and TOGGLED_STARTPRGS == False and toggled_Tb == False and toggled_Xacc == False:
+                        svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%`\n}\nRegisterTag('customTag', ctg, true);")
+                        print("[SUCCESS] Successfully saved file.")
+                        print(f"[INFO] Saved file location: {saveFile}")
+                    # progress
+                    elif toggled_Acc == False and toggled_Crb == False and TOGGLED_PRGS == True and toggled_Rkps == False and TOGGLED_STARTPRGS == False and toggled_Tb == False and toggled_Xacc == False:
+                        svcustom.write("function ctg() {\nreturn `진행도: ${Progress()}%`\n}\nRegisterTag('customTag', ctg, true);")
+                        print("[SUCCESS] Successfully saved file.")
+                        print(f"[INFO] Saved file location: {saveFile}")
+                    # xacc
+                    elif toggled_Acc == False and toggled_Crb == False and TOGGLED_PRGS == False and toggled_Rkps == False and TOGGLED_STARTPRGS == False and toggled_Tb == False and toggled_Xacc == True:
+                        svcustom.write("function ctg() {\nreturn `절대 정확도: ${XAccuracy()}%`\n}\nRegisterTag('customTag', ctg, true);")
+                        print("[SUCCESS] Successfully saved file.")
+                        print(f"[INFO] Saved file location: {saveFile}")
+                    # crb
+                    elif toggled_Acc == False and toggled_Crb == True and TOGGLED_PRGS == False and toggled_Rkps == False and TOGGLED_STARTPRGS == False and toggled_Tb == False and toggled_Xacc == False:
+                        svcustom.write("function ctg() {\nreturn `체감 BPM: ${CurBpm()}%`\n}\nRegisterTag('customTag', ctg, true);")
+                        print("[SUCCESS] Successfully saved file.")
+                        print(f"[INFO] Saved file location: {saveFile}")
                     else:
                         svcustom.write("function ctg() {\n return `지정된 태그가 없습니다, 프로그램에서 지정후 저장해주세요.`;\n}\nRegisterTag('customTag', ctg, true);")
+                        print("[SUCCESS] Successfully saved file.")
+                        print("[WARN] No module has been found. return with normal text.")
+                        print(f"[INFO] Saved file location: {saveFile}")
+                    successSaveFile = QMessageBox.information(self, '저장 완료', '태그가 저장되었습니다,\n오버레이어 설정에서 텍스트를 {customTag} 로 지정해주세요.')
         except:
             print("ERROR Occurred!\nidk why it happend. sry about that :(")
             errSaveFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 저장하는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
@@ -276,12 +301,14 @@ class Main(QWidget):
             errLoadFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 불러오는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
 
-    def changePreviewImgOnlyAcc(self, state):
-        if state == Qt.Checked:
-            self.imglabelpreview.setPixmap(QPixmap(self.previewImagePixmapOnlyAcc))
-            TOGGLED_ACC == True
+    def changeAcc(self):
+        if self.module_acc.isChecked():
+            toggled_Acc == True
+            print("[INFO] Acc module toggled.")
+            print(f"[INFO] {toggled_Acc}")
         else:
-            TOGGLED_ACC == False
+            toggled_Acc == False
+            print("[INFO] Acc module deactivated.")
 
     def showCopyright(self, event):
         showInfoWindow = infoWindow()
