@@ -85,6 +85,25 @@ class Main(QWidget):
             self.module_score = QCheckBox("점수", self)
             self.randomPercentText = QCheckBox("랜덤한 확률로 텍스트 변경하기", self)
 
+            if self.module_acc.text == "":
+                self.module_acc.text == "ctg.module.acc"
+            elif self.module_crb.text == "":
+                self.module_crb.text == "ctg.module.crb"
+            elif self.module_progress.text == "":
+                self.module_progress.text == "ctg.module.progress"
+            elif self.module_reckps.text == "":
+                self.module_reckps.text == "ctg.module.module_reckps"
+            elif self.module_score.text == "":
+                self.module_score.text == "ctg.module.score"
+            elif self.module_startprgs.text == "":
+                self.module_startprgs.text == "ctg.module.startprgs"
+            elif self.module_tilebpm.text == "":
+                self.module_tilebpm.text == "ctg.module.tilebpm"
+            elif self.module_xacc.text == "":
+                self.module_startprgs.text == "ctg.module.xacc"
+            elif self.randomPercentText.text == "":
+                self.module_tilebpm.text == "ctg.feature.randomPercentText"
+
             # image
             self.previewImagePixmapTemplate = QPixmap('./src/img/preview/preview-text-template')
 
