@@ -1,21 +1,20 @@
 from PyQt6.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QCheckBox, QMessageBox, QFileDialog
 from PyQt6.QtGui import QIcon, QPixmap
-from PyQt6.QtCore import Qt
 from PyQt6 import QtCore
-import os, sys, json;
+import os, sys;
 
 # accuracy
-toggled_Acc = False
-toggled_Xacc = False
+toggled_Acc = bool(False)
+toggled_Xacc = bool(False)
 
 # bpm
-toggled_Crb = False
-toggled_Tb = False
-toggled_Rkps = False
+toggled_Crb = bool(False)
+toggled_Tb = bool(False)
+toggled_Rkps = bool(False)
 
 # progrss
-TOGGLED_PRGS = False
-TOGGLED_STARTPRGS = False
+toggled_Prgs = bool(False)
+toggled_StartedPrgs = bool(False)
 
 # asdf
 temp_loc = './src/template/default.js'
@@ -252,7 +251,7 @@ class Main(QWidget):
     def saveFile(self):
         print("[INFO] Saving...")
         try:
-            print(toggled_Acc, toggled_Crb, TOGGLED_PRGS, toggled_Rkps, TOGGLED_STARTPRGS, toggled_Tb, toggled_Xacc)
+            print(bool(toggled_Acc), toggled_Crb, toggled_Prgs, toggled_Rkps, toggled_StartedPrgs, toggled_Tb, toggled_Xacc)
             saveFile = QFileDialog.getSaveFileName(self, '저장될 위치 선택', './customtag.js', 'JavaScript (*.js)')
 
             if saveFile[0] != "":
@@ -261,22 +260,22 @@ class Main(QWidget):
                     # def = svcustom.write("function ctg() {\n return `지정된 태그가 없습니다, 프로그램에서 지정후 저장해주세요.`;\n}\nRegisterTag('customTag', ctg, true);")
 
                     # acc
-                    if toggled_Acc == True and toggled_Crb == False and TOGGLED_PRGS == False and toggled_Rkps == False and TOGGLED_STARTPRGS == False and toggled_Tb == False and toggled_Xacc == False:
+                    if toggled_Acc == bool(True) and toggled_Crb == bool(False) and toggled_Prgs == bool(False) and toggled_Rkps == bool(False) and toggled_StartedPrgs == bool(False) and toggled_Tb == bool(False) and toggled_Xacc == bool(False):
                         svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%`\n}\nRegisterTag('customTag', ctg, true);")
                         print("[SUCCESS] Successfully saved file.")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # progress
-                    elif toggled_Acc == False and toggled_Crb == False and TOGGLED_PRGS == True and toggled_Rkps == False and TOGGLED_STARTPRGS == False and toggled_Tb == False and toggled_Xacc == False:
+                    elif toggled_Acc == bool(False) and toggled_Crb == bool(False) and toggled_Prgs == bool(True) and toggled_Rkps == bool(False) and toggled_StartedPrgs == bool(False) and toggled_Tb == bool(False) and toggled_Xacc == bool(False):
                         svcustom.write("function ctg() {\nreturn `진행도: ${Progress()}%`\n}\nRegisterTag('customTag', ctg, true);")
                         print("[SUCCESS] Successfully saved file.")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # xacc
-                    elif toggled_Acc == False and toggled_Crb == False and TOGGLED_PRGS == False and toggled_Rkps == False and TOGGLED_STARTPRGS == False and toggled_Tb == False and toggled_Xacc == True:
+                    elif toggled_Acc == bool(False) and toggled_Crb == bool(False) and toggled_Prgs == bool(False) and toggled_Rkps == bool(False) and toggled_StartedPrgs == bool(False) and toggled_Tb == bool(False) and toggled_Xacc == bool(True):
                         svcustom.write("function ctg() {\nreturn `절대 정확도: ${XAccuracy()}%`\n}\nRegisterTag('customTag', ctg, true);")
                         print("[SUCCESS] Successfully saved file.")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # crb
-                    elif toggled_Acc == False and toggled_Crb == True and TOGGLED_PRGS == False and toggled_Rkps == False and TOGGLED_STARTPRGS == False and toggled_Tb == False and toggled_Xacc == False:
+                    elif toggled_Acc == bool(False) and toggled_Crb == bool(True) and toggled_Prgs == bool(False) and toggled_Rkps == bool(False) and toggled_StartedPrgs == bool(False) and toggled_Tb == bool(False) and toggled_Xacc == bool(False):
                         svcustom.write("function ctg() {\nreturn `체감 BPM: ${CurBpm()}%`\n}\nRegisterTag('customTag', ctg, true);")
                         print("[SUCCESS] Successfully saved file.")
                         print(f"[INFO] Saved file location: {saveFile}")
@@ -303,11 +302,11 @@ class Main(QWidget):
 
     def changeAcc(self):
         if self.module_acc.isChecked():
-            toggled_Acc == True
+            toggled_Acc = bool(True)
             print("[INFO] Acc module toggled.")
             print(f"[INFO] {toggled_Acc}")
         else:
-            toggled_Acc == False
+            toggled_Acc = bool(bool(False))
             print("[INFO] Acc module deactivated.")
 
     def showCopyright(self, event):
