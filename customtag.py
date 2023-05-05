@@ -1,3 +1,4 @@
+import typing
 from PyQt6.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QCheckBox, QMessageBox, QFileDialog
 from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6 import QtCore
@@ -15,6 +16,42 @@ toggled_Rkps = False
 # progrss
 toggled_Prgs = False
 toggled_StartedPrgs = False
+
+class infoWindow(QWidget):
+    # why tf this wont work
+    def __init__(self, parent=None):
+        super(infoWindow, self).__init__(parent)
+
+        self.l = 200
+        self.t = 500
+        self.w = 500
+        self.h = 300
+
+        self.setWindowTitle("정보")
+        self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint)
+        self.setWindowIcon(QIcon('./src/icon_normal.png'))
+        self.setGeometry(self.l, self.t, self.w, self.h)
+        self.showNormal()
+        self.show()
+
+class randomTextEditWindow(QWidget):
+    def __init__(self):
+        try:
+            super().__init__()
+
+            self.l = 200
+            self.t = 500
+            self.w = 300
+            self.h = 100
+
+            self.setWindowTitle("랜덤 확률 수정")
+            self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint)
+            self.setWindowIcon(QIcon('./src/icon_normal.png'))
+            self.setGeometry(self.l, self.t, self.w, self.h)
+        except:
+            print("ERROR Occurred!\nidk why it happend. sry about that :(")
+            errShowrandTextEditWindowShow = QMessageBox.critical(self, '오류가 발생하였습니다.', '확률 수정 화면을 불러오는중에 오류가 발생했습니다.\n\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 있거나, 버그로 인해 안되는 경우가 있습니다.\n 계속 이러한 경우가 발생하는경우 Issue를 열어주세요.')
+            self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
 
 class Main(QWidget):
     print("[INFO] 만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.\n[WARN] 이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.")
@@ -52,7 +89,6 @@ class Main(QWidget):
             self.mainLabel2 = QLabel("CustomTag Generator", self)
             self.mainVersion = QLabel("v0.2.5", self)
             self.moduleListLabel = QLabel("모듈 목록", self)
-            #self.scoreModuleStrictLevel = QLabel("판정", self)
             self.previewImage = QLabel("미리보기", self)
             self.previewText = QLabel("기본 텍스트", self)
             self.featureListLabel = QLabel("기능", self)
@@ -76,6 +112,7 @@ class Main(QWidget):
             self.module_reckps = QCheckBox("체감 KPS", self)
             self.module_score = QCheckBox("점수", self)
             self.randomPercentText = QCheckBox("랜덤한 확률로 텍스트 변경하기", self)
+            self.setColorOnCertainPercent = QCheckBox("특정 지점에서 텍스트 색상 변경하기", self)
 
             if self.module_acc.text == "":
                 self.module_acc.text == "ctg.module.acc"
@@ -130,6 +167,7 @@ class Main(QWidget):
             self.module_score.move(15, 300)
 
             self.randomPercentText.move(15, 360)
+            self.setColorOnCertainPercent.move(15, 380)
             
             # font reset
             mainLabelFont1 = self.mainLabel1.font()
@@ -205,6 +243,10 @@ class Main(QWidget):
             feature_randomPerText = self.randomPercentText.font()
             feature_randomPerText.setFamily('Pretendard JP')
             feature_randomPerText.setPointSize(12)
+            
+            feature_setColorOnCertainPercent = self.setColorOnCertainPercent.font()
+            feature_setColorOnCertainPercent.setFamily('Pretendard JP')
+            feature_setColorOnCertainPercent.setPointSize(12)
 
             # set font
             self.mainLabel1.setFont(mainLabelFont1)
@@ -225,6 +267,7 @@ class Main(QWidget):
             #self.loadBtn.setFont(loadbtnFont)
             self.saveBtn.setFont(savebtnFont)
             self.randomPercentText.setFont(feature_randomPerText)
+            self.setColorOnCertainPercent.setFont(feature_setColorOnCertainPercent)
 
             # set clicked event
             self.saveBtn.clicked.connect(self.saveFile)
@@ -232,6 +275,7 @@ class Main(QWidget):
             self.mainLabel1.mouseDoubleClickEvent = self.showCopyright
             self.mainLabel2.mouseDoubleClickEvent = self.showCopyright
             self.module_acc.clicked.connect(self.changeAcc)
+            self.randomPercentText.clicked.connect(self.setRandom)
             print("[SUCCESS] Success.")
         except:
             self.close()
@@ -246,7 +290,9 @@ class Main(QWidget):
     def saveFile(self):
         print("[INFO] Saving...")
         try:
-            print(bool(toggled_Acc), toggled_Crb, toggled_Prgs, toggled_Rkps, toggled_StartedPrgs, toggled_Tb, toggled_Xacc)
+            
+
+            print(self.module_acc.isChecked(), self.module_crb.isChecked(), self.module_progress.isChecked(), self.module_reckps.isChecked(), self.module_progress.isChecked(), self.module_score.isChecked(), self.module_startprgs.isChecked(), self.module_xacc.isChecked())
             saveFile = QFileDialog.getSaveFileName(self, '저장될 위치 선택', './customtag.js', 'JavaScript (*.js)')
 
             if saveFile[0] != "":
@@ -255,25 +301,34 @@ class Main(QWidget):
                     # def = svcustom.write("function ctg() {\n return `지정된 태그가 없습니다, 프로그램에서 지정후 저장해주세요.`;\n}\nRegisterTag('customTag', ctg, true);")
 
                     # acc
-                    if toggled_Acc == True and toggled_Crb == False and toggled_Prgs == False and toggled_Rkps == False and toggled_StartedPrgs == False and toggled_Tb == False and toggled_Xacc == False:
+                    if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
                         svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%`\n}\nRegisterTag('customTag', ctg, true);")
                         print("[SUCCESS] Successfully saved file.")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # progress
-                    elif toggled_Acc == False and toggled_Crb == False and toggled_Prgs == True and toggled_Rkps == False and toggled_StartedPrgs == False and toggled_Tb == False and toggled_Xacc == False:
+                    elif self.module_acc.isChecked() == False and self.module_crb.isChecked() == False and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
                         svcustom.write("function ctg() {\nreturn `진행도: ${Progress()}%`\n}\nRegisterTag('customTag', ctg, true);")
                         print("[SUCCESS] Successfully saved file.")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # xacc
-                    elif toggled_Acc == False and toggled_Crb == False and toggled_Prgs == False and toggled_Rkps == False and toggled_StartedPrgs == False and toggled_Tb == False and toggled_Xacc == True:
+                    elif self.module_acc.isChecked() == False and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == True:
                         svcustom.write("function ctg() {\nreturn `절대 정확도: ${XAccuracy()}%`\n}\nRegisterTag('customTag', ctg, true);")
                         print("[SUCCESS] Successfully saved file.")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # crb
-                    elif toggled_Acc == False and toggled_Crb == True and toggled_Prgs == False and toggled_Rkps == False and toggled_StartedPrgs == False and toggled_Tb == False and toggled_Xacc == False:
+                    elif self.module_acc.isChecked() == False and self.module_crb.isChecked() == True and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
                         svcustom.write("function ctg() {\nreturn `체감 BPM: ${CurBpm()}%`\n}\nRegisterTag('customTag', ctg, true);")
                         print("[SUCCESS] Successfully saved file.")
                         print(f"[INFO] Saved file location: {saveFile}")
+                    elif self.module_acc.isChecked() == False and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
+                        svcustom.write("function ctg() {\nreturn `점수: ${Score()}%`\n}\nRegisterTag('customTag', ctg, true);")
+                        print("[SUCCESS] Successfully saved file.")
+                        print(f"[INFO] Saved file location: {saveFile}")
+                    elif self.module_acc.isChecked() == True and self.module_crb.isChecked() == True and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == True and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == True and self.module_tilebpm.isChecked() == True and self.module_xacc.isChecked() == True:
+                        svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n진행도: ${Progress()}%\n절대 정확도: ${XAccuracy()}%\n체감 BPM: ${CurBpm()}%\n점수: ${Score()}%\n시작 진행도`\n}\nRegisterTag('customTag', ctg, true);")
+                        print("[SUCCESS] Successfully saved file.")
+                        print(f"[INFO] Saved file location: {saveFile}")
+                    # default
                     else:
                         svcustom.write("function ctg() {\n return `지정된 태그가 없습니다, 프로그램에서 지정후 저장해주세요.`;\n}\nRegisterTag('customTag', ctg, true);")
                         print("[SUCCESS] Successfully saved file.")
@@ -288,7 +343,7 @@ class Main(QWidget):
     def loadFile(self):
         print("loading...")
         try:
-            loadCustomTagfILE = QFileDialog.getOpenFileName(self, '태그 불러오기', './')
+            loadCustomTagFile = QFileDialog.getOpenFileName(self, '태그 불러오기', './')
             warnLoadJSFormatVersion = QMessageBox.warning(self, '포맷 확인', '불려올려는 파일의 포맷이 2.0.0 이상의 버전보다 더 낮은 포맷을 사용하고 있습니다.\n이러한 포맷은 현재 불러올수가 없습니다.')
         except:
             print("ERROR Occurred!\nidk why it happend. sry about that :(")
@@ -297,36 +352,18 @@ class Main(QWidget):
 
     def changeAcc(self):
         if self.module_acc.isChecked():
-            toggled_Acc = not False
             self.previewText.setText = "정확도: 100%"
-            print("[INFO] Acc module toggled.")
-            print(f"[INFO] {toggled_Acc}")
         else:
-            toggled_Acc = not True
             self.previewText.setText = "기본 텍스트"
-            print("[INFO] Acc module deactivated.")
-            print(f"[INFO] {toggled_Acc}")
 
     def showCopyright(self, event):
         showInfoWindow = infoWindow()
         showInfoWindow.show()
 
-class infoWindow(QWidget):
-    # why tf this wont work
-    def __init__(self, parent=None):
-        super(infoWindow, self).__init__(parent)
-
-        self.l = 200
-        self.t = 500
-        self.w = 500
-        self.h = 300
-
-        self.setWindowTitle("정보")
-        self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint)
-        self.setWindowIcon(QIcon('./src/icon_normal.png'))
-        self.setGeometry(self.l, self.t, self.w, self.h)
-        self.showNormal()
-        self.show()
+    def setRandom(self):
+        showRandomPerEditWindow = randomTextEditWindow()
+        showRandomPerEditWindow.show()
+        return showRandomPerEditWindow
         
 # run
 if __name__ == '__main__':
