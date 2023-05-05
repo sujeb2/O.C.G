@@ -4,17 +4,17 @@ from PyQt6 import QtCore
 import os, sys;
 
 # accuracy
-toggled_Acc = bool(False)
-toggled_Xacc = bool(False)
+toggled_Acc = False
+toggled_Xacc = False
 
 # bpm
-toggled_Crb = bool(False)
-toggled_Tb = bool(False)
-toggled_Rkps = bool(False)
+toggled_Crb = False
+toggled_Tb = False
+toggled_Rkps = False
 
 # progrss
-toggled_Prgs = bool(False)
-toggled_StartedPrgs = bool(False)
+toggled_Prgs = False
+toggled_StartedPrgs = False
 
 # asdf
 temp_loc = './src/template/default.js'
@@ -31,8 +31,8 @@ class Main(QWidget):
 
             self.top = 200
             self.left = 500
-            self.width = 1000
-            self.height = 500
+            self.width = 960
+            self.height = 450
 
             # reset
             self.setWindowTitle("Overlayer CustomTag Generator")
@@ -103,6 +103,9 @@ class Main(QWidget):
             elif self.randomPercentText.text == "":
                 self.module_tilebpm.text == "ctg.feature.randomPercentText"
 
+            self.previewText.raise_()
+            self.previewText.setStyleSheet("Color : white")
+
             # image
             self.previewImagePixmapTemplate = QPixmap('./src/img/preview/preview-text-template')
 
@@ -116,8 +119,7 @@ class Main(QWidget):
             self.moduleListLabel.move(15, 127)
             self.previewImage.move(510, 45)
             self.imglabelpreview.move(510, 75)
-            self.previewText.move(520, 80)
-            self.previewText.show()
+            self.previewText.move(520, 83)
             self.featureListLabel.move(15, 330)
 
             self.saveBtn.move(15, 90)
@@ -260,22 +262,22 @@ class Main(QWidget):
                     # def = svcustom.write("function ctg() {\n return `지정된 태그가 없습니다, 프로그램에서 지정후 저장해주세요.`;\n}\nRegisterTag('customTag', ctg, true);")
 
                     # acc
-                    if toggled_Acc == bool(True) and toggled_Crb == bool(False) and toggled_Prgs == bool(False) and toggled_Rkps == bool(False) and toggled_StartedPrgs == bool(False) and toggled_Tb == bool(False) and toggled_Xacc == bool(False):
+                    if toggled_Acc == True and toggled_Crb == False and toggled_Prgs == False and toggled_Rkps == False and toggled_StartedPrgs == False and toggled_Tb == False and toggled_Xacc == False:
                         svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%`\n}\nRegisterTag('customTag', ctg, true);")
                         print("[SUCCESS] Successfully saved file.")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # progress
-                    elif toggled_Acc == bool(False) and toggled_Crb == bool(False) and toggled_Prgs == bool(True) and toggled_Rkps == bool(False) and toggled_StartedPrgs == bool(False) and toggled_Tb == bool(False) and toggled_Xacc == bool(False):
+                    elif toggled_Acc == False and toggled_Crb == False and toggled_Prgs == True and toggled_Rkps == False and toggled_StartedPrgs == False and toggled_Tb == False and toggled_Xacc == False:
                         svcustom.write("function ctg() {\nreturn `진행도: ${Progress()}%`\n}\nRegisterTag('customTag', ctg, true);")
                         print("[SUCCESS] Successfully saved file.")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # xacc
-                    elif toggled_Acc == bool(False) and toggled_Crb == bool(False) and toggled_Prgs == bool(False) and toggled_Rkps == bool(False) and toggled_StartedPrgs == bool(False) and toggled_Tb == bool(False) and toggled_Xacc == bool(True):
+                    elif toggled_Acc == False and toggled_Crb == False and toggled_Prgs == False and toggled_Rkps == False and toggled_StartedPrgs == False and toggled_Tb == False and toggled_Xacc == True:
                         svcustom.write("function ctg() {\nreturn `절대 정확도: ${XAccuracy()}%`\n}\nRegisterTag('customTag', ctg, true);")
                         print("[SUCCESS] Successfully saved file.")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # crb
-                    elif toggled_Acc == bool(False) and toggled_Crb == bool(True) and toggled_Prgs == bool(False) and toggled_Rkps == bool(False) and toggled_StartedPrgs == bool(False) and toggled_Tb == bool(False) and toggled_Xacc == bool(False):
+                    elif toggled_Acc == False and toggled_Crb == True and toggled_Prgs == False and toggled_Rkps == False and toggled_StartedPrgs == False and toggled_Tb == False and toggled_Xacc == False:
                         svcustom.write("function ctg() {\nreturn `체감 BPM: ${CurBpm()}%`\n}\nRegisterTag('customTag', ctg, true);")
                         print("[SUCCESS] Successfully saved file.")
                         print(f"[INFO] Saved file location: {saveFile}")
@@ -302,12 +304,15 @@ class Main(QWidget):
 
     def changeAcc(self):
         if self.module_acc.isChecked():
-            toggled_Acc = bool(True)
+            toggled_Acc = not False
+            self.previewText.setText = "정확도: 100%"
             print("[INFO] Acc module toggled.")
             print(f"[INFO] {toggled_Acc}")
         else:
-            toggled_Acc = bool(bool(False))
+            toggled_Acc = not True
+            self.previewText.setText = "기본 텍스트"
             print("[INFO] Acc module deactivated.")
+            print(f"[INFO] {toggled_Acc}")
 
     def showCopyright(self, event):
         showInfoWindow = infoWindow()
