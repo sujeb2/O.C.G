@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QRadioButton, QCheckBox, QMessageBox, QFileDialog, QLineEdit
+from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QCheckBox, QMessageBox, QFileDialog
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt
 from PyQt5 import QtCore
@@ -207,6 +207,7 @@ class Main(QWidget):
             self.saveBtn.clicked.connect(self.saveFile)
             #self.loadBtn.clicked.connect(self.loadFile)
             self.module_acc.stateChanged.connect(self.changePreviewImgOnlyAcc)
+            self.mainLabel1.mouseDoubleClickEvent = self.showCopyright
         except:
             self.close()
             print("[ERROR] An Error occurred while trying to load widgets.")
@@ -259,6 +260,27 @@ class Main(QWidget):
             TOGGLED_ACC == True
         else:
             TOGGLED_ACC == False
+
+    def showCopyright(self, event):
+        showInfoWindow = infoWindow()
+        showInfoWindow.show()
+
+class infoWindow(QWidget):
+    def __init__(self, parent=None):
+        super(infoWindow, self).__init__(parent)
+
+        self.l = 200
+        self.t = 500
+        self.w = 500
+        self.h = 300
+
+        self.setWindowTitle("정보")
+        self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint)
+        self.setWindowIcon(QIcon('./src/icon_normal.png'))
+        self.setGeometry(self.l, self.t, self.w, self.h)
+        self.showNormal()
+        self.show()
+        
 # run
 if __name__ == '__main__':
     app = QApplication(sys.argv)
