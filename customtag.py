@@ -256,12 +256,11 @@ class Main(QWidget):
 
             if saveFile[0] != "":
                 with open(saveFile[0], 'w') as svcustom:
-
                     # i know that this code is pretty weird :(
                     if TOGGLED_ACC == True:
-                        svcustom.write("function ctg() {\n return Accuracy();\n}\nRegisterTag('customTag', ctg, true);")
+                        svcustom.write("function ctg() {\nlet acc = Accurrcy()\nreturn `정확도: ${acc()}`\n}\nRegisterTag('customTag', ctg, true);")
                     else:
-                        svcustom.write("function ctg() {\n return `기본 텍스트`;\n}\nRegisterTag('customTag', ctg, true);")
+                        svcustom.write("function ctg() {\n return `지정된 태그가 없습니다, 프로그램에서 지정후 저장해주세요.`;\n}\nRegisterTag('customTag', ctg, true);")
         except:
             print("ERROR Occurred!\nidk why it happend. sry about that :(")
             errSaveFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 저장하는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
