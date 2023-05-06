@@ -100,6 +100,31 @@ class InfoWindow(QWidget):
             self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
         print(f"[INFO] Current Window Width {self.width}, Height {self.height}")
 
+class EditRandomPercent(QWidget):
+    def __init__(self):
+        print("[INFO] Initallizing EditWindow...")
+        try:
+            super().__init__()
+
+            self.top = 200
+            self.left = 500
+            self.width = 300
+            self.height = 200
+
+            self.setWindowTitle("텍스트 수정")
+            self.setWindowIcon(QIcon('./src/icon_normal.png'))
+            self.setGeometry(self.left, self.top, self.width, self.height)
+            self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint | QtCore.Qt.WindowType.WindowMinimizeButtonHint)
+            self.setWidgets()
+            print(f"{bcolors.OKCYAN}[SUCCESS] Initallized.{bcolors.ENDC}")
+        except:
+            print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
+            errInfoWinInit = QMessageBox.critical(self, '오류가 발생하였습니다.', '재설정을 하는 중에 오류가 발생했습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
+            self.setWindowTitle("텍스트 수정 - 불안정함")
+
+    def setWidgets(self):
+        print("[INFO] Loading Widgets...")
+
 class Main(QWidget):
     print(f"{bcolors.ENDC}[INFO] 만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.\n{bcolors.WARNING}[WARN] 이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.{bcolors.ENDC}")
 
@@ -321,6 +346,7 @@ class Main(QWidget):
             self.saveBtn.clicked.connect(self.saveFile)
             self.infoBtn.clicked.connect(self.showInfoWindow)
             self.module_acc.clicked.connect(self.changeAcc)
+            self.randomPercentText.clicked.connect(self.showEditTextWindow)
             print(f"{bcolors.OKCYAN}[SUCCESS] Success.{bcolors.ENDC}")
         except:
             self.close()
@@ -386,16 +412,6 @@ class Main(QWidget):
             errSaveFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 저장하는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
 
-    def loadFile(self):
-        print("loading...")
-        try:
-            loadCustomTagFile = QFileDialog.getOpenFileName(self, '태그 불러오기', './')
-            warnLoadJSFormatVersion = QMessageBox.warning(self, '포맷 확인', '불려올려는 파일의 포맷이 2.0.0 이상의 버전보다 더 낮은 포맷을 사용하고 있습니다.\n이러한 포맷은 현재 불러올수가 없습니다.')
-        except:
-            print(f"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
-            errLoadFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 불러오는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
-            self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
-
     def changeAcc(self):
         if self.module_acc.isChecked():
             self.previewText.setText = "정확도: 100%"
@@ -404,6 +420,10 @@ class Main(QWidget):
 
     def showInfoWindow(self, checked):
         self.w = InfoWindow()
+        self.w.show()
+
+    def showEditTextWindow(self):
+        self.w = EditRandomPercent()
         self.w.show()
         
 # run
