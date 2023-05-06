@@ -1,57 +1,7 @@
-import typing
 from PyQt6.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QCheckBox, QMessageBox, QFileDialog
 from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6 import QtCore
 import os, sys;
-
-# accuracy
-toggled_Acc = False
-toggled_Xacc = False
-
-# bpm
-toggled_Crb = False
-toggled_Tb = False
-toggled_Rkps = False
-
-# progrss
-toggled_Prgs = False
-toggled_StartedPrgs = False
-
-class infoWindow(QWidget):
-    # why tf this wont work
-    def __init__(self, parent=None):
-        super(infoWindow, self).__init__(parent)
-
-        self.l = 200
-        self.t = 500
-        self.w = 500
-        self.h = 300
-
-        self.setWindowTitle("정보")
-        self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint)
-        self.setWindowIcon(QIcon('./src/icon_normal.png'))
-        self.setGeometry(self.l, self.t, self.w, self.h)
-        self.showNormal()
-        self.show()
-
-class randomTextEditWindow(QWidget):
-    def __init__(self):
-        try:
-            super().__init__()
-
-            self.l = 200
-            self.t = 500
-            self.w = 300
-            self.h = 100
-
-            self.setWindowTitle("랜덤 확률 수정")
-            self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint)
-            self.setWindowIcon(QIcon('./src/icon_normal.png'))
-            self.setGeometry(self.l, self.t, self.w, self.h)
-        except:
-            print("ERROR Occurred!\nidk why it happend. sry about that :(")
-            errShowrandTextEditWindowShow = QMessageBox.critical(self, '오류가 발생하였습니다.', '확률 수정 화면을 불러오는중에 오류가 발생했습니다.\n\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 있거나, 버그로 인해 안되는 경우가 있습니다.\n 계속 이러한 경우가 발생하는경우 Issue를 열어주세요.')
-            self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
 
 # color
 class bcolors:
@@ -64,6 +14,91 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+
+VER = '0.2.6'
+
+class InfoWindow(QWidget):
+    def __init__(self):
+        print("[INFO] Initallizing infoWindow...")
+        try:
+            super().__init__()
+
+            self.top = 200
+            self.left = 500
+            self.width = 400
+            self.height = 200
+
+            self.setWindowTitle("정보")
+            self.setWindowIcon(QIcon('./src/icon_normal.png'))
+            self.setGeometry(self.left, self.top, self.width, self.height)
+            self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint | QtCore.Qt.WindowType.WindowMinimizeButtonHint)
+            self.setWidgets()
+            print(f"{bcolors.OKCYAN}[SUCCESS] Initallized.{bcolors.ENDC}")
+        except:
+            print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
+            errInfoWinInit = QMessageBox.critical(self, '오류가 발생하였습니다.', '재설정을 하는 중에 오류가 발생했습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
+            self.setWindowTitle("정보 - 불안정함")
+
+    def setWidgets(self):
+        print("[INFO] Loading Widgets...")
+        try:
+            overlayerUrlLink="<a href=\"https://overlayer.notion.site/overlayer/Overlayer-Knowledge-Base-a06a2947f8bd44e098189a9d3c28ac49\">Overlayer Knowledge Base</a>"
+            csharpdiscord="<a href=\"https://discord.gg/duwPWhFcxx\">C## Discord Server (Not me!)</a>"
+
+            # info label
+            self.infoMainLabel = QLabel("OverLayer", self)
+            self.infoMainLabel2 = QLabel("CustomTag Generator", self)
+
+            self.madebysans = QLabel("Made by. songro_", self)
+
+            self.infoOverlayerKnowledgeLabel = QLabel(overlayerUrlLink, self)
+            #self.infoCSharpSharpDiscordLabel = QLabel(csharpdiscord, self)
+
+            # move/set font
+            self.infoMainLabel.move(68, 40)
+            self.infoMainLabel2.move(68, 75)
+            self.infoOverlayerKnowledgeLabel.move(68, 145)
+            #self.infoCSharpSharpDiscordLabel.move(65, 165)
+            self.madebysans.move(68, 115)
+
+            infoLabelFont1 = self.infoMainLabel.font()
+            infoLabelFont1.setFamily('Pretendard Variable')
+            infoLabelFont1.setPointSize(20)
+
+            infoLabelFont2 = self.infoMainLabel2.font()
+            infoLabelFont2.setFamily('Pretendard Variable')
+            infoLabelFont2.setPointSize(23)
+
+            infoOverLayerLinkFont = self.infoOverlayerKnowledgeLabel.font()
+            infoOverLayerLinkFont.setFamily('Pretendard Variable')
+            infoOverLayerLinkFont.setPointSize(10)
+
+            #infoCSharpDiscordLinkFont = self.infoCSharpSharpDiscordLabel.font()
+            #infoCSharpDiscordLinkFont.setFamily('Pretendard Variable')
+
+            madebysansfont = self.madebysans.font()
+            madebysansfont.setFamily('Pretendard Variable')
+            madebysansfont.setPointSize(13)
+
+            self.infoMainLabel.setFont(infoLabelFont1)
+            self.infoMainLabel2.setFont(infoLabelFont2)
+            #self.infoCSharpSharpDiscordLabel.setFont(infoCSharpDiscordLinkFont)
+            self.infoOverlayerKnowledgeLabel.setFont(infoOverLayerLinkFont)
+            self.madebysans.setFont(madebysansfont)
+
+            self.infoOverlayerKnowledgeLabel.setOpenExternalLinks(True)
+            #self.infoCSharpSharpDiscordLabel.setOpenExternalLinks(True)
+
+        except:
+            self.close()
+            print(f"{bcolors.FAIL}[ERROR] An Error occurred while trying to load widgets.{bcolors.ENDC}")
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(f"{bcolors.FAIL}[ERROR] Error type: ", exc_type, "Error File: " ,fname, "Error Line: " ,exc_tb.tb_lineno, f"{bcolors.ENDC}")
+
+            errLoadWidget = QMessageBox.critical(self, '오류가 발생하였습니다.', '위젯을 설정 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
+            self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
+        print(f"[INFO] Current Window Width {self.width}, Height {self.height}")
 
 class Main(QWidget):
     print(f"{bcolors.ENDC}[INFO] 만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.\n{bcolors.WARNING}[WARN] 이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.{bcolors.ENDC}")
@@ -99,7 +134,7 @@ class Main(QWidget):
             # label
             self.mainLabel1 = QLabel("OverLayer", self)
             self.mainLabel2 = QLabel("CustomTag Generator", self)
-            self.mainVersion = QLabel("v0.2.5", self)
+            self.mainVersion = QLabel('v' + VER, self)
             self.moduleListLabel = QLabel("모듈 목록", self)
             self.previewImage = QLabel("미리보기", self)
             self.previewText = QLabel("기본 텍스트", self)
@@ -112,7 +147,7 @@ class Main(QWidget):
 
             # button
             self.saveBtn = QPushButton("저장하기", self)
-            #self.loadBtn = QPushButton("불러오기", self)
+            self.infoBtn = QPushButton("정보", self)
 
             # toggle
             self.module_acc = QCheckBox("정확도", self)
@@ -125,6 +160,7 @@ class Main(QWidget):
             self.module_score = QCheckBox("점수", self)
             self.randomPercentText = QCheckBox("랜덤한 확률로 텍스트 변경하기", self)
             self.setColorOnCertainPercent = QCheckBox("특정 지점에서 텍스트 색상 변경하기", self)
+            #self.dummy = QCheckBox("", self)
 
             if self.module_acc.text == "":
                 self.module_acc.text == "ctg.module.acc"
@@ -165,7 +201,7 @@ class Main(QWidget):
             self.featureListLabel.move(15, 330)
 
             self.saveBtn.move(15, 90)
-            #self.loadBtn.move(95, 90)
+            self.infoBtn.move(95, 90)
 
             self.est.move(100, 550)
 
@@ -283,11 +319,8 @@ class Main(QWidget):
 
             # set clicked event
             self.saveBtn.clicked.connect(self.saveFile)
-            #self.loadBtn.clicked.connect(self.loadFile)
-            self.mainLabel1.mouseDoubleClickEvent = self.showCopyright
-            self.mainLabel2.mouseDoubleClickEvent = self.showCopyright
+            self.infoBtn.clicked.connect(self.showInfoWindow)
             self.module_acc.clicked.connect(self.changeAcc)
-            self.randomPercentText.clicked.connect(self.setRandom)
             print(f"{bcolors.OKCYAN}[SUCCESS] Success.{bcolors.ENDC}")
         except:
             self.close()
@@ -298,6 +331,7 @@ class Main(QWidget):
 
             errLoadWidget = QMessageBox.critical(self, '오류가 발생하였습니다.', '위젯을 설정 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
+        print(f"[INFO] Current Window Width {self.width}, Height {self.height}")
 
     def saveFile(self):
         print("[INFO] Saving...")
@@ -337,7 +371,7 @@ class Main(QWidget):
                         print(f"[{bcolors.OKCYAN}SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     elif self.module_acc.isChecked() == True and self.module_crb.isChecked() == True and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == True and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == True and self.module_tilebpm.isChecked() == True and self.module_xacc.isChecked() == True:
-                        svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n진행도: ${Progress()}%\n절대 정확도: ${XAccuracy()}%\n체감 BPM: ${CurBpm()}%\n점수: ${Score()}%\n시작 진행도`\n}\nRegisterTag('customTag', ctg, true);")
+                        svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n진행도: ${Progress()}%\n절대 정확도: ${XAccuracy()}%\n체감 BPM: ${CurBpm()}%\n점수: ${Score()}\n시작 진행도`\n}\nRegisterTag('customTag', ctg, true);")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # default
@@ -368,14 +402,9 @@ class Main(QWidget):
         else:
             self.previewText.setText = "기본 텍스트"
 
-    def showCopyright(self, event):
-        showInfoWindow = infoWindow()
-        showInfoWindow.show()
-
-    def setRandom(self):
-        showRandomPerEditWindow = randomTextEditWindow()
-        showRandomPerEditWindow.show()
-        return showRandomPerEditWindow
+    def showInfoWindow(self, checked):
+        self.w = InfoWindow()
+        self.w.show()
         
 # run
 if __name__ == '__main__':
