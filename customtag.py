@@ -16,7 +16,7 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-VER = '0.2.6'
+VER = '0.2.7==dev'
 
 class InfoWindow(QWidget):
     def __init__(self):
@@ -120,24 +120,28 @@ class EditRandomPercent(QWidget):
             print(f"{bcolors.OKCYAN}[SUCCESS] Initallized.{bcolors.ENDC}")
         except:
             print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
-            errInfoWinInit = QMessageBox.critical(self, '오류가 발생하였습니다.', '재설정을 하는 중에 오류가 발생했습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
+            errInitWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '재설정을 하는 중에 오류가 발생했습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("확률 수정 - 불안정함")
 
     def setWidgets(self):
         print("[INFO] Loading Widgets...")
+        try:
+            self.activatePercent = QLineEdit("100", self)
+            self.startText = QLineEdit("", self)
+            self.customText1 = QLineEdit("", self)
+            self.customText2 = QLineEdit("", self)
 
-        self.activatePercent = QLineEdit("100", self)
-        self.startText = QLineEdit("", self)
-        self.customText1 = QLineEdit("", self)
-        self.customText2 = QLineEdit("", self)
+            self.doneBtn = QPushButton("확인", self)
 
-        self.doneBtn = QPushButton("확인", self)
-
-        self.activatePercent.move(15, 95)
-        self.startText.move(156, 95)
-        self.customText1.move(15, 145)
-        self.customText2.move(156, 145)
-        self.doneBtn.move(215, 170)
+            self.activatePercent.move(15, 95)
+            self.startText.move(156, 95)
+            self.customText1.move(15, 145)
+            self.customText2.move(156, 145)
+            self.doneBtn.move(215, 170)
+        except:
+            print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
+            errWidgetSetupWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '위젯을 설정 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
+            self.setWindowTitle("확률 수정 - 불안정함")
 
 class Main(QWidget):
     print(f"{bcolors.ENDC}[INFO] 만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.\n{bcolors.WARNING}[WARN] 이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.{bcolors.ENDC}")
