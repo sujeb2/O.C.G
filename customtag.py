@@ -248,7 +248,7 @@ class Main(QWidget):
             self.module_score = QCheckBox("점수", self)
             self.randomPercentText = QCheckBox("특정 확률로 텍스트 변경하기", self)
             self.setColorOnCertainPercent = QCheckBox("특정 지점에서 텍스트 색상 변경하기", self)
-            #self.dummy = QCheckBox("", self)
+            #self.featureDummy = QCheckBox("", self)
 
             if self.module_acc.text == "":
                 self.module_acc.setText == "ctg.module.acc"
@@ -428,14 +428,12 @@ class Main(QWidget):
     def saveFile(self):
         print("[INFO] Saving...")
        #try:
-        print(self.module_acc.isChecked(), self.module_crb.isChecked(), self.module_progress.isChecked(), self.module_reckps.isChecked(), self.module_progress.isChecked(), self.module_score.isChecked(), self.module_startprgs.isChecked(), self.module_xacc.isChecked())
+        print(self.module_acc.isChecked(), self.module_crb.isChecked(), self.module_progress.isChecked(), self.module_reckps.isChecked(), self.module_progress.isChecked(), self.module_score.isChecked(), self.module_startprgs.isChecked(), self.module_xacc.isChecked(), self.randomPercentText.isChecked(), self.setColorOnCertainPercent.isChecked())
         saveFile = QFileDialog.getSaveFileName(self, '저장될 위치 선택', './customtag.js', 'JavaScript (*.js)')
 
         if saveFile[0] != "":
             with open(saveFile[0], 'w', encoding="UTF-8") as svcustom:
                     # i know that this code is pretty weird :(
-                    # def = svcustom.write("function ctg() {\n return `지정된 태그가 없습니다, 프로그램에서 지정후 저장해주세요.`;\n}\nRegisterTag('customTag', ctg, true);")
-
                     # acc
                 if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
                         svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%`\n}\nRegisterTag('customTag', ctg, true);")
@@ -507,8 +505,7 @@ class Main(QWidget):
                     ## text from spef per
                 # 웨 안됨?
                 if self.module_progress.isChecked() == True and self.randomPercentText.isChecked() == True:
-                    svcustom.write("function ctg() {\n  let startText = " + f"`{EditRandomPercent().startText}`;\n" + "    let percent = " + f"`{EditRandomPercent().activatePercent.text()}`;\n   let text1 = " + f"`{EditRandomPercent().text1}`;\n     let text2 = " + f"`{EditRandomPercent().text2}`;\n   let finString;\n\n  if(Progress() < percent)" + "{\n        finString = startText;\n        }\n     else if(Progress() > percent) {\n       finString = text1}\n        else if(Progress() == percent) {\n      finString = text2}\nreturn `${finString}`\n}\nRegisterTag('customtag', ctg, true)")
-
+                    svcustom.write("function ctg() {\n  let startText = " + f"`{EditRandomPercent().startText}`;\n" + "    let percent = " + f"`{EditRandomPercent().activatePercent.text()}`;\n   let text1 = " + f"`{EditRandomPercent().text1}`;\n     let text2 = " + f"`{EditRandomPercent().text2}`;\n   let finString;\n\n  if(Progress() < percent)" + "{\n        finString = startText;\n        }\n     else if(Progress() > percent) {\n       finString = text1;}\n        else if(Progress() == percent) {\n      finString = text2;}\nreturn `${finString}`\n}\nRegisterTag('customtag', ctg, true)")
                     # all
                 elif self.module_acc.isChecked() == True and self.module_crb.isChecked() == True and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == True and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == True and self.module_tilebpm.isChecked() == True and self.module_xacc.isChecked() == True:
                         svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n진행도: ${Progress()}%\n절대 정확도: ${XAccuracy()}%\n체감 BPM: ${CurBpm()}%\n점수: ${Score()}\n시작 진행도: ${StartProgress()}\n체감 KPS: ${RecKps()}\n타일 BPM: ${TileBPM()}`\n}\nRegisterTag('customTag', ctg, true);")
