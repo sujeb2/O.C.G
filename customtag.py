@@ -16,7 +16,7 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-VER = '0.2.7==dev'
+VER = '0.2.7'
 
 class InfoWindow(QWidget):
     def __init__(self):
@@ -57,14 +57,15 @@ class InfoWindow(QWidget):
             self.infoOverlayerKnowledgeLabel = QLabel(overlayerUrlLink, self)
             #self.infoCSharpSharpDiscordLabel = QLabel(csharpdiscord, self)
 
-            self.ctgLogoPixmap = QPixmap('./src/icon_normal')
+            self.ctgLogoPixmap = QPixmap('./src/icon_normal-resized')
 
             # move/set font
-            self.infoMainLabel.move(68, 40)
-            self.infoMainLabel2.move(68, 75)
-            self.infoOverlayerKnowledgeLabel.move(68, 145)
-            #self.infoCSharpSharpDiscordLabel.move(65, 165)
-            self.madebysans.move(68, 115)
+            self.infoMainLabel.move(70, 40)
+            self.infoMainLabel2.move(70, 75)
+            self.infoOverlayerKnowledgeLabel.move(70, 145)
+            #self.infoCSharpSharpDiscordLabel.move(70, 165)
+            self.madebysans.move(70, 115)
+            self.ctgLogo.move(10, 65)
 
             infoLabelFont1 = self.infoMainLabel.font()
             infoLabelFont1.setFamily('Pretendard Variable')
@@ -86,7 +87,7 @@ class InfoWindow(QWidget):
             madebysansfont.setPointSize(13)
 
             ctgLogoFont = self.ctgLogo.font()
-            ctgLogoFont.setPointSize(1)
+            ctgLogoFont.setPointSize(10)
 
             self.infoMainLabel.setFont(infoLabelFont1)
             self.infoMainLabel2.setFont(infoLabelFont2)
@@ -174,32 +175,17 @@ class EditRandomPercent(QWidget):
     def done(self):
         print("[INFO] Saving info..")
         try:
-            if self.activatePercent.text() == "":
-                self.activatePer = "100"
-            else:
-                self.activatePer = self.activatePercent.text()
-            
-            if self.startText.text() == "":
-                self.startText = "시작 텍스트"
-            else:
-                self.startTxt = self.startText.text()
-
-            if self.customText1.text() == "":
-                self.text1 = "텍스트 1"
-            else:
-                self.text1 = self.customText1.text()
-
-            if self.customText2.text() == "":
-                self.text2 = "텍스트 2"
-            else:
-                self.text2 = self.customText2.text()
+            self.activatePer = self.activatePercent.text()
+            self.startTxt = self.startText.text()
+            self.text1 = self.customText1.text()
+            self.text2 = self.customText2.text()
             print(f"{bcolors.OKCYAN}[SUCCESS] Saved.{bcolors.ENDC}")
             print(f"[INFO] {self.activatePer}, {self.startTxt}, {self.text1}, {self.text2}")
         except:
             print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
             errWidgetSetupWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '설정을 저장하는중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("확률 수정 - 불안정함")
-        EditRandomPercent.close(self)
+        self.close()
 
 class Main(QWidget):
     print(f"{bcolors.ENDC}[INFO] 만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.\n{bcolors.WARNING}[WARN] 이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.{bcolors.ENDC}")
