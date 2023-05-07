@@ -16,7 +16,7 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-VER = '0.2.7'
+VER = '0.2.8==dev'
 
 class InfoWindow(QWidget):
     def __init__(self):
@@ -427,100 +427,105 @@ class Main(QWidget):
 
     def saveFile(self):
         print("[INFO] Saving...")
-        try:
-            
+       #try:
+        print(self.module_acc.isChecked(), self.module_crb.isChecked(), self.module_progress.isChecked(), self.module_reckps.isChecked(), self.module_progress.isChecked(), self.module_score.isChecked(), self.module_startprgs.isChecked(), self.module_xacc.isChecked())
+        saveFile = QFileDialog.getSaveFileName(self, '저장될 위치 선택', './customtag.js', 'JavaScript (*.js)')
 
-            print(self.module_acc.isChecked(), self.module_crb.isChecked(), self.module_progress.isChecked(), self.module_reckps.isChecked(), self.module_progress.isChecked(), self.module_score.isChecked(), self.module_startprgs.isChecked(), self.module_xacc.isChecked())
-            saveFile = QFileDialog.getSaveFileName(self, '저장될 위치 선택', './customtag.js', 'JavaScript (*.js)')
-
-            if saveFile[0] != "":
-                with open(saveFile[0], 'w', encoding="UTF-8") as svcustom:
+        if saveFile[0] != "":
+            with open(saveFile[0], 'w', encoding="UTF-8") as svcustom:
                     # i know that this code is pretty weird :(
                     # def = svcustom.write("function ctg() {\n return `지정된 태그가 없습니다, 프로그램에서 지정후 저장해주세요.`;\n}\nRegisterTag('customTag', ctg, true);")
 
                     # acc
-                    if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
+                if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
                         svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%`\n}\nRegisterTag('customTag', ctg, true);")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # progress
-                    elif self.module_acc.isChecked() == False and self.module_crb.isChecked() == False and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
+                elif self.module_acc.isChecked() == False and self.module_crb.isChecked() == False and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
                         svcustom.write("function ctg() {\nreturn `진행도: ${Progress()}%`\n}\nRegisterTag('customTag', ctg, true);")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # xacc
-                    elif self.module_acc.isChecked() == False and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == True:
+                elif self.module_acc.isChecked() == False and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == True:
                         svcustom.write("function ctg() {\nreturn `절대 정확도: ${XAccuracy()}%`\n}\nRegisterTag('customTag', ctg, true);")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # crb
-                    elif self.module_acc.isChecked() == False and self.module_crb.isChecked() == True and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
+                elif self.module_acc.isChecked() == False and self.module_crb.isChecked() == True and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
                         svcustom.write("function ctg() {\nreturn `체감 BPM: ${CurBpm()}%`\n}\nRegisterTag('customTag', ctg, true);")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # score
-                    elif self.module_acc.isChecked() == False and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
+                elif self.module_acc.isChecked() == False and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
                         svcustom.write("function ctg() {\nreturn `점수: ${Score()}%`\n}\nRegisterTag('customTag', ctg, true);")
                         print(f"[{bcolors.OKCYAN}SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + progress
-                    if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
+                if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
                         svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n진행도: ${Progress()}`\n}\nRegisterTag('customTag', ctg, true);")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + crb
-                    if self.module_acc.isChecked() == True and self.module_crb.isChecked() == True and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
+                if self.module_acc.isChecked() == True and self.module_crb.isChecked() == True and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
                         svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n체감 BPM: ${CurBPM()}`\n}\nRegisterTag('customTag', ctg, true);")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + reckps
-                    if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == True and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
+                if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == True and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
                         svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n진행도: ${Progress()}`\n}\nRegisterTag('customTag', ctg, true);")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + score
-                    if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
+                if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
                         svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n점수: ${Score()}`\n}\nRegisterTag('customTag', ctg, true);")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + startprgs
-                    if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == True and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
+                if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == True and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
                         svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\시작 진행도: ${StartProgress()}`\n}\nRegisterTag('customTag', ctg, true);")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + tilebpm
-                    if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == True and self.module_xacc.isChecked() == False:
+                if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == True and self.module_xacc.isChecked() == False:
                         svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n타일 BPM: ${TileBPM()}`\n}\nRegisterTag('customTag', ctg, true);")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # d
                     # acc + xacc
-                    if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == True:
+                if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == True:
                         svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n진행도: ${Progress()}`\n}\nRegisterTag('customTag', ctg, true);")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # crb + progress
-                    if self.module_acc.isChecked() == False and self.module_crb.isChecked() == True and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
+                if self.module_acc.isChecked() == False and self.module_crb.isChecked() == True and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
                         svcustom.write("function ctg() {\nreturn `진행도: ${Progress()}\n체감 BPM: ${CurBPM}`\n}\nRegisterTag('customTag', ctg, true);")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
+
+                    # feature
+                    ## text from spef per
+                # 웨 안됨?
+                if self.module_progress.isChecked() == True and self.randomPercentText.isChecked() == True:
+                    svcustom.write("function ctg() {\n  let startText = " + f"`{EditRandomPercent().startText}`;\n" + "    let percent = " + f"`{EditRandomPercent().activatePercent.text()}`;\n   let text1 = " + f"`{EditRandomPercent().text1}`;\n     let text2 = " + f"`{EditRandomPercent().text2}`;\n   let finString;\n\n  if(Progress() < percent)" + "{\n        finString = startText;\n        }\n     else if(Progress() > percent) {\n       finString = text1}\n        else if(Progress() == percent) {\n      finString = text2}\nreturn `${finString}`\n}\nRegisterTag('customtag', ctg, true)")
+
                     # all
-                    elif self.module_acc.isChecked() == True and self.module_crb.isChecked() == True and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == True and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == True and self.module_tilebpm.isChecked() == True and self.module_xacc.isChecked() == True:
+                elif self.module_acc.isChecked() == True and self.module_crb.isChecked() == True and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == True and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == True and self.module_tilebpm.isChecked() == True and self.module_xacc.isChecked() == True:
                         svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n진행도: ${Progress()}%\n절대 정확도: ${XAccuracy()}%\n체감 BPM: ${CurBpm()}%\n점수: ${Score()}\n시작 진행도: ${StartProgress()}\n체감 KPS: ${RecKps()}\n타일 BPM: ${TileBPM()}`\n}\nRegisterTag('customTag', ctg, true);")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # default
-                    else:
+                else:
                         svcustom.write("function ctg() {\n return `지정된 태그가 없습니다, 프로그램에서 지정후 저장해주세요.`;\n}\nRegisterTag('customTag', ctg, true);")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"{bcolors.WARNING}[WARN] No module has been found. return with normal text.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
-                    successSaveFile = QMessageBox.information(self, '저장 완료', '태그가 저장되었습니다,\n오버레이어 설정에서 텍스트를 {customTag} 로 지정해주세요.')
+                successSaveFile = QMessageBox.information(self, '저장 완료', '태그가 저장되었습니다,\n오버레이어 설정에서 텍스트를 {customTag} 로 지정해주세요.')
         # i
-        except:
-            print(f"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
-            errSaveFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 저장하는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
-            self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
+        #except:
+        #    print(f"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
+        #    errSaveFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 저장하는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
+        #    self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
 
     # e
     def changeAcc(self):
