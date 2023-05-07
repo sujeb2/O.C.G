@@ -460,6 +460,7 @@ class Main(QWidget):
                         svcustom.write("return `점수: ${Score()}`;\n")
                         print(f"[{bcolors.OKCYAN}SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
+                    # no overwrite?
                     # acc + progress
                 if self.module_acc.isChecked() == True and self.module_progress.isChecked() == True:
                         accDefRemove = svcustom.read().replace('return `정확도: ${Accuracy()}%`;\n', '')
