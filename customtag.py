@@ -437,7 +437,7 @@ class Main(QWidget):
                     # acc
                 svcustom.write("function ctg() {\n  ")
                 if self.module_acc.isChecked() == True:
-                        svcustom.write("return `정확도: ${Accuracy()}%`;\n}")
+                        svcustom.write("return `정확도: ${Accuracy()}%`;\n")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # progress
@@ -462,33 +462,52 @@ class Main(QWidget):
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + progress
                 if self.module_acc.isChecked() == True and self.module_progress.isChecked() == True:
-                        svcustom.write("return `정확도: ${Accuracy()}%\n진행도: ${Progress()}%`;\n")
+                        accDefRemove = svcustom.read().replace('return `정확도: ${Accuracy()}%`;\n', '')
+                        svcustom.write(accDefRemove)
+                        svcustom.write("return `정확도: ${Accuracy()}%\n진행도: ${Accuracy()}%`;\n")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + crb
                 if self.module_acc.isChecked() == True and self.module_crb.isChecked() == True:
+                        accDefRemove = svcustom.read().replace('return `정확도: ${Accuracy()}%`;\n', '')
+                        svcustom.write(accDefRemove)
                         svcustom.write("return `정확도: ${Accuracy()}%\n체감 BPM: ${CurBpm()}BPM`;\n")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + reckps
                 if self.module_acc.isChecked() == True and self.module_reckps.isChecked() == True:
+                        accDefRemove = svcustom.read().replace('return `정확도: ${Accuracy()}%`;\n', '')
+                        svcustom.write(accDefRemove)
+                        svcustom.write("return `정확도: ${Accuracy()}%\n체감 KPS: ${RecKps()}BPM`;\n")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + score
                 if self.module_acc.isChecked() == True and self.module_score.isChecked() == True:
+                        accDefRemove = svcustom.read().replace('return `정확도: ${Accuracy()}%`;\n', '')
+                        svcustom.write(accDefRemove)
+                        svcustom.write("return `정확도: ${Accuracy()}%\n점수: ${Score()}BPM`;\n")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + startprgs
                 if self.module_acc.isChecked() == True and self.module_startprgs.isChecked == True:
+                        accDefRemove = svcustom.read().replace('return `정확도: ${Accuracy()}%`;\n', '')
+                        svcustom.write(accDefRemove)
+                        svcustom.write("return `정확도: ${Accuracy()}%\n시작 진행도: ${StartProgress()}BPM`;\n")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + tilebpm
                 if self.module_acc.isChecked() == True and self.module_tilebpm.isChecked == True:
+                        accDefRemove = svcustom.read().replace('return `정확도: ${Accuracy()}%`;\n', '')
+                        svcustom.write(accDefRemove)
+                        svcustom.write("return `정확도: ${Accuracy()}%\n타일 BPM: ${TileBpm()}%`;\n")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # d
                     # acc + xacc
                 if self.module_acc.isChecked() == True and self.module_xacc.isChecked() == True:
+                        accDefRemove = svcustom.read().replace('return `정확도: ${Accuracy()}%`;\n', '')
+                        svcustom.write(accDefRemove)
+                        svcustom.write("return `정확도: ${Accuracy()}%\n절대 정확도: ${XAccuracy()}%`;\n")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # crb + progress
@@ -514,8 +533,6 @@ class Main(QWidget):
                 #        print(f"[INFO] Saved file location: {saveFile}")
                 svcustom.write("\n}RegisterTag('customTag', ctg, true);")
                 successSaveFile = QMessageBox.information(self, '저장 완료', '태그가 저장되었습니다,\n오버레이어 설정에서 텍스트를 {customTag} 로 지정해주세요.')
-                print(f"{bcolors.OKCYAN}[SUCCESS] Write complete.{bcolors.ENDC}")
-                print(f"[INFO] Write: {svcustom.read()}")
                 svcustom.close()
         # i
         #except:
