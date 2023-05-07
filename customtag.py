@@ -20,7 +20,7 @@ VER = '0.2.8==dev'
 
 class InfoWindow(QWidget):
     def __init__(self):
-        print("[INFO] Initallizing infoWindow...")
+        print("[INFO] Initializing infoWindow...")
         try:
             super().__init__()
 
@@ -34,7 +34,7 @@ class InfoWindow(QWidget):
             self.setGeometry(self.left, self.top, self.width, self.height)
             self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint | QtCore.Qt.WindowType.WindowMinimizeButtonHint)
             self.setWidgets()
-            print(f"{bcolors.OKCYAN}[SUCCESS] Initallized.{bcolors.ENDC}")
+            print(f"{bcolors.OKCYAN}[SUCCESS] Initialized.{bcolors.ENDC}")
         except:
             print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
             errInfoWinInit = QMessageBox.critical(self, '오류가 발생하였습니다.', '재설정을 하는 중에 오류가 발생했습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
@@ -114,7 +114,7 @@ class InfoWindow(QWidget):
 
 class EditRandomPercent(QWidget):
     def __init__(self):
-        print("[INFO] Initallizing EditWindow...")
+        print("[INFO] Initializing EditWindow...")
         try:
             super().__init__()
 
@@ -123,21 +123,21 @@ class EditRandomPercent(QWidget):
             self.width = 300
             self.height = 125
 
-            self.setWindowTitle("확률 수정")
+            self.setWindowTitle("텍스트 변경")
             self.setWindowIcon(QIcon('./src/icon_edit.png'))
             self.setGeometry(self.left, self.top, self.width, self.height)
             self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint | QtCore.Qt.WindowType.WindowMinimizeButtonHint)
             self.setWidgets()
-            print(f"{bcolors.OKCYAN}[SUCCESS] Initallized.{bcolors.ENDC}")
+            print(f"{bcolors.OKCYAN}[SUCCESS] Initialized.{bcolors.ENDC}")
         except:
             print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
             errInitWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '재설정을 하는 중에 오류가 발생했습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
-            self.setWindowTitle("확률 수정 - 불안정함")
+            self.setWindowTitle("텍스트 변경 - 불안정함")
 
     def setWidgets(self):
         print("[INFO] Loading Widgets...")
         try:
-            self.editTitle = QLabel("확률 수정", self)
+            self.editTitle = QLabel("텍스트 변경", self)
             
             self.activatePercent = QLineEdit("", self)
             self.startText = QLineEdit("", self)
@@ -165,12 +165,12 @@ class EditRandomPercent(QWidget):
             self.activatePercent.setPlaceholderText("100")
             self.startText.setPlaceholderText("시작 텍스트")
             self.customText1.setPlaceholderText("텍스트 1")
-            self.customText2.setPlaceholderText("텍스트 2")
+            self.customText2.setPlaceholderText("끝 텍스트")
             print(f"{bcolors.OKCYAN}[SUCCESS] Loaded.{bcolors.ENDC}")
         except:
             print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
             errWidgetSetupWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '위젯을 설정 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
-            self.setWindowTitle("확률 수정 - 불안정함")
+            self.setWindowTitle("텍스트 변경 - 불안정함")
 
     def done(self):
         print("[INFO] Saving info..")
@@ -184,14 +184,14 @@ class EditRandomPercent(QWidget):
         except:
             print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
             errWidgetSetupWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '설정을 저장하는중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
-            self.setWindowTitle("확률 수정 - 불안정함")
+            self.setWindowTitle("텍스트 변경 - 불안정함")
         self.close()
 
 class Main(QWidget):
     print(f"{bcolors.ENDC}[INFO] 만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.\n{bcolors.WARNING}[WARN] 이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.{bcolors.ENDC}")
 
     def __init__(self):
-        print("[INFO] Initallizing...")
+        print("[INFO] Initializing...")
         try:
             super().__init__()
             # u
@@ -206,7 +206,7 @@ class Main(QWidget):
             self.setGeometry(self.left, self.top, self.width, self.height)
             self.resetWindow()
             self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint | QtCore.Qt.WindowType.WindowMinimizeButtonHint)
-            print(f"{bcolors.OKCYAN}[SUCCESS] Initallized.{bcolors.ENDC}")
+            print(f"{bcolors.OKCYAN}[SUCCESS] Initialized.{bcolors.ENDC}")
         except:
             print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
             errInit = QMessageBox.critical(self, '오류가 발생하였습니다.', '재설정을 하는 중에 오류가 발생했습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
@@ -246,7 +246,7 @@ class Main(QWidget):
             self.module_tilebpm = QCheckBox("타일 BPM", self)
             self.module_reckps = QCheckBox("체감 KPS", self)
             self.module_score = QCheckBox("점수", self)
-            self.randomPercentText = QCheckBox("특정 확률로 텍스트 변경하기", self)
+            self.randomPercentText = QCheckBox("특정 지점에서 텍스트 변경하기", self)
             self.setColorOnCertainPercent = QCheckBox("특정 지점에서 텍스트 색상 변경하기", self)
             #self.featureDummy = QCheckBox("", self)
 
@@ -287,7 +287,7 @@ class Main(QWidget):
             self.imglabelpreview.move(510, 75)
             self.previewText.move(520, 83)
             self.featureListLabel.move(15, 330)
-            self.showEditWin.move(220, 360)
+            self.showEditWin.move(230, 360)
 
             self.saveBtn.move(15, 90)
             self.infoBtn.move(95, 90)
@@ -432,72 +432,67 @@ class Main(QWidget):
         saveFile = QFileDialog.getSaveFileName(self, '저장될 위치 선택', './customtag.js', 'JavaScript (*.js)')
 
         if saveFile[0] != "":
-            with open(saveFile[0], 'w', encoding="UTF-8") as svcustom:
+            with open(saveFile[0], 'r+', encoding="UTF-8") as svcustom:
                     # i know that this code is pretty weird :(
                     # acc
-                if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
-                        svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%`\n}\nRegisterTag('customTag', ctg, true);")
+                svcustom.write("function ctg() {\n  ")
+                if self.module_acc.isChecked() == True:
+                        svcustom.write("return `정확도: ${Accuracy()}%`;\n}")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # progress
-                elif self.module_acc.isChecked() == False and self.module_crb.isChecked() == False and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
-                        svcustom.write("function ctg() {\nreturn `진행도: ${Progress()}%`\n}\nRegisterTag('customTag', ctg, true);")
+                elif self.module_progress.isChecked() == True:
+                        svcustom.write("return `진행도: ${Progress()}%`;\n")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # xacc
-                elif self.module_acc.isChecked() == False and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == True:
-                        svcustom.write("function ctg() {\nreturn `절대 정확도: ${XAccuracy()}%`\n}\nRegisterTag('customTag', ctg, true);")
+                elif self.module_xacc.isChecked() == True:
+                        svcustom.write("return `절대 정확도: ${XAccuracy()}%`;\n")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # crb
-                elif self.module_acc.isChecked() == False and self.module_crb.isChecked() == True and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
-                        svcustom.write("function ctg() {\nreturn `체감 BPM: ${CurBpm()}%`\n}\nRegisterTag('customTag', ctg, true);")
+                elif self.module_crb.isChecked() == True:
+                        svcustom.write("return `체감 BPM: ${CurBpm()}BPM`;\n")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # score
-                elif self.module_acc.isChecked() == False and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
-                        svcustom.write("function ctg() {\nreturn `점수: ${Score()}%`\n}\nRegisterTag('customTag', ctg, true);")
+                elif self.module_score.isChecked() == True:
+                        svcustom.write("return `점수: ${Score()}`;\n")
                         print(f"[{bcolors.OKCYAN}SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + progress
-                if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
-                        svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n진행도: ${Progress()}`\n}\nRegisterTag('customTag', ctg, true);")
+                if self.module_acc.isChecked() == True and self.module_progress.isChecked() == True:
+                        svcustom.write("return `정확도: ${Accuracy()}%\n진행도: ${Progress()}%`;\n")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + crb
-                if self.module_acc.isChecked() == True and self.module_crb.isChecked() == True and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
-                        svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n체감 BPM: ${CurBPM()}`\n}\nRegisterTag('customTag', ctg, true);")
+                if self.module_acc.isChecked() == True and self.module_crb.isChecked() == True:
+                        svcustom.write("return `정확도: ${Accuracy()}%\n체감 BPM: ${CurBpm()}BPM`;\n")
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + reckps
-                if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == True and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
-                        svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n진행도: ${Progress()}`\n}\nRegisterTag('customTag', ctg, true);")
+                if self.module_acc.isChecked() == True and self.module_reckps.isChecked() == True:
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + score
-                if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
-                        svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n점수: ${Score()}`\n}\nRegisterTag('customTag', ctg, true);")
+                if self.module_acc.isChecked() == True and self.module_score.isChecked() == True:
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + startprgs
-                if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == True and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
-                        svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\시작 진행도: ${StartProgress()}`\n}\nRegisterTag('customTag', ctg, true);")
+                if self.module_acc.isChecked() == True and self.module_startprgs.isChecked == True:
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # acc + tilebpm
-                if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == True and self.module_xacc.isChecked() == False:
-                        svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n타일 BPM: ${TileBPM()}`\n}\nRegisterTag('customTag', ctg, true);")
+                if self.module_acc.isChecked() == True and self.module_tilebpm.isChecked == True:
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # d
                     # acc + xacc
-                if self.module_acc.isChecked() == True and self.module_crb.isChecked() == False and self.module_progress.isChecked() == False and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == True:
-                        svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n진행도: ${Progress()}`\n}\nRegisterTag('customTag', ctg, true);")
+                if self.module_acc.isChecked() == True and self.module_xacc.isChecked() == True:
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # crb + progress
-                if self.module_acc.isChecked() == False and self.module_crb.isChecked() == True and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == False and self.module_score.isChecked() == False and self.module_startprgs.isChecked() == False and self.module_tilebpm.isChecked() == False and self.module_xacc.isChecked() == False:
-                        svcustom.write("function ctg() {\nreturn `진행도: ${Progress()}\n체감 BPM: ${CurBPM}`\n}\nRegisterTag('customTag', ctg, true);")
+                if self.module_crb.isChecked() == True and self.module_progress.isChecked() == True:
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
 
@@ -512,12 +507,16 @@ class Main(QWidget):
                         print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
                         print(f"[INFO] Saved file location: {saveFile}")
                     # default
-                else:
-                        svcustom.write("function ctg() {\n return `지정된 태그가 없습니다, 프로그램에서 지정후 저장해주세요.`;\n}\nRegisterTag('customTag', ctg, true);")
-                        print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
-                        print(f"{bcolors.WARNING}[WARN] No module has been found. return with normal text.{bcolors.ENDC}")
-                        print(f"[INFO] Saved file location: {saveFile}")
+                #else:
+                #        svcustom.write("function ctg() {\n return `지정된 태그가 없습니다, 프로그램에서 지정후 저장해주세요.`;\n}\nRegisterTag('customTag', ctg, true);")
+                #        print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
+                #        print(f"{bcolors.WARNING}[WARN] No module has been found. return with normal text.{bcolors.ENDC}")
+                #        print(f"[INFO] Saved file location: {saveFile}")
+                svcustom.write("\n}RegisterTag('customTag', ctg, true);")
                 successSaveFile = QMessageBox.information(self, '저장 완료', '태그가 저장되었습니다,\n오버레이어 설정에서 텍스트를 {customTag} 로 지정해주세요.')
+                print(f"{bcolors.OKCYAN}[SUCCESS] Write complete.{bcolors.ENDC}")
+                print(f"[INFO] Write: {svcustom.read()}")
+                svcustom.close()
         # i
         #except:
         #    print(f"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
