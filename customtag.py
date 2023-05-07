@@ -52,8 +52,12 @@ class InfoWindow(QWidget):
 
             self.madebysans = QLabel("Made by. songro_", self)
 
+            self.ctgLogo = QLabel(self)
+
             self.infoOverlayerKnowledgeLabel = QLabel(overlayerUrlLink, self)
             #self.infoCSharpSharpDiscordLabel = QLabel(csharpdiscord, self)
+
+            self.ctgLogoPixmap = QPixmap('./src/icon_normal')
 
             # move/set font
             self.infoMainLabel.move(68, 40)
@@ -81,14 +85,20 @@ class InfoWindow(QWidget):
             madebysansfont.setFamily('Pretendard Variable')
             madebysansfont.setPointSize(13)
 
+            ctgLogoFont = self.ctgLogo.font()
+            ctgLogoFont.setPointSize(1)
+
             self.infoMainLabel.setFont(infoLabelFont1)
             self.infoMainLabel2.setFont(infoLabelFont2)
             #self.infoCSharpSharpDiscordLabel.setFont(infoCSharpDiscordLinkFont)
             self.infoOverlayerKnowledgeLabel.setFont(infoOverLayerLinkFont)
             self.madebysans.setFont(madebysansfont)
+            self.ctgLogo.setFont(ctgLogoFont)
 
             self.infoOverlayerKnowledgeLabel.setOpenExternalLinks(True)
             #self.infoCSharpSharpDiscordLabel.setOpenExternalLinks(True)
+
+            self.ctgLogo.setPixmap(self.ctgLogoPixmap)
 
         except:
             self.close()
@@ -138,10 +148,27 @@ class EditRandomPercent(QWidget):
             self.customText1.move(15, 145)
             self.customText2.move(156, 145)
             self.doneBtn.move(215, 170)
+
+            self.doneBtn.clicked.connect(self.done)
         except:
             print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
             errWidgetSetupWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '위젯을 설정 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("확률 수정 - 불안정함")
+
+    def done(self):
+        print("[INFO] Saving info..")
+        try:
+            self.activatePer = self.activatePercent.text()
+            self.startTxt = self.startText.text()
+            self.text1 = self.customText1.text()
+            self.text2 = self.customText2.text()
+            print(f"{bcolors.OKCYAN}[SUCCESS] Saved.{bcolors.ENDC}")
+            print(f"[INFO] {self.activatePer}, {self.startTxt}, {self.text1}, {self.text2}")
+        except:
+            print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
+            errWidgetSetupWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '설정을 저장하는중에\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
+            self.setWindowTitle("확률 수정 - 불안정함")
+        EditRandomPercent.close(EditRandomPercent)
 
 class Main(QWidget):
     print(f"{bcolors.ENDC}[INFO] 만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.\n{bcolors.WARNING}[WARN] 이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.{bcolors.ENDC}")
@@ -206,23 +233,23 @@ class Main(QWidget):
             #self.dummy = QCheckBox("", self)
 
             if self.module_acc.text == "":
-                self.module_acc.text == "ctg.module.acc"
+                self.module_acc.setText == "ctg.module.acc"
             elif self.module_crb.text == "":
-                self.module_crb.text == "ctg.module.crb"
+                self.module_crb.setText == "ctg.module.crb"
             elif self.module_progress.text == "":
-                self.module_progress.text == "ctg.module.progress"
+                self.module_progress.setText == "ctg.module.progress"
             elif self.module_reckps.text == "":
-                self.module_reckps.text == "ctg.module.module_reckps"
+                self.module_reckps.setText == "ctg.module.module_reckps"
             elif self.module_score.text == "":
-                self.module_score.text == "ctg.module.score"
+                self.module_score.setText == "ctg.module.score"
             elif self.module_startprgs.text == "":
-                self.module_startprgs.text == "ctg.module.startprgs"
+                self.module_startprgs.setText == "ctg.module.startprgs"
             elif self.module_tilebpm.text == "":
-                self.module_tilebpm.text == "ctg.module.tilebpm"
+                self.module_tilebpm.setText == "ctg.module.tilebpm"
             elif self.module_xacc.text == "":
-                self.module_startprgs.text == "ctg.module.xacc"
+                self.module_startprgs.setText == "ctg.module.xacc"
             elif self.randomPercentText.text == "":
-                self.module_tilebpm.text == "ctg.feature.randomPercentText"
+                self.module_tilebpm.setText == "ctg.feature.randomPercentText"
 
             self.previewText.raise_()
             self.previewText.setStyleSheet("Color : white")
@@ -489,6 +516,10 @@ class Main(QWidget):
     def showEditTextWindow(self):
         self.w = EditRandomPercent()
         self.w.show()
+
+    def onClose(self, event):
+        for window in QApplication.topLevelWidgets():
+            window.close()
         
 # run
 if __name__ == '__main__':
