@@ -120,10 +120,10 @@ class EditRandomPercent(QWidget):
             self.top = 200
             self.left = 500
             self.width = 300
-            self.height = 200
+            self.height = 125
 
             self.setWindowTitle("확률 수정")
-            self.setWindowIcon(QIcon('./src/icon_normal.png'))
+            self.setWindowIcon(QIcon('./src/icon_edit.png'))
             self.setGeometry(self.left, self.top, self.width, self.height)
             self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint | QtCore.Qt.WindowType.WindowMinimizeButtonHint)
             self.setWidgets()
@@ -136,20 +136,36 @@ class EditRandomPercent(QWidget):
     def setWidgets(self):
         print("[INFO] Loading Widgets...")
         try:
-            self.activatePercent = QLineEdit("100", self)
+            self.editTitle = QLabel("확률 수정", self)
+            
+            self.activatePercent = QLineEdit("", self)
             self.startText = QLineEdit("", self)
             self.customText1 = QLineEdit("", self)
             self.customText2 = QLineEdit("", self)
 
             self.doneBtn = QPushButton("확인", self)
 
-            self.activatePercent.move(15, 95)
-            self.startText.move(156, 95)
-            self.customText1.move(15, 145)
-            self.customText2.move(156, 145)
-            self.doneBtn.move(215, 170)
+            self.editTitle.move(15, 5)
+
+            self.activatePercent.move(15, 45)
+            self.startText.move(156, 45)
+            self.customText1.move(15, 72)
+            self.customText2.move(156, 72)
+            self.doneBtn.move(215, 97)
+
+            editTitleFont = self.editTitle.font()
+            editTitleFont.setFamily('Pretendard Variable')
+            editTitleFont.setPointSize(20)
+
+            self.editTitle.setFont(editTitleFont)
 
             self.doneBtn.clicked.connect(self.done)
+
+            self.activatePercent.setPlaceholderText("100")
+            self.startText.setPlaceholderText("시작 텍스트")
+            self.customText1.setPlaceholderText("텍스트 1")
+            self.customText2.setPlaceholderText("텍스트 2")
+            print(f"{bcolors.OKCYAN}[SUCCESS] Loaded.{bcolors.ENDC}")
         except:
             print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
             errWidgetSetupWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '위젯을 설정 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
@@ -158,17 +174,32 @@ class EditRandomPercent(QWidget):
     def done(self):
         print("[INFO] Saving info..")
         try:
-            self.activatePer = self.activatePercent.text()
-            self.startTxt = self.startText.text()
-            self.text1 = self.customText1.text()
-            self.text2 = self.customText2.text()
+            if self.activatePercent.text() == "":
+                self.activatePer = "100"
+            else:
+                self.activatePer = self.activatePercent.text()
+            
+            if self.startText.text() == "":
+                self.startText = "시작 텍스트"
+            else:
+                self.startTxt = self.startText.text()
+
+            if self.customText1.text() == "":
+                self.text1 = "텍스트 1"
+            else:
+                self.text1 = self.customText1.text()
+
+            if self.customText2.text() == "":
+                self.text2 = "텍스트 2"
+            else:
+                self.text2 = self.customText2.text()
             print(f"{bcolors.OKCYAN}[SUCCESS] Saved.{bcolors.ENDC}")
             print(f"[INFO] {self.activatePer}, {self.startTxt}, {self.text1}, {self.text2}")
         except:
             print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
-            errWidgetSetupWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '설정을 저장하는중에\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
+            errWidgetSetupWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '설정을 저장하는중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("확률 수정 - 불안정함")
-        EditRandomPercent.close(EditRandomPercent)
+        EditRandomPercent.close(self)
 
 class Main(QWidget):
     print(f"{bcolors.ENDC}[INFO] 만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.\n{bcolors.WARNING}[WARN] 이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.{bcolors.ENDC}")
@@ -218,6 +249,7 @@ class Main(QWidget):
             # button
             self.saveBtn = QPushButton("저장하기", self)
             self.infoBtn = QPushButton("정보", self)
+            self.showEditWin = QPushButton("수정", self)
 
             # toggle
             self.module_acc = QCheckBox("정확도", self)
@@ -228,7 +260,7 @@ class Main(QWidget):
             self.module_tilebpm = QCheckBox("타일 BPM", self)
             self.module_reckps = QCheckBox("체감 KPS", self)
             self.module_score = QCheckBox("점수", self)
-            self.randomPercentText = QCheckBox("랜덤한 확률로 텍스트 변경하기", self)
+            self.randomPercentText = QCheckBox("특정 확률로 텍스트 변경하기", self)
             self.setColorOnCertainPercent = QCheckBox("특정 지점에서 텍스트 색상 변경하기", self)
             #self.dummy = QCheckBox("", self)
 
@@ -269,6 +301,7 @@ class Main(QWidget):
             self.imglabelpreview.move(510, 75)
             self.previewText.move(520, 83)
             self.featureListLabel.move(15, 330)
+            self.showEditWin.move(220, 360)
 
             self.saveBtn.move(15, 90)
             self.infoBtn.move(95, 90)
@@ -392,8 +425,9 @@ class Main(QWidget):
             self.saveBtn.clicked.connect(self.saveFile)
             self.infoBtn.clicked.connect(self.showInfoWindow)
             self.module_acc.clicked.connect(self.changeAcc)
-            self.randomPercentText.clicked.connect(self.showEditTextWindow)
-            print(f"{bcolors.OKCYAN}[SUCCESS] Success.{bcolors.ENDC}")
+            self.showEditWin.clicked.connect(self.showEditTextWindow)
+            self.randomPercentText.clicked.connect(self.showEditBtn)
+            print(f"{bcolors.OKCYAN}[SUCCESS] Loaded.{bcolors.ENDC}")
         except:
             self.close()
             print(f"{bcolors.FAIL}[ERROR] An Error occurred while trying to load widgets.{bcolors.ENDC}")
@@ -520,6 +554,9 @@ class Main(QWidget):
     def onClose(self, event):
         for window in QApplication.topLevelWidgets():
             window.close()
+
+    def showEditBtn(self):
+        print("dummy")
         
 # run
 if __name__ == '__main__':
