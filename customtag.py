@@ -43,8 +43,8 @@ class InfoWindow(QWidget):
     def setWidgets(self):
         print("[INFO] Loading Widgets...")
         try:
-            overlayerUrlLink="<a href=\"https://overlayer.notion.site/overlayer/Overlayer-Knowledge-Base-a06a2947f8bd44e098189a9d3c28ac49\">Overlayer Knowledge Base</a>"
-            csharpdiscord="<a href=\"https://discord.gg/duwPWhFcxx\">C## Discord Server (Not me!)</a>"
+            overlayerUrlLink="<a href=\"https://overlayer.notion.site/overlayer/Overlayer-Knowledge-Base-a06a2947f8bd44e098189a9d3c28ac49\">Overlayer Knowledge Base (Notion)</a>"
+            csharpdiscord="<a href=\"https://overlayerwiki.github.io/index.html\">Overlayer Knowledge Base (Website)</a>"
 
             # info label
             self.infoMainLabel = QLabel("OverLayer", self)
@@ -55,7 +55,7 @@ class InfoWindow(QWidget):
             self.ctgLogo = QLabel(self)
 
             self.infoOverlayerKnowledgeLabel = QLabel(overlayerUrlLink, self)
-            #self.infoCSharpSharpDiscordLabel = QLabel(csharpdiscord, self)
+            self.infoCSharpSharpDiscordLabel = QLabel(csharpdiscord, self)
 
             self.ctgLogoPixmap = QPixmap('./src/icon_normal-resized')
 
@@ -63,7 +63,7 @@ class InfoWindow(QWidget):
             self.infoMainLabel.move(70, 40)
             self.infoMainLabel2.move(70, 75)
             self.infoOverlayerKnowledgeLabel.move(70, 145)
-            #self.infoCSharpSharpDiscordLabel.move(70, 165)
+            self.infoCSharpSharpDiscordLabel.move(70, 165)
             self.madebysans.move(70, 115)
             self.ctgLogo.move(10, 65)
 
@@ -79,8 +79,8 @@ class InfoWindow(QWidget):
             infoOverLayerLinkFont.setFamily('Pretendard Variable')
             infoOverLayerLinkFont.setPointSize(10)
 
-            #infoCSharpDiscordLinkFont = self.infoCSharpSharpDiscordLabel.font()
-            #infoCSharpDiscordLinkFont.setFamily('Pretendard Variable')
+            infoCSharpDiscordLinkFont = self.infoCSharpSharpDiscordLabel.font()
+            infoCSharpDiscordLinkFont.setFamily('Pretendard Variable')
 
             madebysansfont = self.madebysans.font()
             madebysansfont.setFamily('Pretendard Variable')
@@ -91,13 +91,13 @@ class InfoWindow(QWidget):
 
             self.infoMainLabel.setFont(infoLabelFont1)
             self.infoMainLabel2.setFont(infoLabelFont2)
-            #self.infoCSharpSharpDiscordLabel.setFont(infoCSharpDiscordLinkFont)
+            self.infoCSharpSharpDiscordLabel.setFont(infoCSharpDiscordLinkFont)
             self.infoOverlayerKnowledgeLabel.setFont(infoOverLayerLinkFont)
             self.madebysans.setFont(madebysansfont)
             self.ctgLogo.setFont(ctgLogoFont)
 
             self.infoOverlayerKnowledgeLabel.setOpenExternalLinks(True)
-            #self.infoCSharpSharpDiscordLabel.setOpenExternalLinks(True)
+            self.infoCSharpSharpDiscordLabel.setOpenExternalLinks(True)
 
             self.ctgLogo.setPixmap(self.ctgLogoPixmap)
 
