@@ -59,8 +59,6 @@ class InfoWindow(QWidget):
 
             self.ctgLogoPixmap = QPixmap('./src/icon_normal-resized')
 
-            self.findUpdateBtn = QPushButton("업데이트 확인", self)
-
             # move/set font
             self.infoMainLabel.move(70, 40)
             self.infoMainLabel2.move(70, 75)
@@ -68,7 +66,6 @@ class InfoWindow(QWidget):
             self.infoCSharpSharpDiscordLabel.move(70, 165)
             self.madebysans.move(70, 115)
             self.ctgLogo.move(10, 65)
-            self.findUpdateBtn.move(70, 180)
 
             infoLabelFont1 = self.infoMainLabel.font()
             infoLabelFont1.setFamily('Pretendard Variable')
@@ -93,17 +90,12 @@ class InfoWindow(QWidget):
             ctgLogoFont = self.ctgLogo.font()
             ctgLogoFont.setPointSize(10)
 
-            updateFindBtnFont = self.findUpdateBtn.font()
-            updateFindBtnFont.setFamily('Pretendard Variable')
-            updateFindBtnFont.setPointSize(10)
-
             self.infoMainLabel.setFont(infoLabelFont1)
             self.infoMainLabel2.setFont(infoLabelFont2)
             self.infoCSharpSharpDiscordLabel.setFont(infoCSharpDiscordLinkFont)
             self.infoOverlayerKnowledgeLabel.setFont(infoOverLayerLinkFont)
             self.madebysans.setFont(madebysansfont)
             self.ctgLogo.setFont(ctgLogoFont)
-            self.findUpdateBtn.setFont(updateFindBtnFont)
 
             self.infoOverlayerKnowledgeLabel.setOpenExternalLinks(True)
             self.infoCSharpSharpDiscordLabel.setOpenExternalLinks(True)
@@ -198,13 +190,14 @@ class EditRandomPercent(QWidget):
 
 class Main(QWidget):
     githubLatestVer = githubLink.json()["name"]
-    githubLastestDownload = githubLink.json()["assets"]["browser_download_url"]
+    githubLastestDownload = githubLink.json()["assets"]
 
     print(f"{bcolors.ENDC}[INFO] 만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.\n{bcolors.WARNING}[WARN] 이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.{bcolors.ENDC}")
     print("[INFO] Current latest version: " + githubLatestVer)
     print("[INFO] Current version: " + VER)
     if(githubLatestVer > VER):
         findUpdateMsg = QMessageBox.question('업데이트 발견', '새로운 버전 ' + githubLatestVer + ' 이 발견되었습니다.')
+        githubLastestDownload
     elif(githubLatestVer < VER):
         print(f"[INFO] 현재 개발자 버전을 사용하고 있습니다.\n[INFO] 이 버전은 {bcolors.FAIL}매우{bcolors.ENDC} 불안정하며, 버그가 자주 발생합니다.")
     elif(githubLatestVer == VER):
