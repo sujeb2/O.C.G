@@ -197,7 +197,6 @@ class Main(QWidget):
     print("[INFO] Current version: " + VER)
     if(githubLatestVer > VER):
         findUpdateMsg = QMessageBox.question('업데이트 발견', '새로운 버전 ' + githubLatestVer + ' 이 발견되었습니다.')
-        githubLastestDownload
     elif(githubLatestVer < VER):
         print(f"[INFO] 현재 개발자 버전을 사용하고 있습니다.\n[INFO] 이 버전은 {bcolors.FAIL}매우{bcolors.ENDC} 불안정하며, 버그가 자주 발생합니다.")
     elif(githubLatestVer == VER):
