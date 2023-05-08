@@ -1,9 +1,8 @@
 from PyQt6.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QCheckBox, QMessageBox, QFileDialog, QLineEdit
 from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6 import QtCore
-import os, sys;
+import os, sys, requests;
 
-# j
 # color
 class bcolors:
     HEADER = '\033[95m'
@@ -16,7 +15,8 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-VER = '0.2.8==dev'
+VER = 'v0.2.5'
+githubLink = requests.get('https://api.github.com/repos/sujeb2/O.C.G/releases/latest')
 
 class InfoWindow(QWidget):
     def __init__(self):
@@ -59,6 +59,8 @@ class InfoWindow(QWidget):
 
             self.ctgLogoPixmap = QPixmap('./src/icon_normal-resized')
 
+            self.findUpdateBtn = QPushButton("업데이트 확인", self)
+
             # move/set font
             self.infoMainLabel.move(70, 40)
             self.infoMainLabel2.move(70, 75)
@@ -66,6 +68,7 @@ class InfoWindow(QWidget):
             self.infoCSharpSharpDiscordLabel.move(70, 165)
             self.madebysans.move(70, 115)
             self.ctgLogo.move(10, 65)
+            self.findUpdateBtn.move(70, 180)
 
             infoLabelFont1 = self.infoMainLabel.font()
             infoLabelFont1.setFamily('Pretendard Variable')
@@ -81,6 +84,7 @@ class InfoWindow(QWidget):
 
             infoCSharpDiscordLinkFont = self.infoCSharpSharpDiscordLabel.font()
             infoCSharpDiscordLinkFont.setFamily('Pretendard Variable')
+            infoCSharpDiscordLinkFont.setPointSize(10)
 
             madebysansfont = self.madebysans.font()
             madebysansfont.setFamily('Pretendard Variable')
@@ -89,12 +93,17 @@ class InfoWindow(QWidget):
             ctgLogoFont = self.ctgLogo.font()
             ctgLogoFont.setPointSize(10)
 
+            updateFindBtnFont = self.findUpdateBtn.font()
+            updateFindBtnFont.setFamily('Pretendard Variable')
+            updateFindBtnFont.setPointSize(10)
+
             self.infoMainLabel.setFont(infoLabelFont1)
             self.infoMainLabel2.setFont(infoLabelFont2)
             self.infoCSharpSharpDiscordLabel.setFont(infoCSharpDiscordLinkFont)
             self.infoOverlayerKnowledgeLabel.setFont(infoOverLayerLinkFont)
             self.madebysans.setFont(madebysansfont)
             self.ctgLogo.setFont(ctgLogoFont)
+            self.findUpdateBtn.setFont(updateFindBtnFont)
 
             self.infoOverlayerKnowledgeLabel.setOpenExternalLinks(True)
             self.infoCSharpSharpDiscordLabel.setOpenExternalLinks(True)
@@ -188,13 +197,24 @@ class EditRandomPercent(QWidget):
         self.close()
 
 class Main(QWidget):
+    githubLatestVer = githubLink.json()["name"]
+    githubLastestDownload = githubLink.json()["assets"]["browser_download_url"]
+
     print(f"{bcolors.ENDC}[INFO] 만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.\n{bcolors.WARNING}[WARN] 이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.{bcolors.ENDC}")
+    print("[INFO] Current latest version: " + githubLatestVer)
+    print("[INFO] Current version: " + VER)
+    if(githubLatestVer > VER):
+        findUpdateMsg = QMessageBox.question('업데이트 발견', '새로운 버전 ' + githubLatestVer + ' 이 발견되었습니다.')
+    elif(githubLatestVer < VER):
+        print(f"[INFO] 현재 개발자 버전을 사용하고 있습니다.\n[INFO] 이 버전은 {bcolors.FAIL}매우{bcolors.ENDC} 불안정하며, 버그가 자주 발생합니다.")
+    elif(githubLatestVer == VER):
+        print(f"[INFO] 최신버전을 사용하고 있습니다!")
 
     def __init__(self):
         print("[INFO] Initializing...")
         try:
             super().__init__()
-            # u
+
             self.top = 200
             self.left = 500
             self.width = 960
@@ -221,7 +241,7 @@ class Main(QWidget):
             # label
             self.mainLabel1 = QLabel("OverLayer", self)
             self.mainLabel2 = QLabel("CustomTag Generator", self)
-            self.mainVersion = QLabel('v' + VER, self)
+            self.mainVersion = QLabel(VER, self)
             self.moduleListLabel = QLabel("모듈 목록", self)
             self.previewImage = QLabel("미리보기", self)
             self.previewText = QLabel("기본 텍스트", self)
@@ -246,6 +266,8 @@ class Main(QWidget):
             self.module_tilebpm = QCheckBox("타일 BPM", self)
             self.module_reckps = QCheckBox("체감 KPS", self)
             self.module_score = QCheckBox("점수", self)
+            self.module_combo = QCheckBox("콤보", self)
+            self.module_pgrsdeath = QCheckBox("지정한 범위에서 죽은 횟수", self)
             self.randomPercentText = QCheckBox("특정 지점에서 텍스트 변경하기", self)
             self.setColorOnCertainPercent = QCheckBox("특정 지점에서 텍스트 색상 변경하기", self)
             #self.featureDummy = QCheckBox("", self)
@@ -302,6 +324,8 @@ class Main(QWidget):
             self.module_startprgs.move(15, 260)
             self.module_tilebpm.move(15, 280)
             self.module_score.move(15, 300)
+            self.module_combo.move(120, 160)
+            self.module_pgrsdeath.move(120, 185)
 
             self.randomPercentText.move(15, 360)
             self.setColorOnCertainPercent.move(15, 380)
@@ -377,6 +401,10 @@ class Main(QWidget):
             moduleToggleFont8.setFamily('Pretendard JP')
             moduleToggleFont8.setPointSize(13)
 
+            moduleToggleFont9 = self.module_combo.font()
+            moduleToggleFont9.setFamily('Pretendard JP')
+            moduleToggleFont9.setPointSize(13)
+
             feature_randomPerText = self.randomPercentText.font()
             feature_randomPerText.setFamily('Pretendard JP')
             feature_randomPerText.setPointSize(12)
@@ -399,6 +427,7 @@ class Main(QWidget):
             self.module_startprgs.setFont(moduleToggleFont6)
             self.module_tilebpm.setFont(moduleToggleFont7)
             self.module_score.setFont(moduleToggleFont8)
+            self.module_combo.setFont(moduleToggleFont9)
             self.previewImage.setFont(previewImageLabelFont)
             self.previewText.setFont(previewTextFont)
             #self.loadBtn.setFont(loadbtnFont)
