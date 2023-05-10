@@ -3,7 +3,7 @@ from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6 import QtCore
 import os, sys, requests, logging;
 
-VER = 'v0.2.8==dev'
+VER = 'v0.2.8'
 githubLink = requests.get('https://api.github.com/repos/sujeb2/O.C.G/releases/latest')
 logging.basicConfig(filename='./log/debug-log.log', level=logging.INFO, encoding="utf-8")
 
