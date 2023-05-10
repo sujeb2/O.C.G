@@ -1,26 +1,15 @@
 from PyQt6.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QCheckBox, QMessageBox, QFileDialog, QLineEdit
 from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6 import QtCore
-import os, sys, requests;
-
-# color
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+import os, sys, requests, logging;
 
 VER = 'v0.2.8==dev'
 githubLink = requests.get('https://api.github.com/repos/sujeb2/O.C.G/releases/latest')
+logging.basicConfig(filename='./log/debug-log.log', level=logging.INFO, encoding="utf-8")
 
 class InfoWindow(QWidget):
     def __init__(self):
-        print("[INFO] Initializing infoWindow...")
+        logging.info("Initializing infoWindow...")
         try:
             super().__init__()
 
@@ -34,14 +23,16 @@ class InfoWindow(QWidget):
             self.setGeometry(self.left, self.top, self.width, self.height)
             self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint | QtCore.Qt.WindowType.WindowMinimizeButtonHint)
             self.setWidgets()
-            print(f"{bcolors.OKCYAN}[SUCCESS] Initialized.{bcolors.ENDC}")
+            logging.info(f"nitialized.")
         except:
-            print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            logging.critical(f"ERROR Occurred!\nLog: {exc_type}, {exc_obj}, {exc_tb}, {fname}")
             errInfoWinInit = QMessageBox.critical(self, '오류가 발생하였습니다.', '재설정을 하는 중에 오류가 발생했습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("정보 - 불안정함")
 
     def setWidgets(self):
-        print("[INFO] Loading Widgets...")
+        logging.info("Loading Widgets...")
         try:
             overlayerUrlLink="<a href=\"https://overlayer.notion.site/overlayer/Overlayer-Knowledge-Base-a06a2947f8bd44e098189a9d3c28ac49\">Overlayer Knowledge Base (Notion)</a>"
             csharpdiscord="<a href=\"https://overlayerwiki.github.io/index.html\">Overlayer Knowledge Base (Website)</a>"
@@ -104,18 +95,18 @@ class InfoWindow(QWidget):
 
         except:
             self.close()
-            print(f"{bcolors.FAIL}[ERROR] An Error occurred while trying to load widgets.{bcolors.ENDC}")
+            logging.critical(f"An Error occurred while trying to load widgets.")
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            print(f"{bcolors.FAIL}[ERROR] Error type: ", exc_type, "Error File: " ,fname, "Error Line: " ,exc_tb.tb_lineno, f"{bcolors.ENDC}")
+            logging.critical(f"Error type: ", exc_type, "Error File: " ,fname, "Error Line: " ,exc_tb.tb_lineno)
 
             errLoadWidget = QMessageBox.critical(self, '오류가 발생하였습니다.', '위젯을 설정 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
-        print(f"[INFO] Current Window Width {self.width}, Height {self.height}")
+        logging.info(f"Current Window Width {self.width}, Height {self.height}")
 
 class EditRandomPercent(QWidget):
     def __init__(self):
-        print("[INFO] Initializing EditWindow...")
+        logging.info("Initializing EditWindow...")
         try:
             super().__init__()
 
@@ -129,14 +120,16 @@ class EditRandomPercent(QWidget):
             self.setGeometry(self.left, self.top, self.width, self.height)
             self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint | QtCore.Qt.WindowType.WindowMinimizeButtonHint)
             self.setWidgets()
-            print(f"{bcolors.OKCYAN}[SUCCESS] Initialized.{bcolors.ENDC}")
+            logging.info(f"Initialized.")
         except:
-            print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            logging.critical(f"ERROR Occurred!\n] Log: {exc_type}, {exc_obj}, {exc_tb}, {fname}")
             errInitWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '재설정을 하는 중에 오류가 발생했습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("텍스트 변경 - 불안정함")
 
     def setWidgets(self):
-        print("[INFO] Loading Widgets...")
+        logging.info("Loading Widgets...")
         try:
             self.editTitle = QLabel("텍스트 변경", self)
             
@@ -167,23 +160,27 @@ class EditRandomPercent(QWidget):
             self.startText.setPlaceholderText("시작 텍스트")
             self.customText1.setPlaceholderText("텍스트 1")
             self.customText2.setPlaceholderText("끝 텍스트")
-            print(f"{bcolors.OKCYAN}[SUCCESS] Loaded.{bcolors.ENDC}")
+            logging.info(f" Loaded.")
         except:
-            print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            logging.critical(f"ERROR Occurred!\n] Log: {exc_type}, {exc_obj}, {exc_tb}, {fname}")
             errWidgetSetupWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '위젯을 설정 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("텍스트 변경 - 불안정함")
 
     def done(self):
-        print("[INFO] Saving info..")
+        logging.info(" Saving info..")
         try:
             self.activatePer = self.activatePercent.text()
             self.startTxt = self.startText.text()
             self.text1 = self.customText1.text()
             self.text2 = self.customText2.text()
-            print(f"{bcolors.OKCYAN}[SUCCESS] Saved.{bcolors.ENDC}")
-            print(f"[INFO] {self.activatePer}, {self.startTxt}, {self.text1}, {self.text2}")
+            logging.info(f"Saved.")
+            logging.info(f"{self.activatePer}, {self.startTxt}, {self.text1}, {self.text2}")
         except:
-            print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            logging.critical(f"ERROR Occurred!\n] Log: {exc_type}, {exc_obj}, {exc_tb}, {fname}")
             errWidgetSetupWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '설정을 저장하는중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("텍스트 변경 - 불안정함")
         self.close()
@@ -192,18 +189,19 @@ class Main(QWidget):
     githubLatestVer = githubLink.json()["name"]
     githubLastestDownload = githubLink.json()["assets"]
 
-    print(f"{bcolors.ENDC}[INFO] 만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.\n{bcolors.WARNING}[WARN] 이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.{bcolors.ENDC}")
-    print("[INFO] Current latest version: " + githubLatestVer)
-    print("[INFO] Current version: " + VER)
+    logging.info(f"만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.")
+    logging.warning("이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.")
+    logging.info("Current latest version: " + githubLatestVer)
+    logging.info("Current version: " + VER)
     if(githubLatestVer > VER):
         findUpdateMsg = QMessageBox.question('업데이트 발견', '새로운 버전 ' + githubLatestVer + ' 이 발견되었습니다.')
     elif(githubLatestVer < VER):
-        print(f"[INFO] 현재 개발자 버전을 사용하고 있습니다.\n[INFO] 이 버전은 {bcolors.FAIL}매우{bcolors.ENDC} 불안정하며, 버그가 자주 발생합니다.")
+        logging.warning(f"현재 개발자 버전을 사용하고 있습니다.\n이 버전은 매우 불안정하며, 버그가 자주 발생합니다.")
     elif(githubLatestVer == VER):
-        print(f"[INFO] 최신버전을 사용하고 있습니다!")
+        logging.info(f"최신버전을 사용하고 있습니다!")
 
     def __init__(self):
-        print("[INFO] Initializing...")
+        logging.info(" Initializing...")
         try:
             super().__init__()
 
@@ -218,9 +216,11 @@ class Main(QWidget):
             self.setGeometry(self.left, self.top, self.width, self.height)
             self.resetWindow()
             self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint | QtCore.Qt.WindowType.WindowMinimizeButtonHint)
-            print(f"{bcolors.OKCYAN}[SUCCESS] Initialized.{bcolors.ENDC}")
+            logging.info(f"Initialized.")
         except:
-            print(F"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            logging.critical(f"ERROR Occurred!\nLog: {exc_type}, {exc_obj}, {exc_tb}, {fname}")
             errInit = QMessageBox.critical(self, '오류가 발생하였습니다.', '재설정을 하는 중에 오류가 발생했습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
 
@@ -228,7 +228,7 @@ class Main(QWidget):
         self.show
 
     def setWidgets(self):
-        print("[INFO] Loading Widgets...")
+        logging.info(" Loading Widgets...")
         try:
             # label
             self.mainLabel1 = QLabel("OverLayer", self)
@@ -260,6 +260,7 @@ class Main(QWidget):
             self.module_score = QCheckBox("점수", self)
             self.module_combo = QCheckBox("콤보", self)
             self.module_pgrsdeath = QCheckBox("지정한 범위에서 죽은 횟수", self)
+
             self.randomPercentText = QCheckBox("특정 지점에서 텍스트 변경하기", self)
             self.setColorOnCertainPercent = QCheckBox("특정 지점에서 텍스트 색상 변경하기", self)
             #self.featureDummy = QCheckBox("", self)
@@ -307,7 +308,7 @@ class Main(QWidget):
             self.infoBtn.move(95, 90)
 
             self.est.move(100, 550)
-            # s
+
             self.module_acc.move(15, 160)
             self.module_xacc.move(15, 180)
             self.module_crb.move(15, 200)
@@ -317,7 +318,7 @@ class Main(QWidget):
             self.module_tilebpm.move(15, 280)
             self.module_score.move(15, 300)
             self.module_combo.move(120, 160)
-            self.module_pgrsdeath.move(120, 185)
+            self.module_pgrsdeath.move(120, 180)
 
             self.randomPercentText.move(15, 360)
             self.setColorOnCertainPercent.move(15, 380)
@@ -357,9 +358,6 @@ class Main(QWidget):
             savebtnFont = self.saveBtn.font()
             savebtnFont.setFamily('Pretendard JP')
 
-            #loadbtnFont = self.loadBtn.font()
-            #loadbtnFont.setFamily('Pretendard JP')
-
             # default font size = 13
             moduleToggleFont1 = self.module_acc.font()
             moduleToggleFont1.setFamily('Pretendard JP')
@@ -397,6 +395,10 @@ class Main(QWidget):
             moduleToggleFont9.setFamily('Pretendard JP')
             moduleToggleFont9.setPointSize(13)
 
+            moduleToggleFont10 = self.module_pgrsdeath.font()
+            moduleToggleFont10.setFamily('Pretendard JP')
+            moduleToggleFont10.setPointSize(13)
+
             feature_randomPerText = self.randomPercentText.font()
             feature_randomPerText.setFamily('Pretendard JP')
             feature_randomPerText.setPointSize(12)
@@ -420,35 +422,34 @@ class Main(QWidget):
             self.module_tilebpm.setFont(moduleToggleFont7)
             self.module_score.setFont(moduleToggleFont8)
             self.module_combo.setFont(moduleToggleFont9)
+            self.module_pgrsdeath.setFont(moduleToggleFont10)
             self.previewImage.setFont(previewImageLabelFont)
             self.previewText.setFont(previewTextFont)
-            #self.loadBtn.setFont(loadbtnFont)
             self.saveBtn.setFont(savebtnFont)
             self.randomPercentText.setFont(feature_randomPerText)
             self.setColorOnCertainPercent.setFont(feature_setColorOnCertainPercent)
 
-            # t
             # set clicked event
             self.saveBtn.clicked.connect(self.saveFile)
             self.infoBtn.clicked.connect(self.showInfoWindow)
             self.module_acc.clicked.connect(self.changeAcc)
             self.showEditWin.clicked.connect(self.showEditTextWindow)
             self.randomPercentText.clicked.connect(self.showEditBtn)
-            print(f"{bcolors.OKCYAN}[SUCCESS] Loaded.{bcolors.ENDC}")
+            logging.info(f"Loaded.")
         except:
             self.close()
-            print(f"{bcolors.FAIL}[ERROR] An Error occurred while trying to load widgets.{bcolors.ENDC}")
+            logging.info(f" An Error occurred while trying to load widgets.")
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            print(f"{bcolors.FAIL}[ERROR] Error type: ", exc_type, "Error File: " ,fname, "Error Line: " ,exc_tb.tb_lineno, f"{bcolors.ENDC}")
+            logging.info(f" Error type: ", exc_type, "Error File: " ,fname, "Error Line: " ,exc_tb.tb_lineno)
 
             errLoadWidget = QMessageBox.critical(self, '오류가 발생하였습니다.', '위젯을 설정 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
-        print(f"[INFO] Current Window Width {self.width}, Height {self.height}")
+        logging.info(f"Current Window Width {self.width}, Height {self.height}")
 
     def saveFile(self):
-        print("[INFO] Saving...")
-        print(self.module_acc.isChecked(), self.module_crb.isChecked(), self.module_progress.isChecked(), self.module_reckps.isChecked(), self.module_progress.isChecked(), self.module_score.isChecked(), self.module_startprgs.isChecked(), self.module_xacc.isChecked(), self.randomPercentText.isChecked(), self.setColorOnCertainPercent.isChecked())
+        logging.info("Saving...")
+        logging.info(self.module_acc.isChecked(), self.module_crb.isChecked(), self.module_progress.isChecked(), self.module_reckps.isChecked(), self.module_progress.isChecked(), self.module_score.isChecked(), self.module_startprgs.isChecked(), self.module_xacc.isChecked(), self.randomPercentText.isChecked(), self.setColorOnCertainPercent.isChecked())
         saveFile = QFileDialog.getSaveFileName(self, '저장될 위치 선택', './customtag.js', 'JavaScript (*.js)')
 
         if saveFile[0] != "":
@@ -458,103 +459,42 @@ class Main(QWidget):
                         # acc
                     svcustom.write("function ctg() {\n  ")
                     if self.module_acc.isChecked() == True:
-                            svcustom.write("return `정확도: ${Accuracy()}%`;\n")
-                            print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
-                            print(f"[INFO] Saved file location: {saveFile}")
+                            str(svcustom.write("return `정확도: ${Accuracy()}%`;\n"))
+                            logging.info(f"Successfully saved file.")
+                            logging.info(f"Saved file location: {saveFile}")
                         # progress
                     elif self.module_progress.isChecked() == True:
-                            svcustom.write("return `진행도: ${Progress()}%`;\n")
-                            print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
-                            print(f"[INFO] Saved file location: {saveFile}")
+                            str(svcustom.write("return `진행도: ${Progress()}%`;\n"))
+                            logging.info(f"Successfully saved file.")
+                            logging.info(f"Saved file location: {saveFile}")
                         # xacc
                     elif self.module_xacc.isChecked() == True:
-                            svcustom.write("return `절대 정확도: ${XAccuracy()}%`;\n")
-                            print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
-                            print(f"[INFO] Saved file location: {saveFile}")
+                            str(svcustom.write("return `절대 정확도: ${XAccuracy()}%`;\n"))
+                            logging.info("Successfully saved file.")
+                            logging.info(f"Saved file location: {saveFile}")
                         # crb
                     elif self.module_crb.isChecked() == True:
-                            svcustom.write("return `체감 BPM: ${CurBpm()}BPM`;\n")
-                            print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
-                            print(f"[INFO] Saved file location: {saveFile}")
+                            str(svcustom.write("return `체감 BPM: ${CurBpm()}BPM`;\n"))
+                            logging.info(f"Successfully saved file.")
+                            logging.info(f"Saved file location: {saveFile}")
                         # score
                     elif self.module_score.isChecked() == True:
-                            svcustom.write("return `점수: ${Score()}`;\n")
-                            print(f"[{bcolors.OKCYAN}SUCCESS] Successfully saved file.{bcolors.ENDC}")
-                            print(f"[INFO] Saved file location: {saveFile}")
-                        # no overwrite?
-                        # acc + progress
-                    if self.module_acc.isChecked() == True and self.module_progress.isChecked() == True:
-                            accDefRemove = svcustom.read().replace('   return `정확도: ${Accuracy()}%`;', '')
-                            svcustom.write(accDefRemove)
-                            svcustom.write("return `정확도: ${Accuracy()}%\n진행도: ${Accuracy()}%`;\n")
-                            print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
-                            print(f"[INFO] Saved file location: {saveFile}")
-                        # acc + crb
-                    if self.module_acc.isChecked() == True and self.module_crb.isChecked() == True:
-                            accDefRemove = svcustom.read().replace('   return `정확도: ${Accuracy()}%`;', '')
-                            svcustom.write(accDefRemove)
-                            svcustom.write("return `정확도: ${Accuracy()}%\n체감 BPM: ${CurBpm()}BPM`;\n")
-                            print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
-                            print(f"[INFO] Saved file location: {saveFile}")
-                        # acc + reckps
-                    if self.module_acc.isChecked() == True and self.module_reckps.isChecked() == True:
-                            accDefRemove = svcustom.read().replace('   return `정확도: ${Accuracy()}%`;', '')
-                            svcustom.write(accDefRemove)
-                            svcustom.write("return `정확도: ${Accuracy()}%\n체감 KPS: ${RecKps()}BPM`;")
-                            print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
-                            print(f"[INFO] Saved file location: {saveFile}")
-                        # acc + score
-                    if self.module_acc.isChecked() == True and self.module_score.isChecked() == True:
-                            accDefRemove = svcustom.read().replace('   return `정확도: ${Accuracy()}%`;', '')
-                            svcustom.write(accDefRemove)
-                            svcustom.write("return `정확도: ${Accuracy()}%\n점수: ${Score()}BPM`;\n")
-                            print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
-                            print(f"[INFO] Saved file location: {saveFile}")
-                        # acc + startprgs
-                    if self.module_acc.isChecked() == True and self.module_startprgs.isChecked == True:
-                            accDefRemove = svcustom.read().replace('   return `정확도: ${Accuracy()}%`;', '')
-                            svcustom.write(accDefRemove)
-                            svcustom.write("return `정확도: ${Accuracy()}%\n시작 진행도: ${StartProgress()}BPM`;\n")
-                            print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
-                            print(f"[INFO] Saved file location: {saveFile}")
-                        # acc + tilebpm
-                    if self.module_acc.isChecked() == True and self.module_tilebpm.isChecked == True:
-                            accDefRemove = svcustom.read().replace('   return `정확도: ${Accuracy()}%`;', '')
-                            svcustom.write(accDefRemove)
-                            svcustom.write("return `정확도: ${Accuracy()}%\n타일 BPM: ${TileBpm()}%`;\n")
-                            print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
-                            print(f"[INFO] Saved file location: {saveFile}")
-                        # d
-                        # acc + xacc
-                    if self.module_acc.isChecked() == True and self.module_xacc.isChecked() == True:
-                            accDefRemove = svcustom.read().replace('   return `정확도: ${Accuracy()}%`;', '')
-                            svcustom.write(accDefRemove)
-                            svcustom.write("return `정확도: ${Accuracy()}%\n절대 정확도: ${XAccuracy()}%`;\n")
-                            print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
-                            print(f"[INFO] Saved file location: {saveFile}")
-                        # crb + progress
-                    if self.module_crb.isChecked() == True and self.module_progress.isChecked() == True:
-                            print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
-                            print(f"[INFO] Saved file location: {saveFile}")
-                    # 웨 안됨?
-                    if self.module_progress.isChecked() == True and self.randomPercentText.isChecked() == True:
-                        svcustom.write("")
+                            str(svcustom.write("return `점수: ${Score()}`;\n"))
+                            logging.info(f"Successfully saved file.")
+                            logging.info(f"Saved file location: {saveFile}")
                     # all
                     elif self.module_acc.isChecked() == True and self.module_crb.isChecked() == True and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == True and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == True and self.module_tilebpm.isChecked() == True and self.module_xacc.isChecked() == True:
-                            svcustom.write("function ctg() {\nreturn `정확도: ${Accuracy()}%\n진행도: ${Progress()}%\n절대 정확도: ${XAccuracy()}%\n체감 BPM: ${CurBpm()}%\n점수: ${Score()}\n시작 진행도: ${StartProgress()}\n체감 KPS: ${RecKps()}\n타일 BPM: ${TileBPM()}`\n}\nRegisterTag('customTag', ctg, true);")
-                            print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
-                            print(f"[INFO] Saved file location: {saveFile}")
-                        # default
-                    #else:
-                    #        svcustom.write("function ctg() {\n return `지정된 태그가 없습니다, 프로그램에서 지정후 저장해주세요.`;\n}\nRegisterTag('customTag', ctg, true);")
-                    #        print(f"{bcolors.OKCYAN}[SUCCESS] Successfully saved file.{bcolors.ENDC}")
-                    #        print(f"{bcolors.WARNING}[WARN] No module has been found. return with normal text.{bcolors.ENDC}")
-                    #        print(f"[INFO] Saved file location: {saveFile}")
+                            svcustom.write("{\nreturn `정확도: ${Accuracy()}%\n진행도: ${Progress()}%\n절대 정확도: ${XAccuracy()}%\n체감 BPM: ${CurBpm()}%\n점수: ${Score()}\n시작 진행도: ${StartProgress()}\n체감 KPS: ${RecKps()}\n타일 BPM: ${TileBPM()}`\n})")
+                            logging.info(f"Successfully saved file.")
+                            logging.info(f"Saved file location: {saveFile}")
                     svcustom.write("\n}RegisterTag('customTag', ctg, true);")
                     successSaveFile = QMessageBox.information(self, '저장 완료', '태그가 저장되었습니다,\n오버레이어 설정에서 텍스트를 {customTag} 로 지정해주세요.')
+                    logging.info("Written: " + svcustom.read().encode("utf-8"))
                     svcustom.close()
             except:
-                print(f"{bcolors.FAIL}ERROR Occurred!\nidk why it happend. sry about that :({bcolors.ENDC}")
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                logging.critical(f"ERROR Occurred!\nLog: {exc_type}, {exc_obj}, {exc_tb}, {fname}")
                 errSaveFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 저장하는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
                 self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
 
@@ -578,7 +518,7 @@ class Main(QWidget):
             window.close()
 
     def showEditBtn(self):
-        print("dummy")
+        logging.info("dummy")
         
 # run
 if __name__ == '__main__':
