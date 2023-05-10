@@ -3,7 +3,7 @@ from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6 import QtCore
 import os, sys, requests, logging;
 
-VER = 'v0.2.8'
+VER = 'v0.2.9==dev'
 githubLink = requests.get('https://api.github.com/repos/sujeb2/O.C.G/releases/latest')
 logging.basicConfig(filename='./log/debug-log.log', level=logging.INFO, encoding="utf-8")
 
@@ -160,16 +160,16 @@ class EditRandomPercent(QWidget):
             self.startText.setPlaceholderText("시작 텍스트")
             self.customText1.setPlaceholderText("텍스트 1")
             self.customText2.setPlaceholderText("끝 텍스트")
-            logging.info(f" Loaded.")
+            logging.info(f"Loaded.")
         except:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.critical(f"ERROR Occurred!\n] Log: {exc_type}, {exc_obj}, {exc_tb}, {fname}")
+            logging.critical(f"ERROR Occurred!\n Log: {exc_type}, {exc_obj}, {exc_tb}, {fname}")
             errWidgetSetupWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '위젯을 설정 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("텍스트 변경 - 불안정함")
 
     def done(self):
-        logging.info(" Saving info..")
+        logging.info("Saving info..")
         try:
             self.activatePer = self.activatePercent.text()
             self.startTxt = self.startText.text()
@@ -187,7 +187,8 @@ class EditRandomPercent(QWidget):
 
 class Main(QWidget):
     githubLatestVer = githubLink.json()["name"]
-    githubLastestDownload = githubLink.json()["assets"]
+    githubLastestDownload = githubLink.json()['assets']
+    logging.info(githubLastestDownload)
 
     logging.info(f"만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.")
     logging.warning("이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.")
