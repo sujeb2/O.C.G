@@ -450,7 +450,7 @@ class Main(QWidget):
 
     def saveFile(self):
         logging.info("Saving...")
-        logging.info(self.module_acc.isChecked(), self.module_crb.isChecked(), self.module_progress.isChecked(), self.module_reckps.isChecked(), self.module_progress.isChecked(), self.module_score.isChecked(), self.module_startprgs.isChecked(), self.module_xacc.isChecked(), self.randomPercentText.isChecked(), self.setColorOnCertainPercent.isChecked())
+        logging.info(f"{self.module_acc.isChecked()}, {self.module_crb.isChecked()}, {self.module_progress.isChecked()}, {self.module_reckps.isChecked()}, {self.module_progress.isChecked()}, {self.module_score.isChecked()}, {self.module_startprgs.isChecked()}, {self.module_xacc.isChecked()}, {self.randomPercentText.isChecked()}, {self.setColorOnCertainPercent.isChecked()}")
         saveFile = QFileDialog.getSaveFileName(self, '저장될 위치 선택', './customtag.js', 'JavaScript (*.js)')
 
         if saveFile[0] != "":
@@ -485,9 +485,13 @@ class Main(QWidget):
                             logging.info(f"Saved file location: {saveFile}")
                     # all
                     elif self.module_acc.isChecked() == True and self.module_crb.isChecked() == True and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == True and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == True and self.module_tilebpm.isChecked() == True and self.module_xacc.isChecked() == True:
-                            svcustom.write("{\nreturn `정확도: ${Accuracy()}%\n진행도: ${Progress()}%\n절대 정확도: ${XAccuracy()}%\n체감 BPM: ${CurBpm()}%\n점수: ${Score()}\n시작 진행도: ${StartProgress()}\n체감 KPS: ${RecKps()}\n타일 BPM: ${TileBPM()}`\n})")
+                            svcustom.write("return `정확도: ${Accuracy()}%\n진행도: ${Progress()}%\n절대 정확도: ${XAccuracy()}%\n체감 BPM: ${CurBpm()}%\n점수: ${Score()}\n시작 진행도: ${StartProgress()}\n체감 KPS: ${RecKps()}\n타일 BPM: ${TileBPM()}`\n})")
                             logging.info(f"Successfully saved file.")
                             logging.info(f"Saved file location: {saveFile}")
+                    else:
+                        svcustom.write("return `태그 없음`;\n")
+                        logging.info("Successfully saved file.")
+                        logging.info(f"Saved file location: {saveFile}")
                     svcustom.write("\n}RegisterTag('customTag', ctg, true);")
                     successSaveFile = QMessageBox.information(self, '저장 완료', '태그가 저장되었습니다,\n오버레이어 설정에서 텍스트를 {customTag} 로 지정해주세요.')
                     logging.info("Written: " + svcustom.read().encode("utf-8"))
