@@ -189,6 +189,7 @@ class Main(QWidget):
     githubLatestVer = githubLink.json()["name"]
     githubLastestDownload = githubLink.json()['assets']
     logging.info(githubLastestDownload)
+    logging.info("Current path: " + os.getcwd())
 
     logging.info(f"만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.")
     logging.warning("이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.")
@@ -420,10 +421,10 @@ class Main(QWidget):
             logging.info(f"Loaded.")
         except:
             self.close()
-            logging.info(f" An Error occurred while trying to load widgets.")
+            logging.critical(f" An Error occurred while trying to load widgets.")
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.info(f" Error type: ", exc_type, "Error File: " ,fname, "Error Line: " ,exc_tb.tb_lineno)
+            logging.critical(f" Error type: ",exc_type, "Error File: " ,fname, "Error Line: " ,exc_tb.tb_lineno)
 
             errLoadWidget = QMessageBox.critical(self, '오류가 발생하였습니다.', '위젯을 설정 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
             self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
@@ -436,51 +437,56 @@ class Main(QWidget):
 
         if saveFile[0] != "":
             try:
-                with open(saveFile[0], 'w+', encoding="UTF-8") as svcustom:
-                        # i know that this code is pretty weird :(
+                with open(saveFile[0], 'w+', encoding='UTF-8') as svfirst:
+                    svfirst.write("function ctg() {")
+                    svfirst.close()
+
+                with open(saveFile[0], 'a+', encoding="UTF-8") as svcustom:
                         # acc
-                    svcustom.write("function ctg() {\n  ")
                     if self.module_acc.isChecked() == True:
-                            str(svcustom.write("return `정확도: ${Accuracy()}%`;\n"))
+                            svcustom.writelines("\n  return `정확도: ${Accuracy()}%`;\n")
                             logging.info(f"Successfully saved file.")
                             logging.info(f"Saved file location: {saveFile}")
                         # progress
                     elif self.module_progress.isChecked() == True:
-                            str(svcustom.write("return `진행도: ${Progress()}%`;\n"))
+                            svcustom.writelines("\n  return `진행도: ${Progress()}%`;\n")
                             logging.info(f"Successfully saved file.")
                             logging.info(f"Saved file location: {saveFile}")
                         # xacc
                     elif self.module_xacc.isChecked() == True:
-                            str(svcustom.write("return `절대 정확도: ${XAccuracy()}%`;\n"))
+                            svcustom.write("\n  return `절대 정확도: ${XAccuracy()}%`;\n")
                             logging.info("Successfully saved file.")
                             logging.info(f"Saved file location: {saveFile}")
                         # crb
                     elif self.module_crb.isChecked() == True:
-                            str(svcustom.write("return `체감 BPM: ${CurBpm()}BPM`;\n"))
+                            svcustom.write("\n  return `체감 BPM: ${CurBpm()}BPM`;\n")
                             logging.info(f"Successfully saved file.")
                             logging.info(f"Saved file location: {saveFile}")
                         # score
                     elif self.module_score.isChecked() == True:
-                            str(svcustom.write("return `점수: ${Score()}`;\n"))
+                            svcustom.write("\n  return `점수: ${Score()}`;\n")
                             logging.info(f"Successfully saved file.")
                             logging.info(f"Saved file location: {saveFile}")
                     # all
                     elif self.module_acc.isChecked() == True and self.module_crb.isChecked() == True and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == True and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == True and self.module_tilebpm.isChecked() == True and self.module_xacc.isChecked() == True:
-                            svcustom.write("return `정확도: ${Accuracy()}%\n진행도: ${Progress()}%\n절대 정확도: ${XAccuracy()}%\n체감 BPM: ${CurBpm()}%\n점수: ${Score()}\n시작 진행도: ${StartProgress()}\n체감 KPS: ${RecKps()}\n타일 BPM: ${TileBPM()}`\n})")
+                            svcustom.write("\n  return `정확도: ${Accuracy()}%\n진행도: ${Progress()}%\n절대 정확도: ${XAccuracy()}%\n체감 BPM: ${CurBpm()}%\n점수: ${Score()}\n시작 진행도: ${StartProgress()}\n체감 KPS: ${RecKps()}\n타일 BPM: ${TileBPM()}`\n})")
                             logging.info(f"Successfully saved file.")
                             logging.info(f"Saved file location: {saveFile}")
                     else:
-                        svcustom.write("return `태그 없음`;\n")
+                        svcustom.write("\n  return `태그 없음`;\n")
                         logging.info("Successfully saved file.")
                         logging.info(f"Saved file location: {saveFile}")
-                    svcustom.write("\n}RegisterTag('customTag', ctg, true);")
-                    successSaveFile = QMessageBox.information(self, '저장 완료', '태그가 저장되었습니다,\n오버레이어 설정에서 텍스트를 {customTag} 로 지정해주세요.')
-                    logging.info("Written: " + svcustom.read().encode("utf-8"))
-                    svcustom.close()
+
+                with open(saveFile[0], 'a', encoding='UTF-8') as svlast:
+                    svlast.write("\n}RegisterTag('customTag', ctg, true);")
+                    svlast.close()
+                
+                successSaveFile = QMessageBox.information(self, '저장 완료', '태그가 저장되었습니다,\n오버레이어 설정에서 텍스트를 {customTag} 로 지정해주세요.')
+                svcustom.close()
             except:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                logging.critical(f"ERROR Occurred!\nLog: {exc_type}, {exc_obj}, {exc_tb}, {fname}")
+                logging.critical(f"Error type: ", exc_type, "Error File: " ,fname, "Error Line: " ,exc_tb.tb_lineno)
                 errSaveFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 저장하는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
                 self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
 
