@@ -173,18 +173,24 @@ class EditRandomPercent(QWidget):
     def done(self):
         log.info("Saving info..")
         try:
-            self.activatePer = self.activatePercent.text()
+            self.activatePer = float(self.activatePercent.text())
             self.startTxt = self.startText.text()
             self.text1 = self.customText1.text()
             self.text2 = self.customText2.text()
             log.info(f"Saved.")
             log.info(f"{self.activatePer}, {self.startTxt}, {self.text1}, {self.text2}")
-        except:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            log.critical(f"ERROR Occurred!\n] Log: {exc_type}, {exc_obj}, {exc_tb}, {fname}")
-            errWidgetSetupWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '설정을 저장하는중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
-            self.setWindowTitle("텍스트 변경 - 불안정함")
+        except ValueError:
+            try:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                log.critical(f"ERROR Occurred!\n] Log: {exc_type}, {exc_obj}, {exc_tb}, {fname}")
+                errWidgetSetupWin2 = QMessageBox.information(self, '오류 발생', '시작될 퍼센트를 지정하는중에 오류가 발생하였습니다.\n해당 값이 숫자인지 확인해주세요.')
+            except:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                log.critical(f"ERROR Occurred!\n Log: {exc_type}, {exc_obj}, {exc_tb}, {fname}")
+                errWidgetSetupWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '오류를 표시하는중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
+                self.setWindowTitle("텍스트 변경 - 불안정함")
         self.close()
 
 class Main(QWidget):
@@ -450,11 +456,10 @@ class Main(QWidget):
 
         if saveFile[0] != "":
             try:
-                with open(saveFile[0], 'w', encoding='UTF-8') as svfirst:
+                with open(saveFile[0], 'w+', encoding='UTF-8') as svfirst:
                     svfirst.write("function ctg() {")
-                    svfirst.close()
 
-                with open(saveFile[0], 'a', encoding="UTF-8") as svcustom:
+                with open(saveFile[0], 'a+', encoding="UTF-8") as svcustom:
                         # acc
                     if self.module_acc.isChecked() == True:
                             svcustom.writelines("\n  return `정확도: ${Accuracy()}%`;\n")
@@ -489,12 +494,14 @@ class Main(QWidget):
                         log.info("Successfully saved file.")
                         log.info(f"Saved file location: {saveFile}")
 
-                with open(saveFile[0], 'a', encoding='UTF-8') as svlast:
-                    svlast.write("\n}RegisterTag('customTag', ctg, true);")
-                    svlast.close()
+                with open(saveFile[0], 'a+', encoding='UTF-8') as svlast:
+                    svlast.write("}\nRegisterTag('customTag', ctg, true);")
                 
                 successSaveFile = QMessageBox.information(self, '저장 완료', '태그가 저장되었습니다,\n오버레이어 설정에서 텍스트를 {customTag} 로 지정해주세요.')
+                log.info("Written: " + svfirst.read() + svcustom.read() + svlast.read())
+                svfirst.close()
                 svcustom.close()
+                svlast.close()
             except:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
