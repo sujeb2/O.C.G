@@ -184,12 +184,12 @@ class EditRandomPercent(QWidget):
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                 log.critical(f"ERROR Occurred!\n] Log: {exc_type}, {exc_obj}, {exc_tb}, {fname}")
-                errWidgetSetupWin2 = QMessageBox.information(self, '오류 발생', '시작될 퍼센트를 지정하는중에 오류가 발생하였습니다.\n해당 값이 숫자인지 확인해주세요.')
+                errWidgetSetupWin2 = QMessageBox.information(self, '값 확인', '시작될 퍼센트를 지정하는중에 오류가 발생하였습니다.\n해당 값이 숫자인지 확인해주세요.')
             except:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                 log.critical(f"ERROR Occurred!\n Log: {exc_type}, {exc_obj}, {exc_tb}, {fname}")
-                errWidgetSetupWin2 = QMessageBox.critical(self, '오류가 발생하였습니다.', '오류를 표시하는중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
+                errWidgetSetupWin2 = QMessageBox.critical(self, '오류가 발생했습니다', '오류를 표시하는중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
                 self.setWindowTitle("텍스트 변경 - 불안정함")
         self.close()
 
