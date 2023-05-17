@@ -456,46 +456,47 @@ class Main(QWidget):
 
         if saveFile[0] != "":
             try:
-                with open(saveFile[0], 'w+', encoding='UTF-8') as svfirst:
-                    svfirst.write("function ctg() {")
+                for i = 0; i < 1; i++:
+                    with open(saveFile[0], 'w+', encoding='UTF-8') as svfirst:
+                        svfirst.write("function ctg() {")
 
-                with open(saveFile[0], 'a+', encoding="UTF-8") as svcustom:
+                    with open(saveFile[0], 'a+', encoding="UTF-8") as svcustom:
                         # acc
-                    if self.module_acc.isChecked() == True:
+                        if self.module_acc.isChecked() == True:
                             svcustom.writelines("\n  return `정확도: ${Accuracy()}%`;\n")
                             log.info(f"Successfully saved file.")
                             log.info(f"Saved file location: {saveFile}")
                         # xacc
-                    elif self.module_xacc.isChecked() == True:
+                        elif self.module_xacc.isChecked() == True:
                             svcustom.write("\n  return `절대 정확도: ${XAccuracy()}%`;\n")
                             log.info("Successfully saved file.")
                             log.info(f"Saved file location: {saveFile}")
                         # crb
-                    elif self.module_crb.isChecked() == True:
+                        elif self.module_crb.isChecked() == True:
                             svcustom.write("\n  return `체감 BPM: ${CurBpm()}BPM`;\n")
                             log.info(f"Successfully saved file.")
                             log.info(f"Saved file location: {saveFile}")
-                    elif self.module_xacc.isChecked() == True:
+                        elif self.module_xacc.isChecked() == True:
                             svcustom.write("\n  return `절대 정확도: ${XAccuracy()}%`;\n")
                             log.info("Successfully saved file.")
                             log.info(f"Saved file location: {saveFile}")
                         # score
-                    elif self.module_score.isChecked() == True:
+                        elif self.module_score.isChecked() == True:
                             svcustom.write("\n  return `점수: ${Score()}`;\n")
                             log.info(f"Successfully saved file.")
                             log.info(f"Saved file location: {saveFile}")
                     # all
-                    elif self.module_acc.isChecked() == True and self.module_crb.isChecked() == True and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == True and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == True and self.module_tilebpm.isChecked() == True and self.module_xacc.isChecked() == True:
+                        elif self.module_acc.isChecked() == True and self.module_crb.isChecked() == True and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == True and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == True and self.module_tilebpm.isChecked() == True and self.module_xacc.isChecked() == True:
                             svcustom.write("\n  return `정확도: ${Accuracy()}%\n진행도: ${Progress()}%\n절대 정확도: ${XAccuracy()}%\n체감 BPM: ${CurBpm()}%\n점수: ${Score()}\n시작 진행도: ${StartProgress()}\n체감 KPS: ${RecKps()}\n타일 BPM: ${TileBPM()}`\n})")
                             log.info(f"Successfully saved file.")
                             log.info(f"Saved file location: {saveFile}")
-                    else:
+                        else:
                         svcustom.write("\n  return `태그 없음`;\n")
                         log.info("Successfully saved file.")
                         log.info(f"Saved file location: {saveFile}")
 
-                with open(saveFile[0], 'a+', encoding='UTF-8') as svlast:
-                    svlast.write("}\nRegisterTag('customTag', ctg, true);")
+                    with open(saveFile[0], 'a+', encoding='UTF-8') as svlast:
+                        svlast.write("}\nRegisterTag('customTag', ctg, true);")
                 
                 successSaveFile = QMessageBox.information(self, '저장 완료', '태그가 저장되었습니다,\n오버레이어 설정에서 텍스트를 {customTag} 로 지정해주세요.')
                 log.info("Written: " + svfirst.read() + svcustom.read() + svlast.read())
