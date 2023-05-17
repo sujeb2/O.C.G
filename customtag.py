@@ -453,10 +453,13 @@ class Main(QWidget):
         log.info("Saving...")
         log.info(f"{self.module_acc.isChecked()}, {self.module_crb.isChecked()}, {self.module_progress.isChecked()}, {self.module_reckps.isChecked()}, {self.module_progress.isChecked()}, {self.module_score.isChecked()}, {self.module_startprgs.isChecked()}, {self.module_xacc.isChecked()}, {self.randomPercentText.isChecked()}, {self.setColorOnCertainPercent.isChecked()}")
         saveFile = QFileDialog.getSaveFileName(self, '저장될 위치 선택', './customtag.js', 'JavaScript (*.js)')
+        filenum = [1, 2]
+        num = 0
 
         if saveFile[0] != "":
             try:
-                for i = 0; i < 1; i++:
+                for filenums in filenum:
+                    filenum = filenum + 1
                     with open(saveFile[0], 'w+', encoding='UTF-8') as svfirst:
                         svfirst.write("function ctg() {")
 
@@ -497,6 +500,7 @@ class Main(QWidget):
 
                     with open(saveFile[0], 'a+', encoding='UTF-8') as svlast:
                         svlast.write("}\nRegisterTag('customTag', ctg, true);")
+                    log.info(num)
                 
                 successSaveFile = QMessageBox.information(self, '저장 완료', '태그가 저장되었습니다,\n오버레이어 설정에서 텍스트를 {customTag} 로 지정해주세요.')
                 log.info("Written: " + svfirst.read() + svcustom.read() + svlast.read())
