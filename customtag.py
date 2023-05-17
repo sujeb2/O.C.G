@@ -450,14 +450,16 @@ class Main(QWidget):
         log.info(f"Current Window Width {self.width}, Height {self.height}")
 
     def saveFile(self):
-        log.info("Saving...")
+        log.info("Opening filedialog...")
         log.info(f"{self.module_acc.isChecked()}, {self.module_crb.isChecked()}, {self.module_progress.isChecked()}, {self.module_reckps.isChecked()}, {self.module_progress.isChecked()}, {self.module_score.isChecked()}, {self.module_startprgs.isChecked()}, {self.module_xacc.isChecked()}, {self.randomPercentText.isChecked()}, {self.setColorOnCertainPercent.isChecked()}")
         saveFile = QFileDialog.getSaveFileName(self, '저장될 위치 선택', './customtag.js', 'JavaScript (*.js)')
         filenum = [1, 2]
         num = 0
 
         if saveFile[0] != "":
+            log.info(f"Saving {saveFile[0]}...")
             try:
+                # idk how for function works in python
                 for filenums in filenum:
                     filenum = filenum + 1
                     with open(saveFile[0], 'w+', encoding='UTF-8') as svfirst:
