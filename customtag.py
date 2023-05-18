@@ -453,15 +453,13 @@ class Main(QWidget):
         log.info("Opening filedialog...")
         log.info(f"{self.module_acc.isChecked()}, {self.module_crb.isChecked()}, {self.module_progress.isChecked()}, {self.module_reckps.isChecked()}, {self.module_progress.isChecked()}, {self.module_score.isChecked()}, {self.module_startprgs.isChecked()}, {self.module_xacc.isChecked()}, {self.randomPercentText.isChecked()}, {self.setColorOnCertainPercent.isChecked()}")
         saveFile = QFileDialog.getSaveFileName(self, '저장될 위치 선택', './customtag.js', 'JavaScript (*.js)')
-        filenum = [1, 2]
         num = 0
 
         if saveFile[0] != "":
             log.info(f"Saving {saveFile[0]}...")
             try:
-                # idk how for function works in python
-                for filenums in filenum:
-                    filenum = filenum + 1
+                while num < 2:
+                    num += 1
                     with open(saveFile[0], 'w+', encoding='UTF-8') as svfirst:
                         svfirst.write("function ctg() {")
 
@@ -496,21 +494,22 @@ class Main(QWidget):
                             log.info(f"Successfully saved file.")
                             log.info(f"Saved file location: {saveFile}")
                         else:
-                        svcustom.write("\n  return `태그 없음`;\n")
-                        log.info("Successfully saved file.")
-                        log.info(f"Saved file location: {saveFile}")
+                            svcustom.write("\n  return `태그 없음`;\n")
+                            log.info("Successfully saved file.")
+                            log.info(f"Saved file location: {saveFile}")
 
                     with open(saveFile[0], 'a+', encoding='UTF-8') as svlast:
                         svlast.write("}\nRegisterTag('customTag', ctg, true);")
-                    log.info(num)
-                
+                    if num == 1:
+                        log.info(num)
+                        log.info("loop success")
                 successSaveFile = QMessageBox.information(self, '저장 완료', '태그가 저장되었습니다,\n오버레이어 설정에서 텍스트를 {customTag} 로 지정해주세요.')
-                log.info("Written: " + svfirst.read() + svcustom.read() + svlast.read())
+                #log.info("Written: " + svfirst.read() + svcustom.read() + svlast.read())
             except:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                 log.critical(f"Error type: ", exc_type, "Error File: " ,fname, "Error Line: " ,exc_tb.tb_lineno)
-                log.critial(f"Failed to save file {saveFile[0]}")
+                log.critical(f"Failed to save file {saveFile[0]}")
                 errSaveFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 저장하는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
                 self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
             svfirst.close()
