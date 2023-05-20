@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QCheckBo
 from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6 import QtCore
 from datetime import date
-import os, sys, requests, logging;
+import os, sys, requests, logging, getopt;
 
 VER = 'v0.2.9==dev'
 githubLink = requests.get('https://api.github.com/repos/sujeb2/O.C.G/releases/latest')
@@ -198,6 +198,27 @@ class EditRandomPercent(QWidget):
 
 class Main(QWidget):
     log = logging
+
+    try:
+      opts, args = getopt.getopt(sys.argv,"hi:o:")
+    except getopt.GetoptError:
+      print('customtag.py -h, -(NoLog/nl), -(ClearLog/cl), -(NoAutoCheckUpdate/nacu)')
+      sys.exit(2)
+
+    for opt, arg in opts:
+        if opt == '-h':
+            print("customtag.py -h, -(NoLog/nl), -(ClearLog/cl), -(NoAutoCheckUpdate/nacu)")
+            sys.exit()
+        elif opt in ("-NoLog", "-nl"):
+            log.basicConfig(level=logging.INFO, encoding="utf-8")
+        elif opt in ("-ClearLog", "-cl"):
+            with open('./log/debug-log.log', 'w') as loggingfile:
+                try:
+                    loggingfile.write("")
+                except Exception as err:
+                    log.critical("Error occurred while writing log file.")
+                    log.critical("Log info: ", err)
+                    sys.exit()
 
     githubLatestVer = githubLink.json()["name"]
     githubLastestDownload = githubLink.json()['assets']
