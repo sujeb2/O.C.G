@@ -4,7 +4,7 @@ from PyQt6 import QtCore
 from datetime import date
 import os, sys, requests, logging, getopt;
 
-VER = 'v0.2.9==dev'
+VER = 'v0.2.9'
 githubLink = requests.get('https://api.github.com/repos/sujeb2/O.C.G/releases/latest')
 log = logging
 logFilePath = './log/debug-log.log'
