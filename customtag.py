@@ -525,12 +525,12 @@ class Main(QWidget):
             svcustom.close()
             svlast.close()
 
-    # e
     def changeAcc(self):
         if self.module_acc.isChecked() == True:
-            self.previewText.setText = "정확도: 100%"
+            self.previewText.setText("정확도: 100%")
         else:
-            self.previewText.setText = "기본 텍스트"
+            self.previewText.setText("기본 텍스트")
+        
 
     def showInfoWindow(self, checked):
         self.w = InfoWindow()
@@ -539,10 +539,6 @@ class Main(QWidget):
     def showEditTextWindow(self):
         self.w = EditRandomPercent()
         self.w.show()
-
-    def onClose(self, event):
-        for window in QApplication.topLevelWidgets():
-            window.close()
 
     def showEditBtn(self):
         log.info("to-do")
