@@ -173,12 +173,15 @@ class EditRandomPercent(QWidget):
     def done(self):
         log.info("Saving info..")
         try:
-            self.activatePer = float(self.activatePercent.text())
-            self.startTxt = self.startText.text()
-            self.text1 = self.customText1.text()
-            self.text2 = self.customText2.text()
-            log.info(f"Saved.")
-            log.info(f"{self.activatePer}, {self.startTxt}, {self.text1}, {self.text2}")
+            if(self.activatePercent.text() == '' and self.startText.text() == '' and self.customText1.text() == '' and self.customText2.text() == ''):
+                log.warning("Saved data is all null, ignoring value.")
+            else:
+                self.activatePer = self.activatePercent.text()
+                self.startTxt = self.startText.text()
+                self.text1 = self.customText1.text()
+                self.text2 = self.customText2.text()
+                log.info(f"Saved.")
+                log.info(f"{self.activatePer}, {self.startTxt}, {self.text1}, {self.text2}")
         except ValueError:
             try:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -213,7 +216,7 @@ class Main(QWidget):
         log.info(f"최신버전을 사용하고 있습니다!")
 
     def __init__(self):
-        log.info(" Initializing...")
+        log.info("Initializing...")
         try:
             super().__init__()
 
@@ -237,10 +240,16 @@ class Main(QWidget):
             self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
 
     def resetWindow(self):
-        self.show
+        log.info("Reseting...")
+        try:
+            self.show
+        except Exception as err:
+            log.critical("An error occurred!")
+            log.critical("Log info: " + err)
+            exit()
 
     def setWidgets(self):
-        log.info(" Loading Widgets...")
+        log.info("Loading Widgets...")
         try:
             # label
             self.mainLabel1 = QLabel("OverLayer", self)
@@ -446,11 +455,11 @@ class Main(QWidget):
             log.critical(f" Error type: ",exc_type, "Error File: " ,fname, "Error Line: " ,exc_tb.tb_lineno)
 
             errLoadWidget = QMessageBox.critical(self, '오류가 발생하였습니다.', '위젯을 설정 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
-            self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
+            exit()
         log.info(f"Current Window Width {self.width}, Height {self.height}")
 
     def saveFile(self):
-        log.info("Opening filedialog...")
+        log.info("Opening fileDialog...")
         log.info(f"{self.module_acc.isChecked()}, {self.module_crb.isChecked()}, {self.module_progress.isChecked()}, {self.module_reckps.isChecked()}, {self.module_progress.isChecked()}, {self.module_score.isChecked()}, {self.module_startprgs.isChecked()}, {self.module_xacc.isChecked()}, {self.randomPercentText.isChecked()}, {self.setColorOnCertainPercent.isChecked()}")
         saveFile = QFileDialog.getSaveFileName(self, '저장될 위치 선택', './customtag.js', 'JavaScript (*.js)')
         num = 0
@@ -537,6 +546,10 @@ class Main(QWidget):
 
     def showEditBtn(self):
         log.info("to-do")
+
+    def exit(self):
+        log.info("Quiting..")
+        app.exit()
         
 # run
 if __name__ == '__main__':
