@@ -4,7 +4,7 @@ from PyQt6 import QtCore
 from datetime import date
 import os, sys, requests, logging, getopt;
 
-VER = 'v0.2.9'
+VER = 'v0.3'
 githubLink = requests.get('https://api.github.com/repos/sujeb2/O.C.G/releases/latest')
 log = logging
 logFilePath = './log/debug-log.log'
@@ -324,7 +324,7 @@ class Main(QWidget):
             self.module_totMilliSec = QCheckBox("총 노래 길이 (밀리초)")
 
             self.randomPercentText = QCheckBox("특정 지점에서 텍스트 변경하기", self)
-            self.setColorOnCertainPercent = QCheckBox("특정 지점에서 텍스트 색상 변경하기", self)
+            self.setColorOnCertainIfState = QCheckBox("특정 조건에서 텍스트 색상 변경하기", self)
             #self.featureDummy = QCheckBox("", self)
 
             if self.module_acc.text == "":
@@ -401,7 +401,7 @@ class Main(QWidget):
             self.module_totMilliSec.move(120, 301)
 
             self.randomPercentText.move(15, 360)
-            self.setColorOnCertainPercent.move(15, 380)
+            self.setColorOnCertainIfState.move(15, 380)
             
             # font reset
             mainLabelFont1 = self.mainLabel1.font()
@@ -447,7 +447,7 @@ class Main(QWidget):
             feature_randomPerText.setFamily('Pretendard JP')
             feature_randomPerText.setPointSize(12)
             
-            feature_setColorOnCertainPercent = self.setColorOnCertainPercent.font()
+            feature_setColorOnCertainPercent = self.setColorOnCertainIfState.font()
             feature_setColorOnCertainPercent.setFamily('Pretendard JP')
             feature_setColorOnCertainPercent.setPointSize(12)
 
@@ -476,7 +476,7 @@ class Main(QWidget):
             self.previewText.setFont(previewTextFont)
             self.saveBtn.setFont(savebtnFont)
             self.randomPercentText.setFont(feature_randomPerText)
-            self.setColorOnCertainPercent.setFont(feature_setColorOnCertainPercent)
+            self.setColorOnCertainIfState.setFont(feature_setColorOnCertainPercent)
 
             # set clicked event
             self.saveBtn.clicked.connect(self.saveFile)
