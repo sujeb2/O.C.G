@@ -7,7 +7,21 @@ import os, sys, requests, logging, getopt;
 VER = 'v0.2.9==dev'
 githubLink = requests.get('https://api.github.com/repos/sujeb2/O.C.G/releases/latest')
 log = logging
-log.basicConfig(filename='./log/debug-log.log', level=logging.INFO, encoding="utf-8")
+logFilePath = './log/debug-log.log'
+
+try:
+    print(os.path.isfile(logFilePath))
+    log.basicConfig(filename='./log/debug-log.log', level=logging.INFO, encoding="utf-8")
+except FileNotFoundError:
+    if os.path.isfile(logFilePath) == False:
+        print("Logging file not exists, making...")
+        try:
+            f = open('./log/debug-log.log', 'w')
+            f.close()
+        except:
+            print("An error occurred while writing log file.")
+            print("It may the file exists or no permission to write file to location.")
+
 
 class InfoWindow(QWidget):
     def __init__(self):
@@ -542,9 +556,15 @@ class Main(QWidget):
                 log.critical(f"Failed to save file {saveFile[0]}")
                 errSaveFile = QMessageBox.critical(self, '오류가 발생하였습니다.', '파일을 저장하는 중에 오류가 발생하였습니다.\n보통 프로그램이 꼬였거나, 저장된 위치에 한글이 들어있으면 안되는 경우가 있습니다.\n만약 이 오류가 계속 발생할시에는 개발자에게 DM을 주십시오.')
                 self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
-            svfirst.close()
-            svcustom.close()
-            svlast.close()
+            log.info("Closing files...")
+            try:
+                svfirst.close()
+                svcustom.close()
+                svlast.close()
+            except Exception as err:
+                log.critical("An error occurred while closing file.")
+                log.critical("It may be using in another program.")
+                log.critical("Log info: ", err)
 
     def changeAcc(self):
         if self.module_acc.isChecked() == True:
@@ -570,7 +590,7 @@ class Main(QWidget):
         
 # run
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
+    app = QApplication(sys.argv[0:])
     # load main window
     win = Main()
     win.setWidgets()
