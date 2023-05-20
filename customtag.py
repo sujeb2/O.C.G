@@ -255,7 +255,7 @@ class Main(QWidget):
             self.mainLabel1 = QLabel("OverLayer", self)
             self.mainLabel2 = QLabel("CustomTag Generator", self)
             self.mainVersion = QLabel(VER, self)
-            self.moduleListLabel = QLabel("모듈 목록", self)
+            self.moduleListLabel = QLabel("태그", self)
             self.previewImage = QLabel("미리보기", self)
             self.previewText = QLabel("기본 텍스트", self)
             self.featureListLabel = QLabel("기능", self)
