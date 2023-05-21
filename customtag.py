@@ -2,16 +2,23 @@ from PyQt6.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QCheckBo
 from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6 import QtCore
 from datetime import date
-import os, sys, requests, logging, getopt;
+import os, sys, requests, logging, getopt, json;
 
 VER = 'v0.3'
 githubLink = requests.get('https://api.github.com/repos/sujeb2/O.C.G/releases/latest')
 log = logging
 logFilePath = './log/debug-log.log'
+overWriteProtection = 0
+overWriteLastFileProtection = 0
 
 try:
+    print("Reading..")
     print(os.path.isfile(logFilePath))
+    print("Setting up debug log..")
     log.basicConfig(filename='./log/debug-log.log', level=logging.INFO, encoding="utf-8")
+    print("Resetting..")
+    f = open('./log/debug-log.log', 'w')
+    f.close()
 except FileNotFoundError:
     if os.path.isfile(logFilePath) == False:
         print("Logging file not exists, making...")
@@ -200,7 +207,7 @@ class EditRandomPercent(QWidget):
             try:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                log.critical(f"ERROR Occurred!\n] Log: {exc_type}, {exc_obj}, {exc_tb}, {fname}")
+                log.critical(f"ERROR Occurred!\n Log: {exc_type}, {exc_obj}, {exc_tb}, {fname}")
                 errWidgetSetupWin2 = QMessageBox.information(self, '값 확인', '시작될 퍼센트를 지정하는중에 오류가 발생하였습니다.\n해당 값이 숫자인지 확인해주세요.')
             except:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -212,27 +219,6 @@ class EditRandomPercent(QWidget):
 
 class Main(QWidget):
     log = logging
-
-    try:
-      opts, args = getopt.getopt(sys.argv,"hi:o:")
-    except getopt.GetoptError:
-      print('customtag.py -h, -(NoLog/nl), -(ClearLog/cl), -(NoAutoCheckUpdate/nacu)')
-      sys.exit(2)
-
-    for opt, arg in opts:
-        if opt == '-h':
-            print("customtag.py -h, -(NoLog/nl), -(ClearLog/cl), -(NoAutoCheckUpdate/nacu)")
-            sys.exit()
-        elif opt in ("-NoLog", "-nl"):
-            log.basicConfig(level=logging.INFO, encoding="utf-8")
-        elif opt in ("-ClearLog", "-cl"):
-            with open('./log/debug-log.log', 'w') as loggingfile:
-                try:
-                    loggingfile.write("")
-                except Exception as err:
-                    log.critical("Error occurred while writing log file.")
-                    log.critical("Log info: ", err)
-                    sys.exit()
 
     githubLatestVer = githubLink.json()["name"]
     githubLastestDownload = githubLink.json()['assets']
@@ -253,6 +239,7 @@ class Main(QWidget):
     def __init__(self):
         log.info("Initializing...")
         try:
+
             super().__init__()
 
             self.top = 200
@@ -498,58 +485,52 @@ class Main(QWidget):
 
     def saveFile(self):
         log.info("Opening fileDialog...")
-        log.info(f"{self.module_acc.isChecked()}, {self.module_crb.isChecked()}, {self.module_progress.isChecked()}, {self.module_reckps.isChecked()}, {self.module_progress.isChecked()}, {self.module_score.isChecked()}, {self.module_startprgs.isChecked()}, {self.module_xacc.isChecked()}, {self.randomPercentText.isChecked()}, {self.setColorOnCertainPercent.isChecked()}")
+        log.info(f"{self.module_acc.isChecked()}, {self.module_crb.isChecked()}, {self.module_progress.isChecked()}, {self.module_reckps.isChecked()}, {self.module_progress.isChecked()}, {self.module_score.isChecked()}, {self.module_startprgs.isChecked()}, {self.module_xacc.isChecked()}, {self.randomPercentText.isChecked()}, {self.setColorOnCertainIfState.isChecked()}")
         saveFile = QFileDialog.getSaveFileName(self, '저장될 위치 선택', './customtag.js', 'JavaScript (*.js)')
-        num = 0
 
         if saveFile[0] != "":
             log.info(f"Saving {saveFile[0]}...")
             try:
-                while num < 2:
-                    num += 1
-                    with open(saveFile[0], 'w+', encoding='UTF-8') as svfirst:
-                        svfirst.write("function ctg() {")
+                with open(saveFile[0], 'w+', encoding='UTF-8') as svfirst:
+                    svfirst.write("function ctg() {")
 
-                    with open(saveFile[0], 'a+', encoding="UTF-8") as svcustom:
+                with open(saveFile[0], 'a+', encoding="UTF-8") as svcustom:
                         # acc
-                        if self.module_acc.isChecked() == True:
-                            svcustom.writelines("\n  return `정확도: ${Accuracy()}%`;\n")
-                            log.info(f"Successfully saved file.")
-                            log.info(f"Saved file location: {saveFile}")
+                    if self.module_acc.isChecked() == True:
+                        svcustom.writelines("\n  return `정확도: ${Accuracy()}%`;\n")
+                        log.info(f"Successfully saved file.")
+                        log.info(f"Saved file location: {saveFile}")
                         # xacc
-                        elif self.module_xacc.isChecked() == True:
-                            svcustom.write("\n  return `절대 정확도: ${XAccuracy()}%`;\n")
-                            log.info("Successfully saved file.")
-                            log.info(f"Saved file location: {saveFile}")
+                    elif self.module_xacc.isChecked() == True:
+                        svcustom.write("\n  return `절대 정확도: ${XAccuracy()}%`;\n")
+                        log.info("Successfully saved file.")
+                        log.info(f"Saved file location: {saveFile}")
                         # crb
-                        elif self.module_crb.isChecked() == True:
-                            svcustom.write("\n  return `체감 BPM: ${CurBpm()}BPM`;\n")
-                            log.info(f"Successfully saved file.")
-                            log.info(f"Saved file location: {saveFile}")
-                        elif self.module_xacc.isChecked() == True:
-                            svcustom.write("\n  return `절대 정확도: ${XAccuracy()}%`;\n")
-                            log.info("Successfully saved file.")
-                            log.info(f"Saved file location: {saveFile}")
+                    elif self.module_crb.isChecked() == True:
+                        svcustom.write("\n  return `체감 BPM: ${CurBpm()}BPM`;\n")
+                        log.info(f"Successfully saved file.")
+                        log.info(f"Saved file location: {saveFile}")
+                    elif self.module_xacc.isChecked() == True:
+                        svcustom.write("\n  return `절대 정확도: ${XAccuracy()}%`;\n")
+                        log.info("Successfully saved file.")
+                        log.info(f"Saved file location: {saveFile}")
                         # score
-                        elif self.module_score.isChecked() == True:
-                            svcustom.write("\n  return `점수: ${Score()}`;\n")
-                            log.info(f"Successfully saved file.")
-                            log.info(f"Saved file location: {saveFile}")
+                    elif self.module_score.isChecked() == True:
+                        svcustom.write("\n  return `점수: ${Score()}`;\n")
+                        log.info(f"Successfully saved file.")
+                        log.info(f"Saved file location: {saveFile}")
                     # all
-                        elif self.module_acc.isChecked() == True and self.module_crb.isChecked() == True and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == True and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == True and self.module_tilebpm.isChecked() == True and self.module_xacc.isChecked() == True:
-                            svcustom.write("\n  return `정확도: ${Accuracy()}%\n진행도: ${Progress()}%\n절대 정확도: ${XAccuracy()}%\n체감 BPM: ${CurBpm()}%\n점수: ${Score()}\n시작 진행도: ${StartProgress()}\n체감 KPS: ${RecKps()}\n타일 BPM: ${TileBPM()}`\n})")
-                            log.info(f"Successfully saved file.")
-                            log.info(f"Saved file location: {saveFile}")
-                        else:
-                            svcustom.write("\n  return `태그 없음`;\n")
-                            log.info("Successfully saved file.")
-                            log.info(f"Saved file location: {saveFile}")
+                    elif self.module_acc.isChecked() == True and self.module_crb.isChecked() == True and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == True and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == True and self.module_tilebpm.isChecked() == True and self.module_xacc.isChecked() == True:
+                        svcustom.write("\n  return `정확도: ${Accuracy()}%\n진행도: ${Progress()}%\n절대 정확도: ${XAccuracy()}%\n체감 BPM: ${CurBpm()}%\n점수: ${Score()}\n시작 진행도: ${StartProgress()}\n체감 KPS: ${RecKps()}\n타일 BPM: ${TileBPM()}`\n})")
+                        log.info(f"Successfully saved file.")
+                        log.info(f"Saved file location: {saveFile}")
+                    else:
+                        svcustom.write("\n  return `태그 없음`;\n")
+                        log.info("Successfully saved file.")
+                        log.info(f"Saved file location: {saveFile}")
 
-                    with open(saveFile[0], 'a+', encoding='UTF-8') as svlast:
-                        svlast.write("}\nRegisterTag('customTag', ctg, true);")
-                    if num == 1:
-                        log.info(num)
-                        log.info("loop success")
+                with open(saveFile[0], 'a+', encoding='UTF-8') as svlast:
+                    svlast.write("}\nRegisterTag('customTag', ctg, true);")
                 successSaveFile = QMessageBox.information(self, '저장 완료', '태그가 저장되었습니다,\n오버레이어 설정에서 텍스트를 {customTag} 로 지정해주세요.')
                 #log.info("Written: " + svfirst.read() + svcustom.read() + svlast.read())
             except:
