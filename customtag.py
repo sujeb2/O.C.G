@@ -219,27 +219,9 @@ class EditRandomPercent(QWidget):
 
 class Main(QWidget):
     log = logging
-
-    githubLatestVer = githubLink.json()["name"]
-    githubLastestDownload = githubLink.json()['assets']
-    log.info(githubLastestDownload)
-    log.info("Current path: " + os.getcwd())
-
-    log.info(f"만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.")
-    log.warning("이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.")
-    log.info("Current latest version: " + githubLatestVer)
-    log.info("Current version: " + VER)
-    if(githubLatestVer > VER):
-        findUpdateMsg = QMessageBox.question('업데이트 발견', '새로운 버전 ' + githubLatestVer + ' 이 발견되었습니다.')
-    elif(githubLatestVer < VER):
-        log.warning(f"현재 개발자 버전을 사용하고 있습니다.\n이 버전은 매우 불안정하며, 버그가 자주 발생합니다.")
-    elif(githubLatestVer == VER):
-        log.info(f"최신버전을 사용하고 있습니다!")
-
     def __init__(self):
         log.info("Initializing...")
         try:
-
             super().__init__()
 
             self.top = 200
@@ -254,6 +236,35 @@ class Main(QWidget):
             self.resetWindow()
             self.setWindowFlags(QtCore.Qt.WindowType.WindowCloseButtonHint | QtCore.Qt.WindowType.WindowMinimizeButtonHint)
             log.info(f"Initialized.")
+
+            githubLatestVer = githubLink.json()["name"]
+            githubLastestDownload = githubLink.json()['assets']
+            log.info(githubLastestDownload)
+            log.info("Current path: " + os.getcwd())
+
+            log.info(f"만약에 이 메세지가 보인다면, 현재 디버그용 .exe 를 사용하고 있습니다.")
+            log.warning("이 프로젝트를 이용해서 개발을 할려는 목적이 아니라면, 'customtag-user.zip' 를 받아주세요.")
+            log.info("Current latest version: " + githubLatestVer)
+            log.info("Current version: " + VER)
+            if(githubLatestVer > VER):
+                log.warning("You're currerntly using older version of O.C.G.")
+                findUpdateMsg = QMessageBox(self)
+                findUpdateMsg.setIcon(QMessageBox.Icon.Question)
+                findUpdateMsg.setWindowIcon(QIcon('./src/icon_update.png'))
+                findUpdateMsg.setWindowTitle('업데이트 발견')
+                findUpdateMsg.setText(f'새로운 버전 {githubLatestVer} 이(가) 발견되었습니다,\nShow Details... 를 눌러 자세한 업데이트 내용을 확인할수 있습니다..')
+                findUpdateMsg.setDetailedText(githubLink.json()['body'])
+                findUpdateMsg.exec()
+            elif(githubLatestVer < VER):
+                log.warning(f"현재 개발자 버전을 사용하고 있습니다, 이 버전은 매우 불안정하며, 버그가 자주 발생합니다.")
+                usingDebugVer = QMessageBox(self)
+                usingDebugVer.setIcon(QMessageBox.Icon.Warning)
+                usingDebugVer.setWindowIcon(QIcon('./src/icon_update.png'))
+                usingDebugVer.setWindowTitle('개발 버전 사용중')
+                usingDebugVer.setText(f'현재 {githubLatestVer} 버전보다 더 높은 버전 {VER} 을 사용하고 있습니다.\n이 버전은 매우 불안정하며, 버그가 자주 발생합니다.')
+                usingDebugVer.exec()
+            elif(githubLatestVer == VER):
+                log.info(f"최신버전을 사용하고 있습니다!")
         except:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
