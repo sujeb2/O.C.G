@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QWidget, QApplication, QLabel, QPushButton, QCheckBo
 from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6 import QtCore
 from datetime import date
-import os, sys, requests, logging, getopt, json;
+import os, sys, requests, logging;
 
 VER = 'v0.3'
 githubLink = requests.get('https://api.github.com/repos/sujeb2/O.C.G/releases/latest')
@@ -313,7 +313,9 @@ class Main(QWidget):
             self.module_reckps = QCheckBox("체감 KPS", self)
             self.module_score = QCheckBox("점수", self)
             self.module_combo = QCheckBox("콤보", self)
-            self.module_pgrsdeath = QCheckBox("지정한 범위에서 죽은 횟수", self)
+            self.module_CurchkPointUsage = QCheckBox("현재 체크포인트 번호", self)
+            self.module_totchkPointUsage = QCheckBox("총 체크포인트 개수", self)
+            self.module_LstchkPointUsage = QCheckBox("체크포인트 최소 사용 횟수", self)
             self.module_sngCurMin = QCheckBox("노래 (분)", self)
             self.module_sngCurSec = QCheckBox("노래 (초)", self)
             self.module_sngCurMilliSec = QCheckBox("노래 (밀리초)", self)
@@ -390,13 +392,15 @@ class Main(QWidget):
             self.module_tilebpm.move(15, 280)
             self.module_score.move(15, 300)
             self.module_combo.move(120, 160)
-            self.module_pgrsdeath.move(120, 180)
-            self.module_sngCurMin.move(120, 201)
-            self.module_sngCurSec.move(120, 221)
-            self.module_sngCurMilliSec.move(120, 241)
-            self.module_totMin.move(120, 261)
-            self.module_totSec.move(120, 281)
-            self.module_totMilliSec.move(120, 301)
+            self.module_CurchkPointUsage.move(120, 180)
+            self.module_totchkPointUsage.move(120, 201)
+            self.module_LstchkPointUsage.move(120, 221)
+            self.module_sngCurMin.move(120, 241)
+            self.module_sngCurSec.move(120, 261)
+            self.module_sngCurMilliSec.move(120, 281)
+            self.module_totMin.move(120, 301)
+            self.module_totSec.move(315, 160)
+            self.module_totMilliSec.move(315, 180)
 
             self.randomPercentText.move(15, 360)
             self.setColorOnCertainIfState.move(15, 380)
@@ -461,7 +465,9 @@ class Main(QWidget):
             self.module_tilebpm.setFont(moduleToggleFont1)
             self.module_score.setFont(moduleToggleFont1)
             self.module_combo.setFont(moduleToggleFont1)
-            self.module_pgrsdeath.setFont(moduleToggleFont1)
+            self.module_CurchkPointUsage.setFont(moduleToggleFont1)
+            self.module_totchkPointUsage.setFont(moduleToggleFont1)
+            self.module_LstchkPointUsage.setFont(moduleToggleFont1)
             self.module_sngCurSec.setFont(moduleToggleFont1)
             self.module_sngCurMin.setFont(moduleToggleFont1)
             self.module_sngCurMilliSec.setFont(moduleToggleFont1)
@@ -501,7 +507,7 @@ class Main(QWidget):
             log.info(f"Saving {saveFile[0]}...")
             try:
                 with open(saveFile[0], 'w+', encoding='UTF-8') as svfirst:
-                    svfirst.write("function ctg() {")
+                    svfirst.writelines("function ctg() {")
 
                 with open(saveFile[0], 'a+', encoding="UTF-8") as svcustom:
                         # acc
@@ -511,35 +517,35 @@ class Main(QWidget):
                         log.info(f"Saved file location: {saveFile}")
                         # xacc
                     elif self.module_xacc.isChecked() == True:
-                        svcustom.write("\n  return `절대 정확도: ${XAccuracy()}%`;\n")
+                        svcustom.writelines("\n  return `절대 정확도: ${XAccuracy()}%`;\n")
                         log.info("Successfully saved file.")
                         log.info(f"Saved file location: {saveFile}")
                         # crb
                     elif self.module_crb.isChecked() == True:
-                        svcustom.write("\n  return `체감 BPM: ${CurBpm()}BPM`;\n")
+                        svcustom.writelines("\n  return `체감 BPM: ${CurBpm()}BPM`;\n")
                         log.info(f"Successfully saved file.")
                         log.info(f"Saved file location: {saveFile}")
-                    elif self.module_xacc.isChecked() == True:
-                        svcustom.write("\n  return `절대 정확도: ${XAccuracy()}%`;\n")
+                    elif self.module_CurchkPointUsage.isChecked() == True:
+                        svcustom.writelines("\n  return `${ProgressDeath:" + str(0) + "~" + str(50) + "}`;\n")
                         log.info("Successfully saved file.")
                         log.info(f"Saved file location: {saveFile}")
                         # score
                     elif self.module_score.isChecked() == True:
-                        svcustom.write("\n  return `점수: ${Score()}`;\n")
+                        svcustom.writelines("\n  return `점수: ${Score()}`;\n")
                         log.info(f"Successfully saved file.")
                         log.info(f"Saved file location: {saveFile}")
                     # all
                     elif self.module_acc.isChecked() == True and self.module_crb.isChecked() == True and self.module_progress.isChecked() == True and self.module_reckps.isChecked() == True and self.module_score.isChecked() == True and self.module_startprgs.isChecked() == True and self.module_tilebpm.isChecked() == True and self.module_xacc.isChecked() == True:
-                        svcustom.write("\n  return `정확도: ${Accuracy()}%\n진행도: ${Progress()}%\n절대 정확도: ${XAccuracy()}%\n체감 BPM: ${CurBpm()}%\n점수: ${Score()}\n시작 진행도: ${StartProgress()}\n체감 KPS: ${RecKps()}\n타일 BPM: ${TileBPM()}`\n})")
+                        svcustom.writelines("\n  return `정확도: ${Accuracy()}%\n진행도: ${Progress()}%\n절대 정확도: ${XAccuracy()}%\n체감 BPM: ${CurBpm()}%\n점수: ${Score()}\n시작 진행도: ${StartProgress()}\n체감 KPS: ${RecKps()}\n타일 BPM: ${TileBPM()}`\n})")
                         log.info(f"Successfully saved file.")
                         log.info(f"Saved file location: {saveFile}")
                     else:
-                        svcustom.write("\n  return `태그 없음`;\n")
+                        svcustom.writelines("\n  return `태그 없음`;\n")
                         log.info("Successfully saved file.")
                         log.info(f"Saved file location: {saveFile}")
 
                 with open(saveFile[0], 'a+', encoding='UTF-8') as svlast:
-                    svlast.write("}\nRegisterTag('customTag', ctg, true);")
+                    svlast.writelines("} RegisterTag('customTag', ctg, true);")
                 successSaveFile = QMessageBox.information(self, '저장 완료', '태그가 저장되었습니다,\n오버레이어 설정에서 텍스트를 {customTag} 로 지정해주세요.')
                 #log.info("Written: " + svfirst.read() + svcustom.read() + svlast.read())
             except:
