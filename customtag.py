@@ -323,25 +323,25 @@ class Main(QWidget):
 
             self.randomPercentText = QCheckBox("특정 지점에서 텍스트 변경하기", self)
             self.setColorOnCertainIfState = QCheckBox("특정 조건에서 텍스트 색상 변경하기", self)
-            #self.featureDummy = QCheckBox("", self)
+            #self.printLogDuringRunning = QCheckBox("로그 출력", self)
 
-            if self.module_acc.text == "":
+            if self.module_acc.text() == "":
                 self.module_acc.setText == "ctg.module.acc"
-            elif self.module_crb.text == "":
+            elif self.module_crb.text() == "":
                 self.module_crb.setText == "ctg.module.crb"
-            elif self.module_progress.text == "":
+            elif self.module_progress.text() == "":
                 self.module_progress.setText == "ctg.module.progress"
-            elif self.module_reckps.text == "":
+            elif self.module_reckps.text() == "":
                 self.module_reckps.setText == "ctg.module.module_reckps"
-            elif self.module_score.text == "":
+            elif self.module_score.text() == "":
                 self.module_score.setText == "ctg.module.score"
-            elif self.module_startprgs.text == "":
+            elif self.module_startprgs.text() == "":
                 self.module_startprgs.setText == "ctg.module.startprgs"
-            elif self.module_tilebpm.text == "":
+            elif self.module_tilebpm.text() == "":
                 self.module_tilebpm.setText == "ctg.module.tilebpm"
-            elif self.module_xacc.text == "":
+            elif self.module_xacc.text() == "":
                 self.module_startprgs.setText == "ctg.module.xacc"
-            elif self.randomPercentText.text == "":
+            elif self.randomPercentText.text() == "":
                 self.module_tilebpm.setText == "ctg.feature.randomPercentText"
 
             self.previewText.raise_()
@@ -400,6 +400,7 @@ class Main(QWidget):
 
             self.randomPercentText.move(15, 360)
             self.setColorOnCertainIfState.move(15, 380)
+            #self.printLogDuringRunning.move(15, 400)
             
             # font reset
             mainLabelFont1 = self.mainLabel1.font()
@@ -441,13 +442,9 @@ class Main(QWidget):
             moduleToggleFont1.setFamily('Pretendard JP')
             moduleToggleFont1.setPointSize(13)
 
-            feature_randomPerText = self.randomPercentText.font()
-            feature_randomPerText.setFamily('Pretendard JP')
-            feature_randomPerText.setPointSize(12)
-            
-            feature_setColorOnCertainPercent = self.setColorOnCertainIfState.font()
-            feature_setColorOnCertainPercent.setFamily('Pretendard JP')
-            feature_setColorOnCertainPercent.setPointSize(12)
+            featureFont = self.randomPercentText.font()
+            featureFont.setFamily('Pretendard JP')
+            featureFont.setPointSize(12)
 
             # set font
             self.mainLabel1.setFont(mainLabelFont1)
@@ -473,8 +470,9 @@ class Main(QWidget):
             self.previewImage.setFont(previewImageLabelFont)
             self.previewText.setFont(previewTextFont)
             self.saveBtn.setFont(savebtnFont)
-            self.randomPercentText.setFont(feature_randomPerText)
-            self.setColorOnCertainIfState.setFont(feature_setColorOnCertainPercent)
+            self.randomPercentText.setFont(featureFont)
+            self.setColorOnCertainIfState.setFont(featureFont)
+            #self.printLogDuringRunning.setFont(featureFont)
 
             # set clicked event
             self.saveBtn.clicked.connect(self.saveFile)
