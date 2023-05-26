@@ -506,10 +506,9 @@ class Main(QWidget):
         if saveFile[0] != "":
             log.info(f"Saving {saveFile[0]}...")
             try:
-                with open(saveFile[0], 'w+', encoding='UTF-8') as svfirst:
-                    svfirst.writelines("function ctg() {")
+                with open(saveFile[0], 'w+', encoding="UTF-8") as svcustom:
+                    svcustom.writelines("function ctg() {")
 
-                with open(saveFile[0], 'a+', encoding="UTF-8") as svcustom:
                         # acc
                     if self.module_acc.isChecked() == True:
                         svcustom.writelines("\n  return `정확도: ${Accuracy()}%`;\n")
@@ -543,9 +542,7 @@ class Main(QWidget):
                         svcustom.writelines("\n  return `태그 없음`;\n")
                         log.info("Successfully saved file.")
                         log.info(f"Saved file location: {saveFile}")
-
-                with open(saveFile[0], 'a+', encoding='UTF-8') as svlast:
-                    svlast.writelines("} RegisterTag('customTag', ctg, true);")
+                    svcustom.writelines("} RegisterTag('customTag', ctg, true);")
                 successSaveFile = QMessageBox.information(self, '저장 완료', '태그가 저장되었습니다,\n오버레이어 설정에서 텍스트를 {customTag} 로 지정해주세요.')
                 #log.info("Written: " + svfirst.read() + svcustom.read() + svlast.read())
             except:
@@ -557,9 +554,7 @@ class Main(QWidget):
                 self.setWindowTitle("Overlayer CustomTag Generator - 불안정함")
             log.info("Closing files...")
             try:
-                svfirst.close()
                 svcustom.close()
-                svlast.close()
             except Exception as err:
                 log.critical("An error occurred while closing file.")
                 log.critical("It may be using in another program.")
