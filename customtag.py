@@ -568,10 +568,12 @@ class Main(QWidget):
         
 
     def showInfoWindow(self, checked):
+        log.info("Opening InfoWindow...")
         self.w = InfoWindow()
         self.w.show()
 
     def showEditTextWindow(self):
+        log.info("Opening EditWindow...")
         self.w = EditRandomPercent()
         self.w.show()
 
