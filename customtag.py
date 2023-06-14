@@ -93,10 +93,6 @@ class InfoWindow(QWidget):
             infoOverLayerLinkFont.setFamily('Pretendard Variable')
             infoOverLayerLinkFont.setPointSize(10)
 
-            infoCSharpDiscordLinkFont = self.infoCSharpSharpDiscordLabel.font()
-            infoCSharpDiscordLinkFont.setFamily('Pretendard Variable')
-            infoCSharpDiscordLinkFont.setPointSize(10)
-
             madebysansfont = self.madebysans.font()
             madebysansfont.setFamily('Pretendard Variable')
             madebysansfont.setPointSize(13)
@@ -106,7 +102,7 @@ class InfoWindow(QWidget):
 
             self.infoMainLabel.setFont(infoLabelFont1)
             self.infoMainLabel2.setFont(infoLabelFont2)
-            self.infoCSharpSharpDiscordLabel.setFont(infoCSharpDiscordLinkFont)
+            self.infoCSharpSharpDiscordLabel.setFont(infoOverLayerLinkFont)
             self.infoOverlayerKnowledgeLabel.setFont(infoOverLayerLinkFont)
             self.madebysans.setFont(madebysansfont)
             self.ctgLogo.setFont(ctgLogoFont)
